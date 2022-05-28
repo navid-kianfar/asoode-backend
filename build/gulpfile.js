@@ -1,18 +1,14 @@
 const path = require("path");
-const run = require("gulp-run-command").default;
-const gulp = require("gulp");
 const fs = require("fs");
-const config_file = "./Dockerfile.json";
-const root = path.resolve(__dirname, '..');
+const gulp = require("gulp");
+const run = require("gulp-run-command").default;
 
 const applications = ['Api', 'Background'];
 const environments = ['Development', 'Staging', 'Production'];
-const build = `docker build \\
-    -t asoode-servers-{APP_LOWERED}-{ENV_LOWERED}:{VERSION} . \\
-    -f ./Dockerfile-{APP_LOWERED} \\
-    --build-arg APP_BUILD={VERSION} \\
-    --build-arg APP_ENVIRONMENT={ENV}`;
-
+const config_file = "./Dockerfile.json";
+const command_file = "./Dockerfile.txt";
+const root = path.resolve(__dirname, '..');
+const build = fs.readFileSync(command_file);
 
 const increment_version = (current) => {
     const parts = current.split('.');

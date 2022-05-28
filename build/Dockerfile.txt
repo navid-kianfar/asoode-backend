@@ -1,12 +1,5 @@
 docker build \
-    -t asoode-servers-background-development:1.0.0 . \
-    -f ./Dockerfile-background \
-    --build-arg APP_BUILD=1.0.0 \
-    --build-arg APP_ENVIRONMENT=Development
-    
-docker build \
-    -t asoode-servers-api-development:1.0.0 . \
-    -f ./Dockerfile-api \
-    --build-arg APP_BUILD=1.0.0 \
-    --build-arg APP_ENVIRONMENT=Development
-    
+    -t asoode-servers-{APP_LOWERED}-{ENV_LOWERED}:{VERSION} . \
+    -f ./Dockerfile-{APP_LOWERED} \
+    --build-arg APP_BUILD={VERSION} \
+    --build-arg APP_ENVIRONMENT={ENV}
