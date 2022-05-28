@@ -6,4 +6,12 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Asoode.Application.Core\Asoode.Application.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Contextes" />
+    </ItemGroup>
+
 </Project>

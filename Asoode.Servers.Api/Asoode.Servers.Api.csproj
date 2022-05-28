@@ -7,4 +7,10 @@
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Asoode.Application.Business\Asoode.Application.Business.csproj" />
+      <ProjectReference Include="..\Asoode.Application.Core\Asoode.Application.Core.csproj" />
+      <ProjectReference Include="..\Asoode.Application.Data\Asoode.Application.Data.csproj" />
+    </ItemGroup>
+
 </Project>

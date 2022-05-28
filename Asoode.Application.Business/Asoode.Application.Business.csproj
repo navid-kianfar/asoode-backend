@@ -6,4 +6,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Asoode.Application.Core\Asoode.Application.Core.csproj" />
+      <ProjectReference Include="..\Asoode.Application.Data\Asoode.Application.Data.csproj" />
+    </ItemGroup>
+
 </Project>

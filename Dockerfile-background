@@ -1,0 +1,38 @@
+﻿FROM mcr.microsoft.com/dotnet/runtime:6.0 AS base
+WORKDIR /app
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /src
+
+COPY ["Asoode.Application.Core/Asoode.Application.Core.csproj", "Asoode.Application.Core/"]
+RUN dotnet restore "Asoode.Application.Core/Asoode.Application.Core.csproj"
+COPY ["Asoode.Application.Core/", "Asoode.Application.Core/"]
+
+COPY ["Asoode.Application.Data/Asoode.Application.Data.csproj", "Asoode.Application.Data/"]
+RUN dotnet restore "Asoode.Application.Data/Asoode.Application.Data.csproj"
+COPY ["Asoode.Application.Data/", "Asoode.Application.Data/"]
+
+COPY ["Asoode.Application.Business/Asoode.Application.Business.csproj", "Asoode.Application.Business/"]
+RUN dotnet restore "Asoode.Application.Business/Asoode.Application.Business.csproj"
+COPY ["Asoode.Application.Business/", "Asoode.Application.Business/"]
+
+COPY ["Asoode.Servers.Background/Asoode.Servers.Background.csproj", "Asoode.Servers.Background/"]
+RUN dotnet restore "Asoode.Servers.Background/Asoode.Servers.Background.csproj"
+COPY ["Asoode.Servers.Background/", "Asoode.Servers.Background/"]
+
+
+WORKDIR "/src/Asoode.Servers.Background"
+RUN dotnet build "Asoode.Servers.Background.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "Asoode.Servers.Background.csproj" -c Release -o /app/publish
+
+FROM base AS final
+ARG APP_BUILD="1.0.0.0"
+ARG APP_ENVIRONMENT="Development"
+ENV APP_BUILD=${APP_BUILD}
+ENV ASPNETCORE_ENVIRONMENT=${APP_ENVIRONMENT}
+
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Asoode.Servers.Background.dll"]

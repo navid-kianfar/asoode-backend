@@ -14,6 +14,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asoode.Application.Core", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asoode.Application.Data", "Asoode.Application.Data\Asoode.Application.Data.csproj", "{59BA31E5-7904-4DAC-AD54-D7FACA072431}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{465C9BA1-FE51-4EEC-9978-96F809B119C2}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile-background = Dockerfile-background
+		Dockerfile-api = Dockerfile-api
+		.dockerignore = .dockerignore
+		Dockerfile.txt = Dockerfile.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
