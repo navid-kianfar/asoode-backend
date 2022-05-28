@@ -19,7 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{465C9B
 		Dockerfile-background = Dockerfile-background
 		Dockerfile-api = Dockerfile-api
 		.dockerignore = .dockerignore
-		Dockerfile.txt = Dockerfile.txt
 	EndProjectSection
 EndProject
 Global
