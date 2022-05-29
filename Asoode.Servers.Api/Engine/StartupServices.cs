@@ -11,8 +11,8 @@ public static class StartupServices
 {
     public static void Register(IServiceCollection services)
     {
-        var issuer = Environment.GetEnvironmentVariable("APP_AUTH_ISSUER");
-        var secret = Environment.GetEnvironmentVariable("APP_AUTH_SECRET");
+        var issuer = Environment.GetEnvironmentVariable("APP_AUTH_ISSUER")!;
+        var secret = Environment.GetEnvironmentVariable("APP_AUTH_SECRET")!;
         
         var key = Encoding.UTF8.GetBytes(secret);
         JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -20,7 +20,7 @@ public static class StartupServices
         services.AddSwaggerGen(c =>
         {
             c.DocInclusionPredicate((_, api) => !string.IsNullOrWhiteSpace(api.GroupName));
-            c.TagActionsBy(api => new List<string> {api.GroupName});
+            c.TagActionsBy(api => new List<string> {api.GroupName ?? ""});
             c.SwaggerDoc("v2", new OpenApiInfo
             {
                 Title = "Asoode Api",
