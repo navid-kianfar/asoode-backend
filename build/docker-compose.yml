@@ -92,6 +92,23 @@ services:
   #   depends_on: ["nats"]
         
   
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./asoode-volumes/nginx/conf:/etc/nginx/conf.d:rw
+      - ./asoode-volumes/nginx/logs:/var/log/nginx:rw
+      - ./asoode-volumes/nginx/www:/var/www/nginx:rw
+      - ./asoode-volumes/certbot/www:/var/www/certbot:rw
+    networks:
+      asoode_network:
+        ipv4_address: 192.168.18.7
+  
   api:
     image: 'asoode-servers-api-development:1.0.0'
     hostname: 'asoode-servers-api'
@@ -170,27 +187,6 @@ services:
     networks:
       asoode_network:
         ipv4_address: 192.168.18.11
-
-#volumes:
-#  database:
-#    driver: local
-#    driver_opts:
-#      type: 'none'
-#      o: 'bind'
-#      device: './asoode-volumes/database'
-#  elastic:
-#    driver: local
-#    driver_opts:
-#      type: 'none'
-#      o: 'bind'
-#      device: './asoode-volumes/elastic'
-#  portainer:
-#    driver: local
-#    driver_opts:
-#      type: 'none'
-#      o: 'bind'
-#      device: './asoode-volumes/portainer'
-#    
 
 networks:
   asoode_network:
