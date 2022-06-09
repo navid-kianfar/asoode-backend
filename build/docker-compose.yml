@@ -54,6 +54,7 @@ services:
       asoode_network:
         ipv4_address: 192.168.18.4
         
+  
   portainer:
     container_name: portainer
     image: portainer/portainer:latest
@@ -69,6 +70,7 @@ services:
       asoode_network:
         ipv4_address: 192.168.18.5
         
+  
   nats:
     container_name: nats
     image: nats
@@ -90,6 +92,7 @@ services:
   #   networks: ["nats"]
   #   depends_on: ["nats"]
         
+  
   api:
     image: 'asoode-servers-api-development:1.0.0'
     hostname: 'asoode-servers-api'
@@ -130,6 +133,7 @@ services:
       asoode_network:
         ipv4_address: 192.168.18.10
         
+  
   background:
     image: 'asoode-servers-background-development:1.0.0'
     hostname: 'asoode-servers-background'
