@@ -8,7 +8,7 @@ const environments = ['Development', 'Staging', 'Production'];
 const config_file = "./Dockerfile.json";
 const command_file = "./Dockerfile.txt";
 const root = path.resolve(__dirname, '..');
-const build = fs.readFileSync(command_file);
+const build = fs.readFileSync(command_file).toString();
 
 const increment_version = (current) => {
     const parts = current.split('.');
