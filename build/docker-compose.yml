@@ -1,9 +1,8 @@
 version: '3.8'
 services:
   mysql:
+    container_name: mysql
     image: mysql:8.0
-    cap_add:
-      - SYS_NICE
     restart: always
     environment:
       - MYSQL_DATABASE=asoode_development
@@ -12,7 +11,7 @@ services:
       - '3306:3306'
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - db:/var/lib/mysql
+      - ./asoode-volumes/database/asoode_development:/var/lib/mysql
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       asoode_network:
@@ -27,7 +26,7 @@ services:
       - "9300:9300"
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - elastic:/usr/share/elasticsearch/data
+      - ./asoode-volumes/elastic:/usr/share/elasticsearch/data
     environment:
       # - xpack.monitoring.enabled=true
       # - xpack.watcher.enabled=false
@@ -62,7 +61,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - portainer:/data
+      - ./asoode-volumes/portainer:/data
     ports:
       - "9000:9000"
     command: --no-auth
@@ -172,14 +171,27 @@ services:
       asoode_network:
         ipv4_address: 192.168.18.11
 
-volumes:
-  db:
-    driver: local
-  elastic:
-    driver: local
-  portainer:
-    driver: local
-    
+#volumes:
+#  database:
+#    driver: local
+#    driver_opts:
+#      type: 'none'
+#      o: 'bind'
+#      device: './asoode-volumes/database'
+#  elastic:
+#    driver: local
+#    driver_opts:
+#      type: 'none'
+#      o: 'bind'
+#      device: './asoode-volumes/elastic'
+#  portainer:
+#    driver: local
+#    driver_opts:
+#      type: 'none'
+#      o: 'bind'
+#      device: './asoode-volumes/portainer'
+#    
+
 networks:
   asoode_network:
     driver: bridge
