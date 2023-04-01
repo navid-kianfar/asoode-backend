@@ -1,5 +1,0 @@
-docker build \
-    -t asoode-servers-{APP_LOWERED}-{ENV_LOWERED}:{VERSION} . \
-    -f ./Dockerfile-{APP_LOWERED} \
-    --build-arg APP_BUILD={VERSION} \
-    --build-arg APP_ENVIRONMENT={ENV}

@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+export PORTAINER_VOL=$(pwd)/docker-data/portainer
+export RABBITMQ_VOL=$(pwd)/docker-data/rabbitmq
+export MSSQL_VOL=$(pwd)/docker-data/mssql
+export MINIO_VOL=$(pwd)/docker-data/minio
+export NGINX_VOL=$(pwd)/docker-data/nginx
+export CERTBOT_VOL=$(pwd)/docker-data/certbot
+
+# $(docker run --rm httpd:2.4-alpine htpasswd -nbB admin 'portainer123456@' | cut -d ":" -f 2)
+# $2y$05$JvbTrH4ttme3Qre0eAibz.1n6PKU2Kcien77Myfd4Tn.EdMdNfRKq
+export PORTAINER_PASSWORD='$2y$05$JvbTrH4ttme3Qre0eAibz.1n6PKU2Kcien77Myfd4Tn.EdMdNfRKq'
+export RABBITMQ_USERNAME='admin'
+export RABBITMQ_PASSWORD='aPfB0dc4nxhT2S0kxIGlBHNY4DpS0M2l0CBcKRn96ub4GFiJvc'
+export MINIO_ACCESS_KEY=''
+export MINIO_SECRET_KEY=''
+export MINIO_USERNAME='admin'
+export MINIO_PASSWORD='cKRnDpS0BHNY4BM2l0C'
+export MSSQL_SA_PASSWORD='yfd4TnU2K1n6Pien77MKc'
+
+export APP_I18N_LANG=''
+export APP_I18N_CULTURE=''
+export APP_AUTH_ISSUER=''
+export APP_AUTH_SECRET=''
+export APP_AUTH_SALT=''
+export APP_DB_SERVER=''
+export APP_DB_PORT=''
+export APP_DB_USER=''
+export APP_DB_PASS=''
+export APP_STORAGE_SERVER=''
+export APP_STORAGE_PORT=''
+export APP_STORAGE_USER=''
+export APP_STORAGE_PASS=''
+export APP_STORAGE_BUCKET=''
+export APP_QUEUE_SERVER=''
+export APP_QUEUE_PORT=''
+export APP_QUEUE_USER=''
+export APP_QUEUE_PASS=''
+export APP_QUEUE_PREFIX=''
+export APP_SMTP_SERVER=''
+export APP_SMTP_PORT=''
+export APP_SMTP_USER=''
+export APP_SMTP_PASS=''
+export APP_SMTP_SSL=''
