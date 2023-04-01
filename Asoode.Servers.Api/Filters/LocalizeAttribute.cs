@@ -1,7 +1,10 @@
 using System.Globalization;
+using System.Threading;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Asoode.Servers.Api.Filters
+namespace Asoode.Backend.Filters
 {
     public class LocalizeAttribute : ActionFilterAttribute
     {

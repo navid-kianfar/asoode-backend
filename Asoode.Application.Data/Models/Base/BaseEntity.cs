@@ -1,16 +1,17 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Asoode.Application.Data.Models.Base;
-
-public abstract class BaseEntity
+namespace Asoode.Application.Data.Models.Base
 {
-    protected BaseEntity()
+    public abstract class BaseEntity
     {
-        Id = Guid.NewGuid();
-        CreatedAt = DateTime.UtcNow;
+        protected BaseEntity()
+        {
+            Id = Guid.NewGuid();
+            CreatedAt = DateTime.UtcNow;
+        }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
+        [Key] public Guid Id { get; set; }
+        public DateTime? UpdatedAt { get; set; }
     }
-    [Key] public Guid Id { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime? DeletedAt { get; set; }
-    public DateTime? UpdatedAt { get; set; }
 }

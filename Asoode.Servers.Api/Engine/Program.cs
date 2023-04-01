@@ -1,9 +1,18 @@
+﻿using Asoode.Core.Contracts.General;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System;
+using System.IO;
 using System.Net;
-using Asoode.Application.Core.Contracts;
+using Asoode.Backend.Services;
+using Asoode.Core.Contracts.Membership;
 
-namespace Asoode.Servers.Api
+// ReSharper disable once CheckNamespace
+namespace Asoode.Backend
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
@@ -14,6 +23,7 @@ namespace Asoode.Servers.Api
                 {
                     var configuration = scope.ServiceProvider.GetService<IConfiguration>();
                     var serverInfo = scope.ServiceProvider.GetService<IServerInfo>();
+                    var captchaService = scope.ServiceProvider.GetService<ICaptchaBiz>();
                     serverInfo.IsDevelopment = scope.ServiceProvider.GetService<IWebHostEnvironment>().IsDevelopment();
                     serverInfo.RootPath = configuration.GetValue<string>(WebHostDefaults.ContentRootKey);
                     serverInfo.ContentRootPath = Path.Combine(serverInfo.RootPath, "wwwroot");
@@ -22,6 +32,7 @@ namespace Asoode.Servers.Api
                     serverInfo.EmailsRootPath = Path.Combine(serverInfo.RootPath, "templates/email");
                     serverInfo.SmsRootPath = Path.Combine(serverInfo.RootPath, "templates/sms");
                     serverInfo.ReportsRootPath = Path.Combine(serverInfo.RootPath, "templates/reports");
+                    if (serverInfo.IsDevelopment) captchaService.Ignore = true;
                 }
                 catch (Exception ex)
                 {
@@ -36,12 +47,14 @@ namespace Asoode.Servers.Api
         {
             var config = new ConfigurationBuilder().AddCommandLine(args).Build();
             var ip = config.GetValue<string>("ip") ?? "0.0.0.0";
-            var httpPort = config.GetValue<int?>("port") ?? 5020;
+            var httpPort = config.GetValue<int?>("port") ?? 5000;
             return Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder
-                        .ConfigureAppConfiguration((hostingContext, cfg) => { })
+                    webBuilder.ConfigureAppConfiguration((hostingContext, cfg) =>
+                        {
+                            cfg.AddJsonFile("appSetting.json", false, false);
+                        })
                         .UseKestrel(options =>
                         {
                             options.Limits.MaxRequestBodySize = 1048576000; //1024MB

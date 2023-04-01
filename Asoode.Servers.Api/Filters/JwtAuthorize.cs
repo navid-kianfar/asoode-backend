@@ -1,10 +1,13 @@
-using Asoode.Application.Core.Contracts;
-using Asoode.Application.Core.Enums.Membership;
+using System.Linq;
+using Asoode.Core.Contracts.Membership;
+using Asoode.Core.Primitives;
+using Asoode.Core.Primitives.Enums;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Asoode.Servers.Api.Filters
+namespace Asoode.Backend.Filters
 {
     public class JwtAuthorize : IAuthorizationFilter
     {
@@ -38,7 +41,7 @@ namespace Asoode.Servers.Api.Filters
                 return;
             }
 
-            var accountBiz = context.HttpContext.RequestServices.GetService<IAccountService>();
+            var accountBiz = context.HttpContext.RequestServices.GetService<IAccountBiz>();
             var principal = accountBiz.ExtractToken(token, _role);
             if (principal == null)
             {

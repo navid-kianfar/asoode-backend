@@ -1,28 +1,30 @@
 using Microsoft.AspNetCore.Identity;
+using System;
 
-namespace Asoode.Servers.Api;
-
-public static class IdentityConfiguration
+namespace Asoode.Backend.Engine
 {
-    private const string ValidChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-
-    public static void ConfigureOptions(IdentityOptions options)
+    public static class IdentityConfiguration
     {
-        // Password settings.
-        options.Password.RequireDigit = false;
-        options.Password.RequireLowercase = false;
-        options.Password.RequireNonAlphanumeric = false;
-        options.Password.RequireUppercase = false;
-        options.Password.RequiredUniqueChars = 0;
-        options.Password.RequiredLength = 6;
+        private const string ValidChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
 
-        // Lockout settings.
-        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-        options.Lockout.MaxFailedAccessAttempts = 5;
-        options.Lockout.AllowedForNewUsers = true;
+        public static void ConfigureOptions(IdentityOptions options)
+        {
+            // Password settings.
+            options.Password.RequireDigit = false;
+            options.Password.RequireLowercase = false;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireUppercase = false;
+            options.Password.RequiredUniqueChars = 0;
+            options.Password.RequiredLength = 6;
 
-        // User settings.
-        options.User.AllowedUserNameCharacters = ValidChars;
-        options.User.RequireUniqueEmail = false;
+            // Lockout settings.
+            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+            options.Lockout.MaxFailedAccessAttempts = 5;
+            options.Lockout.AllowedForNewUsers = true;
+
+            // User settings.
+            options.User.AllowedUserNameCharacters = ValidChars;
+            options.User.RequireUniqueEmail = false;
+        }
     }
 }

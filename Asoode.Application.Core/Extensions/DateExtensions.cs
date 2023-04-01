@@ -1,10 +1,9 @@
-namespace Asoode.Application.Core.Extensions
+namespace Asoode.Application.Core.Extensions;
+
+public static class DateExtensions
 {
-    public static class DateExtensions
+    public static string GetTime(this DateTime date)
     {
-        public static string GetTime(this DateTime date)
-        {
-            return date.ToString("yyMMddhhmmssfff");
-        }
+        return date.ToString("yyMMddhhmmssfff");
     }
 }
