@@ -74,13 +74,14 @@ services:
       - /etc/localtime:/etc/localtime:ro
     entrypoint: >
       /bin/sh -c "
-      /usr/bin/mc alias set object_storage http://192.168.17.5:9000 ${MINIO_ACCESS_KEY} ${MINIO_SECRET_KEY};
+      /usr/bin/mc alias set object_storage http://192.168.17.5:9000 ${MINIO_USERNAME} ${MINIO_PASSWORD};
       /usr/bin/mc mb object_storage/public;
       /usr/bin/mc policy set public object_storage/public;
+      mc admin user svcacct add --access-key ${MINIO_ACCESS_KEY} --secret-key ${MINIO_SECRET_KEY} http://192.168.17.5:9000 ${MINIO_USERNAME}
       exit 0;
       "
     networks:
-      ethos_network:
+      asoode_network:
         ipv4_address: 192.168.17.6
   mssql:
     image: 'mcr.microsoft.com/mssql/server:2022-latest'
