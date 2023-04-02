@@ -36,7 +36,6 @@ namespace Asoode.Application.Business
             services.AddTransient<ITaskBiz, TaskBiz>();
             services.AddTransient<IWorkPackageBiz, WorkPackageBiz>();
             services.AddTransient<IStorageBiz, StorageBiz>();
-            services.AddTransient<IEmailBiz, EmailBiz>();
             services.AddTransient<IMessengerBiz, MessengerBiz>();
             services.AddTransient<IActivityBiz, ActivityBiz>();
             services.AddTransient<IErrorBiz, ErrorBiz>();
@@ -47,7 +46,6 @@ namespace Asoode.Application.Business
             services.AddTransient<ICalendarBiz, CalendarBiz>();
             services.AddTransient<IDataBiz, DataBiz>();
             services.AddTransient<INotificationBiz, NotificationBiz>();
-            services.AddTransient<IPostmanBiz, PostmanBiz>();
             services.AddTransient<IProjectBiz, ProjectBiz>();
             services.AddTransient<IGroupBiz, GroupBiz>();
             return services;

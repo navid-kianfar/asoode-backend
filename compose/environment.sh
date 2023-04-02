@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 export PORTAINER_VOL=$(pwd)/docker-data/portainer
 export RABBITMQ_VOL=$(pwd)/docker-data/rabbitmq
-export MSSQL_VOL=$(pwd)/docker-data/mssql
+export POSTGRES_VOL=$(pwd)/docker-data/postgres
 export MINIO_VOL=$(pwd)/docker-data/minio
 export NGINX_VOL=$(pwd)/docker-data/nginx
 export CERTBOT_VOL=$(pwd)/docker-data/certbot
@@ -15,7 +15,8 @@ export MINIO_ACCESS_KEY='JXuKJHRkiFDCeyCs'
 export MINIO_SECRET_KEY='uloAC5jkHVc1WFY8tS83N0v9o0mzwPEh'
 export MINIO_USERNAME='admin'
 export MINIO_PASSWORD='cKRnDpS0BHNY4BM2l0C'
-export MSSQL_SA_PASSWORD='yfd4TnU2K1n6Pien77MKc'
+export POSTGRES_USERNAME='WFY8tS83N0v9o0m'
+export POSTGRES_PASSWORD='JloAC5jkHVc1zwPEhkXuKJHRuiFDCeyCs'
 
 export APP_I18N_LANG=''
 export APP_I18N_CULTURE=''
