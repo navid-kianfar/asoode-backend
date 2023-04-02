@@ -1,3 +1,6 @@
+using Asoode.Application.Core.Primitives.Enums;
+using Asoode.Application.Core.ViewModels.Collaboration;
+using Asoode.Application.Core.ViewModels.General;
 using Asoode.Application.Data.Models.Junctions;
 
 namespace Asoode.Application.Data.Models.Base
@@ -25,7 +28,6 @@ namespace Asoode.Application.Data.Models.Base
         public static GroupViewModel ToViewModel(
             this Group grp,
             GroupMemberViewModel[] members = null,
-            UserPlanInfo info = null,
             PendingInvitationViewModel[] pending = null,
             int attachmentSize = 0
         )
@@ -68,7 +70,6 @@ namespace Asoode.Application.Data.Models.Base
                 Level = grp.Level,
                 RootId = grp.RootId,
                 ArchivedAt = grp.ArchivedAt,
-                PlanType = info?.Type ?? PlanType.Free,
             };
         }
 

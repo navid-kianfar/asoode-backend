@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace Asoode.Application.Data.Contexts
 {
     // ReSharper disable once InconsistentNaming

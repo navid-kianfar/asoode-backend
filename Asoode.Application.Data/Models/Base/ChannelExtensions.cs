@@ -1,3 +1,6 @@
+using Asoode.Application.Core.ViewModels.Communication;
+using Asoode.Application.Core.ViewModels.Storage;
+
 namespace Asoode.Application.Data.Models.Base
 {
     public static class ChannelExtensions

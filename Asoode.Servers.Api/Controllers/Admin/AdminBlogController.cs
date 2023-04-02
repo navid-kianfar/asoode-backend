@@ -6,7 +6,6 @@ using Asoode.Backend.Filters;
 using Asoode.Core.Contracts.Admin;
 using Asoode.Core.Contracts.General;
 using Asoode.Core.Primitives.Enums;
-using Asoode.Core.ViewModels.Admin;
 using Asoode.Core.ViewModels.General;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;

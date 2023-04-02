@@ -1,5 +1,6 @@
 using Asoode.Application.Data.Models;
 using Asoode.Application.Data.Models.Junctions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Asoode.Application.Data.Contexts
 {
@@ -9,7 +10,6 @@ namespace Asoode.Application.Data.Contexts
         {
         }
 
-        public DbSet<Plan> Plans { get; set; }
         public DbSet<WebPush> WebPushes { get; set; }
         public DbSet<WorkPackageMemberSetting> WorkPackageMemberSettings { get; set; }
         public DbSet<WorkPackageTaskInteraction> WorkPackageTaskInteractions { get; set; }
@@ -17,8 +17,6 @@ namespace Asoode.Application.Data.Contexts
         public DbSet<WorkPackageTaskTime> WorkPackageTaskTimes { get; set; }
         public DbSet<Conversation> Conversations { get; set; }
         public DbSet<WorkPackageTaskVote> WorkPackageTaskVotes { get; set; }
-        public DbSet<UserPlanInfo> UserPlanInfo { get; set; }
-        public DbSet<PlanMember> PlanMembers { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<ProjectSeason> ProjectSeasons { get; set; }
         public DbSet<WorkPackageRelatedTask> WorkPackageRelatedTasks { get; set; }
@@ -48,8 +46,6 @@ namespace Asoode.Application.Data.Contexts
         public DbSet<Group> Groups { get; set; }
         public DbSet<GroupMember> GroupMembers { get; set; }
         public DbSet<PendingInvitation> PendingInvitations { get; set; }
-        public DbSet<AdvancedPlayerComment> AdvancedPlayerComments { get; set; }
-        public DbSet<AdvancedPlayerShape> AdvancedPlayerShapes { get; set; }
         public DbSet<TimeOff> TimeOffs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

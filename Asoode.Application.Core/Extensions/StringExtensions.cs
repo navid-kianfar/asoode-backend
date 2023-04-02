@@ -125,5 +125,35 @@ public static class StringExtensions
             if (str.Contains(chars[i]))
                 str = str.Replace(chars[i], "");
         return str;
+    }/// <summary>
+    /// Returns true if the input string is a valid hexadecimal number.
+    /// </summary>
+    /// <param name="input">The input value to check</param>
+    /// <param name="nullable">If this argument is true, the null or empty values will consider as a valid value.</param>
+    /// <param name="shouldStartsWithHash">If this argument is true, the values that starts with # will consider as a valid value. Like #5fd2</param>
+    /// <param name="minLength">The length of input string(except #) should be greater than or equals to minimum length to be considered as a valid value.</param>
+    /// <param name="maxLength">The length of input string(except #) should be less than or equals to maximum length to be considered as a valid value.</param>
+    /// <returns></returns>
+    public static bool IsValidHexNumber(this string input, bool nullable = false, bool shouldStartsWithHash = false, int? minLength = null, int? maxLength = null)
+    {
+        input = (input ?? "").Trim();
+
+        if (nullable && string.IsNullOrWhiteSpace(input))
+            return true;
+
+
+        if ((shouldStartsWithHash && !input.StartsWith('#')) || (!shouldStartsWithHash && input.StartsWith('#')))
+            return false;
+
+        input = input.TrimStart('#');
+
+        if (minLength > 0 && input.Length < minLength)
+            return false;
+
+        if (maxLength > 0 && input.Length > maxLength)
+            return false;
+
+        return Regex.IsMatch(input: input, pattern: "(?i)^[a-f0-9]+$");
     }
+
 }

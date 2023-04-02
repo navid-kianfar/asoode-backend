@@ -1,3 +1,4 @@
+using Asoode.Application.Core.Primitives.Enums;
 using Asoode.Application.Data.Models.Base;
 
 namespace Asoode.Application.Data.Models.Junctions

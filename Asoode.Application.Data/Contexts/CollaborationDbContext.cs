@@ -1,5 +1,6 @@
 using Asoode.Application.Data.Models;
 using Asoode.Application.Data.Models.Junctions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Asoode.Application.Data.Contexts
 {
@@ -12,9 +13,6 @@ namespace Asoode.Application.Data.Contexts
         public DbSet<UserShift> UserShifts { get; set; }
         public DbSet<Shift> Shifts { get; set; }
         public DbSet<TimeOff> TimeOffs { get; set; }
-        public DbSet<PlanMember> PlanMembers { get; set; }
-        public DbSet<Plan> Plans { get; set; }
-        public DbSet<UserPlanInfo> UserPlanInfo { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Channel> Channels { get; set; }
         public DbSet<Upload> Uploads { get; set; }

@@ -1,4 +1,5 @@
 using Asoode.Application.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Asoode.Application.Data.Contexts
 {

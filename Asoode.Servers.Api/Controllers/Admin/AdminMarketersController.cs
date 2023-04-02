@@ -6,7 +6,6 @@ using Asoode.Core.Contracts.Admin;
 using Asoode.Core.Contracts.Logging;
 using Asoode.Core.Contracts.Membership;
 using Asoode.Core.Primitives.Enums;
-using Asoode.Core.ViewModels.Admin;
 using Asoode.Core.ViewModels.General;
 using Asoode.Core.ViewModels.Membership.Plan;
 using Microsoft.AspNetCore.Mvc;

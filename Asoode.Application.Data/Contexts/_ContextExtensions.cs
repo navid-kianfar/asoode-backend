@@ -1,8 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+using Npgsql;
+
 namespace Asoode.Application.Data.Contexts
 {
     public static class ContextExtensions
     {
-        public static async Task<Dictionary<string, List<Dictionary<string, object>>>> GetMultipleResultSets(this DbContext context,string commandText, params SqlParameter[] parameters)
+        public static async Task<Dictionary<string, List<Dictionary<string, object>>>> GetMultipleResultSets(this DbContext context,string commandText, params NpgsqlParameter[] parameters)
         {
             // Get the connection from DbContext
             var connection = context.Database.GetDbConnection();

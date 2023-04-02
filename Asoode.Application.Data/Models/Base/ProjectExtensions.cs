@@ -1,3 +1,6 @@
+using Asoode.Application.Core.ViewModels.General;
+using Asoode.Application.Core.ViewModels.ProjectManagement;
+using Asoode.Application.Core.ViewModels.Storage;
 using Asoode.Application.Data.Models.Junctions;
 
 namespace Asoode.Application.Data.Models.Base
@@ -316,34 +319,6 @@ namespace Asoode.Application.Data.Models.Base
                 UpdatedAt = task.UpdatedAt,
                 SubTasksSort = task.SubTasksSort,
                 AttachmentsSort = task.AttachmentsSort
-            };
-        }
-
-        public static AdvancedPlayerCommentViewModel ToViewModel(this AdvancedPlayerComment comment)
-        {
-            return new AdvancedPlayerCommentViewModel
-            {
-                Id = comment.Id,
-                Message = comment.Message,
-                Payload = comment.Payload,
-                AttachmentId = comment.AttachmentId,
-                CreatedAt = comment.CreatedAt,
-                EndFrame = comment.EndFrame,
-                StartFrame = comment.StartFrame,
-                UpdatedAt = comment.UpdatedAt
-            };
-        }
-
-        public static AdvancedPlayerShapeViewModel ToViewModel(this AdvancedPlayerShape comment)
-        {
-            return new AdvancedPlayerShapeViewModel
-            {
-                Id = comment.Id,
-                AttachmentId = comment.AttachmentId,
-                CreatedAt = comment.CreatedAt,
-                EndFrame = comment.EndFrame,
-                StartFrame = comment.StartFrame,
-                UpdatedAt = comment.UpdatedAt
             };
         }
         

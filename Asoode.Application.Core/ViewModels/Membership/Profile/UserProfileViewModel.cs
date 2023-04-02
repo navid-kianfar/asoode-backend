@@ -1,5 +1,4 @@
 using Asoode.Application.Core.Primitives.Enums;
-using Asoode.Application.Core.ViewModels.Membership.Plan;
 
 namespace Asoode.Application.Core.ViewModels.Membership.Profile;
 
@@ -26,7 +25,6 @@ public class UserProfileViewModel
     public string Bio { get; set; }
     public bool EmailConfirmed { get; set; }
     public bool PhoneConfirmed { get; set; }
-    public UserPlanInfoViewModel Plan { get; set; }
     public bool DarkMode { get; set; }
     public string Avatar { get; set; }
 }

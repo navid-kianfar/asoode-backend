@@ -1,8 +1,6 @@
-
-
-dotnet ef migrations add blog_embed_code --context=ApplicationDbContext --startup-project=../Asoode.Backend/Asoode.Backend.csproj
+dotnet ef migrations add init --context=ApplicationDbContext --startup-project=../Asoode.Servers.Api/Asoode.Servers.Api.csproj
 
 
 
-dotnet ef database update --context=ApplicationDbContext --startup-project=../Asoode.Backend/Asoode.Backend.csproj
+dotnet ef database update --context=ApplicationDbContext --startup-project=../Asoode.Servers.Api/Asoode.Servers.Api.csproj
 

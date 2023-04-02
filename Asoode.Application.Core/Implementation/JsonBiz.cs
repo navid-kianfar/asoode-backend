@@ -1,8 +1,8 @@
-using Asoode.Core.Contracts.General;
+using Asoode.Application.Core.Contracts.General;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Asoode.Backend.Engine
+namespace Asoode.Application.Core.Implementation
 {
     internal class JsonBiz : IJsonBiz
     {
@@ -22,7 +22,7 @@ namespace Asoode.Backend.Engine
 
         public T Deserialize<T>(string json)
         {
-            return JsonConvert.DeserializeObject<T>(json);
+            return JsonConvert.DeserializeObject<T>(json)!;
         }
 
         public string Serialize(object obj)

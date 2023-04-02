@@ -1,4 +1,6 @@
-using Asoode.Application.Data.Models.Junctions;
+using Asoode.Application.Core.Primitives.Enums;
+using Asoode.Application.Core.ViewModels.General;
+using Asoode.Application.Core.ViewModels.Membership.Profile;
 
 namespace Asoode.Application.Data.Models.Base
 {
@@ -18,7 +20,7 @@ namespace Asoode.Application.Data.Models.Base
             return $"asoode_{random}";
         }
 
-        public static UserProfileViewModel ToProfileViewModel(this User user, UserPlanInfo info = null)
+        public static UserProfileViewModel ToProfileViewModel(this User user)
         {
             return new UserProfileViewModel
             {
@@ -37,8 +39,7 @@ namespace Asoode.Application.Data.Models.Base
                 Calendar = user.Calendar,
                 Bio = user.Bio,
                 EmailConfirmed = user.LastEmailConfirmed.HasValue,
-                PhoneConfirmed = user.LastPhoneConfirmed.HasValue,
-                Plan = info?.ToViewModel()
+                PhoneConfirmed = user.LastPhoneConfirmed.HasValue
             };
         }
 

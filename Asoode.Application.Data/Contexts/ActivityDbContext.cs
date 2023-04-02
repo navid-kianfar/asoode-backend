@@ -1,5 +1,6 @@
 using Asoode.Application.Data.Models;
 using Asoode.Application.Data.Models.Junctions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Asoode.Application.Data.Contexts
 {

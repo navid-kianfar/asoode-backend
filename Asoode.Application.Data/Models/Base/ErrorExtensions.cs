@@ -1,3 +1,5 @@
+using Asoode.Application.Core.ViewModels.Logging;
+
 namespace Asoode.Application.Data.Models.Base
 {
     public static class ErrorExtensions

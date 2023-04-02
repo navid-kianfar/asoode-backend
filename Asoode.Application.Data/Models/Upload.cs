@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using Asoode.Application.Core.Primitives.Enums;
+using Asoode.Application.Core.ViewModels.Storage;
 using Asoode.Application.Data.Models.Base;
 
 namespace Asoode.Application.Data.Models

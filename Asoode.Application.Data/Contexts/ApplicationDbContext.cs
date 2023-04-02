@@ -1,5 +1,6 @@
 using Asoode.Application.Data.Models;
 using Asoode.Application.Data.Models.Junctions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Asoode.Application.Data.Contexts
 {
@@ -11,22 +12,11 @@ namespace Asoode.Application.Data.Contexts
         {
         }
 
-        public DbSet<AdvancedPlayerComment> AdvancedPlayerComments { get; set; }
-        public DbSet<AdvancedPlayerShape> AdvancedPlayerShapes { get; set; }
         public DbSet<Testimonial> Testimonials { get; set; }
-        public DbSet<Wallet> Wallet { get; set; }
         public DbSet<Shift> Shifts { get; set; }
-        public DbSet<Discount> Discounts { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<Transaction> Transaction { get; set; }
-        public DbSet<Contact> Contacts { get; set; }
-        public DbSet<ContactReply> ContactReplies { get; set; }
         public DbSet<WorkPackageTaskTime> WorkPackageTaskTimes { get; set; }
         public DbSet<WorkPackageTaskVote> WorkPackageTaskVotes { get; set; }
         public DbSet<UserNotification> UserNotifications { get; set; }
-        public DbSet<PlanMember> PlanMembers { get; set; }
-        public DbSet<Plan> Plans { get; set; }
-        public DbSet<UserPlanInfo> UserPlanInfo { get; set; }
         public DbSet<ProjectSeason> ProjectSeasons { get; set; }
         public DbSet<WorkPackageRelatedTask> WorkPackageRelatedTasks { get; set; }
         public DbSet<WorkPackageView> WorkPackageViews { get; set; }
@@ -64,8 +54,6 @@ namespace Asoode.Application.Data.Contexts
         public DbSet<GroupMember> GroupMembers { get; set; }
         public DbSet<ActivityLog> Activities { get; set; }
         public DbSet<ErrorLog> ErrorLogs { get; set; }
-        public DbSet<MarketerIncome> MarketerIncomes { get; set; }
-        public DbSet<Marketer> Marketers { get; set; }
         public DbSet<Upload> Uploads { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserVerification> UserVerifications { get; set; }
@@ -73,12 +61,6 @@ namespace Asoode.Application.Data.Contexts
         public DbSet<PendingInvitation> PendingInvitations { get; set; }
         public DbSet<WorkPackageTaskInteraction> WorkPackageTaskInteractions { get; set; }
         public DbSet<WorkPackageMemberSetting> WorkPackageMemberSettings { get; set; }
-
-        public DbSet<SupportContact> SupportContacts { get; set; }
-        public DbSet<SupportReply> SupportReplies { get; set; }
-        public DbSet<Blog> Blogs { get; set; }
-        public DbSet<BlogCategory> BlogCategories { get; set; }
-        public DbSet<BlogPost> BlogPosts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
