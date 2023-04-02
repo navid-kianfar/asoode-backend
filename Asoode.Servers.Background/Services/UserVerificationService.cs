@@ -1,14 +1,9 @@
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Asoode.Core.Contracts.Logging;
-using Asoode.Data.Contexts;
+using Asoode.Application.Core.Contracts.Logging;
+using Asoode.Application.Data.Contexts;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Z.EntityFramework.Plus;
 
-namespace Asoode.Background.Services
+namespace Asoode.Servers.Background.Services
 {
     public class UserVerificationService : IHostedService, IDisposable
     {

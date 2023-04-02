@@ -1,11 +1,11 @@
 using Asoode.Application.Business;
-using Asoode.Data;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+using Asoode.Application.Core;
+using Asoode.Application.Data;
+using Asoode.Background;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Asoode.Background
+namespace Asoode.Servers.Background.Engine
 {
     public class Startup
     {
@@ -39,9 +39,10 @@ namespace Asoode.Background
         
         private void ConfigureAllServices(IServiceCollection services, bool development)
         {
-            services.SetupApplicationData(_configuration, development);
-            services.SetupApplicationBusiness(_configuration);
-            services.SetupApplicationBackground(_configuration);
+            services.SetupApplicationCore();
+            services.SetupApplicationData();
+            services.SetupApplicationBusiness();
+            services.SetupApplicationBackground();
         }
     }
 }

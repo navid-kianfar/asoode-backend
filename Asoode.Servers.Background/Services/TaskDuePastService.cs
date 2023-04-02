@@ -1,20 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Asoode.Core.Contracts.General;
-using Asoode.Core.Contracts.Logging;
-using Asoode.Core.Primitives.Enums;
-using Asoode.Core.ViewModels.Logging;
-using Asoode.Data.Contexts;
-using Asoode.Data.Models.Base;
+using Asoode.Application.Core.Contracts.Logging;
+using Asoode.Application.Core.Primitives.Enums;
+using Asoode.Application.Core.ViewModels.Logging;
+using Asoode.Application.Data.Contexts;
+using Asoode.Application.Data.Models.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Asoode.Background.Services
+namespace Asoode.Servers.Background.Services
 {
     public class TaskDuePastService : IHostedService, IDisposable
     {
@@ -74,7 +68,6 @@ namespace Asoode.Background.Services
                         if (passed.Any())
                         {
                             var result = new List<NotificationViewModel>();
-                            var translateBiz = scope.ServiceProvider.GetService<ITranslateBiz>();
                             var taskIds = passed.Select(i => i.Id).ToArray();
                             var taskMembers = await unit.WorkPackageTaskMember
                                 .Where(i => taskIds.Contains(i.TaskId))
@@ -169,7 +162,7 @@ namespace Asoode.Background.Services
 
                                     result.Add(new NotificationViewModel
                                     {
-                                        Title = translateBiz.Get("PUSH_TASK_DUE_PASSED_TITLE", culture),
+                                        Title = "PUSH_TASK_DUE_PASSED_TITLE",
                                         Description = $"{task.Title}\r\n{task.Description}",
                                         Data = null,
                                         Avatar = "",

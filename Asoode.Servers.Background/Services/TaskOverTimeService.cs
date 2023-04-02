@@ -1,21 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Asoode.Core.Contracts.General;
-using Asoode.Core.Contracts.Logging;
-using Asoode.Core.Primitives.Enums;
-using Asoode.Core.ViewModels.Logging;
-using Asoode.Data.Contexts;
-using Asoode.Data.Models.Base;
-using Asoode.Data.Models.Junctions;
+using Asoode.Application.Core.Contracts.Logging;
+using Asoode.Application.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Z.EntityFramework.Plus;
 
-namespace Asoode.Background.Services
+namespace Asoode.Servers.Background.Services
 {
     public class TaskOverTimeService : IHostedService, IDisposable
     {

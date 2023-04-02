@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using Asoode.Core.Contracts.General;
-using Asoode.Core.ViewModels.Logging;
+using Asoode.Application.Core.Contracts.General;
+using Asoode.Application.Core.ViewModels.Logging;
 using Microsoft.Extensions.Configuration;
-using RabbitMQ.Client;
 
-namespace Asoode.Background.Services
+namespace Asoode.Servers.Background.Services
 {
     public class BulkQueue
     {
