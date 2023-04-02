@@ -1,30 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Asoode.Business.ProjectManagement;
-using Asoode.Core.Contracts.General;
-using Asoode.Core.Contracts.Import;
-using Asoode.Core.Contracts.Logging;
-using Asoode.Core.Contracts.ProjectManagement;
-using Asoode.Core.Primitives;
-using Asoode.Core.Primitives.Enums;
-using Asoode.Core.ViewModels.Collaboration;
-using Asoode.Core.ViewModels.Import.Trello;
-using Asoode.Core.ViewModels.Logging;
-using Asoode.Core.ViewModels.ProjectManagement;
-using Asoode.Data.Contexts;
-using Asoode.Data.Models;
-using Asoode.Data.Models.Junctions;
-using Microsoft.AspNetCore.Http;
+using Asoode.Application.Business.ProjectManagement;
+using Asoode.Application.Core.Contracts.General;
+using Asoode.Application.Core.Contracts.Import;
+using Asoode.Application.Core.Contracts.Logging;
+using Asoode.Application.Core.Contracts.ProjectManagement;
+using Asoode.Application.Core.Primitives;
+using Asoode.Application.Core.Primitives.Enums;
+using Asoode.Application.Core.ViewModels.Collaboration;
+using Asoode.Application.Core.ViewModels.Import.Trello;
+using Asoode.Application.Core.ViewModels.ProjectManagement;
+using Asoode.Application.Core.ViewModels.Storage;
+using Asoode.Application.Data.Contexts;
+using Asoode.Application.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 
-namespace Asoode.Business.Import
+namespace Asoode.Application.Business.Import
 {
     public class TrelloBiz : ITrelloBiz
     {
@@ -38,7 +29,7 @@ namespace Asoode.Business.Import
         }
 
         public async Task<OperationResult<ProjectPrepareViewModel>> Import(
-            IFormFile file, TrelloMapedDataViewModel data, Guid userId)
+            UploadedFileViewModel file, TrelloMapedDataViewModel data, Guid userId)
         {
             try
             {
@@ -46,7 +37,7 @@ namespace Asoode.Business.Import
 
                 if (file == null) return OperationResult<ProjectPrepareViewModel>.Rejected();
                 var result = new StringBuilder();
-                using (var reader = new StreamReader(file.OpenReadStream()))
+                using (var reader = new StreamReader(file.FileStream))
                 {
                     while (reader.Peek() >= 0) result.AppendLine(await reader.ReadLineAsync());
                 }

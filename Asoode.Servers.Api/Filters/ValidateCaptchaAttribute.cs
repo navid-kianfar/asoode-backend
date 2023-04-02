@@ -1,10 +1,9 @@
-using Asoode.Core.Contracts.General;
-using Asoode.Core.Primitives;
+using Asoode.Application.Core.Contracts.General;
+using Asoode.Application.Core.Primitives;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Asoode.Backend.Filters
+namespace Asoode.Servers.Api.Filters
 {
     public class ValidateCaptchaAttribute : ActionFilterAttribute
     {

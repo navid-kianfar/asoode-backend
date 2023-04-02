@@ -8,8 +8,8 @@ public class GroupViewModel : BaseViewModel
 {
     public GroupViewModel()
     {
-        Members = new GroupMemberViewModel[0];
-        Pending = new PendingInvitationViewModel[0];
+        Members = Array.Empty<GroupMemberViewModel>();
+        Pending = Array.Empty<PendingInvitationViewModel>();
     }
 
     public DateTime? ArchivedAt { get; set; }
@@ -39,8 +39,6 @@ public class GroupViewModel : BaseViewModel
     public DateTime? RegisteredAt { get; set; }
     public int? Offices { get; set; }
     public int? Employees { get; set; }
-
-    public PlanType PlanType { get; set; }
     public GroupMemberViewModel[] Members { get; set; }
     public Guid RootId { get; set; }
     public int Level { get; set; }

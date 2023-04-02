@@ -1,22 +1,16 @@
-using Asoode.Core.Contracts.General;
-using Asoode.Core.Contracts.Logging;
-using Asoode.Core.Helpers;
-using Asoode.Data.Models;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Net.Mail;
-using System.Threading;
-using System.Threading.Tasks;
-using Asoode.Core.Primitives;
-using Asoode.Core.Primitives.Enums;
-using Asoode.Core.ViewModels.General;
-using Asoode.Core.ViewModels.Payment;
+using Asoode.Application.Core.Contracts.General;
+using Asoode.Application.Core.Contracts.Logging;
+using Asoode.Application.Core.Helpers;
+using Asoode.Application.Core.Primitives;
+using Asoode.Application.Core.Primitives.Enums;
+using Asoode.Application.Core.ViewModels.General;
+using Asoode.Application.Core.ViewModels.Payment;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Asoode.Business.General
+namespace Asoode.Application.Business.General
 {
     internal class EmailBiz : IEmailBiz
     {
@@ -220,9 +214,6 @@ namespace Asoode.Business.General
                 .Replace("{{to}}", DateHelper.Format(now.AddDays(order.Days)))
                 .Replace("{{id}}", order.Id.ToString());
             
-            var pdfBiz = _serviceProvider.GetService<IPdfBiz>();
-            await pdfBiz.FromHtml(html, $"/created/{order.Id}.pdf");
-            
             if (string.IsNullOrEmpty(user.Email) || user.Email.Contains("@asoode.user"))
             {
                 return OperationResult<bool>.Success(true);
@@ -248,9 +239,6 @@ namespace Asoode.Business.General
                 .Replace("{{from}}", DateHelper.Format(order.CreatedAt))
                 .Replace("{{to}}", DateHelper.Format(now.AddDays(order.Days)))
                 .Replace("{{id}}", order.Id.ToString());
-
-            var destination = $"/paid/{order.Id}.pdf";
-            await _serviceProvider.GetService<IPdfBiz>().FromHtml(html, destination);
             
             if (string.IsNullOrEmpty(user.Email) || user.Email.Contains("@asoode.user"))
             {

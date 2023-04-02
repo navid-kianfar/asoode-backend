@@ -1,13 +1,10 @@
-using System.Linq;
-using Asoode.Core.Contracts.Membership;
-using Asoode.Core.Primitives;
-using Asoode.Core.Primitives.Enums;
+using Asoode.Application.Core.Contracts.Membership;
+using Asoode.Application.Core.Primitives.Enums;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Asoode.Backend.Filters
+namespace Asoode.Servers.Api.Filters
 {
     public class JwtAuthorize : IAuthorizationFilter
     {

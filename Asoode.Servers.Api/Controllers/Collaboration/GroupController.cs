@@ -1,14 +1,8 @@
-using System;
-using System.Threading.Tasks;
-using Asoode.Backend.Engine;
-using Asoode.Backend.Filters;
-using Asoode.Core.Contracts.Collaboration;
-using Asoode.Core.ViewModels.Collaboration;
-using Asoode.Core.ViewModels.General;
-using Asoode.Core.ViewModels.Reports;
+using Asoode.Servers.Api.Engine;
+using Asoode.Servers.Api.Filters;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Asoode.Backend.Controllers.Collaboration
+namespace Asoode.Servers.Api.Controllers.Collaboration
 {
     [JwtAuthorize]
     [Route("v2/groups")]

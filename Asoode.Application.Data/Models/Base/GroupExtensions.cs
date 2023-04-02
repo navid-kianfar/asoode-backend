@@ -35,8 +35,8 @@ namespace Asoode.Application.Data.Models.Base
             return new GroupViewModel
             {
                 AttachmentSize = attachmentSize,
-                Members = members ?? new GroupMemberViewModel[0],
-                Pending = pending ?? new PendingInvitationViewModel[0],
+                Members = members ?? Array.Empty<GroupMemberViewModel>(),
+                Pending = pending ?? Array.Empty<PendingInvitationViewModel>(),
                 Avatar = grp.Avatar,
                 Address = grp.Address,
                 Description = grp.Description,
@@ -64,7 +64,6 @@ namespace Asoode.Application.Data.Models.Base
                 SupervisorNumber = grp.SupervisorNumber,
                 UpdatedAt = grp.UpdatedAt,
                 UserId = grp.UserId,
-                Premium = grp.Premium,
                 Complex = grp.Complex,
                 ParentId = grp.ParentId,
                 Level = grp.Level,

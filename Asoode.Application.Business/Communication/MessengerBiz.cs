@@ -1,25 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Asoode.Core.Contracts.Communication;
-using Asoode.Core.Contracts.Logging;
-using Asoode.Core.Contracts.Storage;
-using Asoode.Core.Primitives;
-using Asoode.Core.Primitives.Enums;
-using Asoode.Core.ViewModels.Communication;
-using Asoode.Core.ViewModels.Logging;
-using Asoode.Core.ViewModels.Storage;
-using Asoode.Data.Contexts;
-using Asoode.Data.Models;
-using Asoode.Data.Models.Base;
-using Microsoft.AspNetCore.Http;
+using Asoode.Application.Core.Contracts.Communication;
+using Asoode.Application.Core.Contracts.Logging;
+using Asoode.Application.Core.Contracts.Storage;
+using Asoode.Application.Core.Primitives;
+using Asoode.Application.Core.Primitives.Enums;
+using Asoode.Application.Core.ViewModels.Communication;
+using Asoode.Application.Core.ViewModels.Logging;
+using Asoode.Application.Core.ViewModels.Storage;
+using Asoode.Application.Data.Contexts;
+using Asoode.Application.Data.Models;
+using Asoode.Application.Data.Models.Base;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.DependencyInjection;
-using Z.EntityFramework.Plus;
 
-namespace Asoode.Business.Communication
+namespace Asoode.Application.Business.Communication
 {
     internal class MessengerBiz : IMessengerBiz
     {
@@ -190,7 +183,7 @@ namespace Asoode.Business.Communication
             }
         }
 
-        public async Task<OperationResult<UploadResultViewModel>> AddAttachment(Guid userId, Guid channelId, IFormFile file)
+        public async Task<OperationResult<UploadResultViewModel>> AddAttachment(Guid userId, Guid channelId, UploadedFileViewModel file)
         {
             try
             {
@@ -259,33 +252,12 @@ namespace Asoode.Business.Communication
                     }
                     
                     if (!hasAccess) return OperationResult<UploadResultViewModel>.Rejected();
-
-                    var plan = await unit.UserPlanInfo.Where(i => i.Id == planId).SingleOrDefaultAsync();
-                    if (plan == null) return OperationResult<UploadResultViewModel>.Rejected();
-
-                    if (plan.AttachmentSize < file.Length)
-                    {
-                        return OperationResult<UploadResultViewModel>.Success(new UploadResultViewModel
-                        {
-                            AttachmentSize = true
-                        });
-                    }
-
-                    if ((plan.UsedSpace + file.Length) > plan.Space)
-                    {
-                        return OperationResult<UploadResultViewModel>.Success(new UploadResultViewModel
-                        {
-                            StorageSize = true
-                        });
-                    }
-
-                    plan.UsedSpace += file.Length;
+                    
                     var conversationId = Guid.NewGuid();
                     var result = await _serviceProvider.GetService<IUploadProvider>().Upload(new StoreViewModel
                     {
-                        FormFile = file,
+                        File = file,
                         Section = UploadSection.Messenger,
-                        PlanId = plan.Id,
                         RecordId = conversationId,
                         UserId = userId
                     });

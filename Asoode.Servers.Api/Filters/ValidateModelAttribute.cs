@@ -1,8 +1,8 @@
-﻿using Asoode.Core.Primitives;
+﻿using Asoode.Application.Core.Primitives;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Asoode.Backend.Filters
+namespace Asoode.Servers.Api.Filters
 {
     public class ValidateModelAttribute : ActionFilterAttribute
     {

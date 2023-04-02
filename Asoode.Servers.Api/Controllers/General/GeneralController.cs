@@ -1,16 +1,8 @@
-using System;
-using System.Threading.Tasks;
-using Asoode.Backend.Engine;
-using Asoode.Backend.Filters;
-using Asoode.Backend.Services;
-using Asoode.Core.Contracts.Admin;
-using Asoode.Core.Contracts.General;
-using Asoode.Core.ViewModels.General;
-using Asoode.Core.ViewModels.General.Search;
+using Asoode.Servers.Api.Engine;
+using Asoode.Servers.Api.Filters;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Asoode.Backend.Controllers.General
+namespace Asoode.Servers.Api.Controllers.General
 {
     [Route("v2")]
     [ApiExplorerSettings(GroupName = "General")]

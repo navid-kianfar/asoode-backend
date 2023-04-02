@@ -17,7 +17,7 @@ namespace Asoode.Application.Data.Models.Base
         {
             return new ProjectViewModel
             {
-                Pending = pending ?? new PendingInvitationViewModel[0],
+                Pending = pending ?? Array.Empty<PendingInvitationViewModel>(),
                 Description = project.Description,
                 Id = project.Id,
                 Title = project.Title,
@@ -29,7 +29,7 @@ namespace Asoode.Application.Data.Models.Base
                 Seasons = seasons,
                 Members = members,
                 WorkPackages = workPackages,
-                SubProjects = subs ?? new SubProjectViewModel[0],
+                SubProjects = subs ?? Array.Empty<SubProjectViewModel>(),
                 Template = project.Template,
                 ArchivedAt = project.ArchivedAt,
                 AttachmentSize = attachmentSize
@@ -127,9 +127,9 @@ namespace Asoode.Application.Data.Models.Base
         {
             return new WorkPackageViewModel
             {
-                Labels = labels ?? new WorkPackageLabelViewModel[0],
-                CustomFieldsItems = customFieldItems ?? new WorkPackageCustomFieldItemViewModel[0],
-                CustomFields = customFields ?? new WorkPackageCustomFieldViewModel[0],
+                Labels = labels ?? Array.Empty<WorkPackageLabelViewModel>(),
+                CustomFieldsItems = customFieldItems ?? Array.Empty<WorkPackageCustomFieldItemViewModel>(),
+                CustomFields = customFields ?? Array.Empty<WorkPackageCustomFieldViewModel>(),
                 Description = wp.Description,
                 Id = wp.Id,
                 Title = wp.Title,
@@ -159,11 +159,11 @@ namespace Asoode.Application.Data.Models.Base
                 SubProjectId = wp.SubProjectId,
                 AllowBlockingBoardTasks = wp.AllowBlockingBoardTasks,
                 TaskVisibility = wp.TaskVisibility,
-                Members = members ?? new WorkPackageMemberViewModel[0],
-                Objectives = objectives ?? new WorkPackageObjectiveViewModel[0],
-                Lists = lists ?? new WorkPackageListViewModel[0],
-                Tasks = tasks ?? new WorkPackageTaskViewModel[0],
-                Pending = pending ?? new PendingInvitationViewModel[0],
+                Members = members ?? Array.Empty<WorkPackageMemberViewModel>(),
+                Objectives = objectives ?? Array.Empty<WorkPackageObjectiveViewModel>(),
+                Lists = lists ?? Array.Empty<WorkPackageListViewModel>(),
+                Tasks = tasks ?? Array.Empty<WorkPackageTaskViewModel>(),
+                Pending = pending ?? Array.Empty<PendingInvitationViewModel>(),
                 Progress = progress,
                 Order = wp.Order,
                 PermissionComment = wp.PermissionComment,
@@ -311,9 +311,9 @@ namespace Asoode.Application.Data.Models.Base
                 VotePrivate = task.VotePrivate,
                 DoneUserId = task.DoneUserId,
                 SubProjectId = task.SubProjectId,
-                Members = members ?? new WorkPackageTaskMemberViewModel[0],
-                Labels = labels ?? new WorkPackageTaskLabelViewModel[0],
-                Comments = comments ?? new WorkPackageTaskCommentViewModel[0],
+                Members = members ?? Array.Empty<WorkPackageTaskMemberViewModel>(),
+                Labels = labels ?? Array.Empty<WorkPackageTaskLabelViewModel>(),
+                Comments = comments ?? Array.Empty<WorkPackageTaskCommentViewModel>(),
                 Id = task.Id,
                 CreatedAt = task.CreatedAt,
                 UpdatedAt = task.UpdatedAt,

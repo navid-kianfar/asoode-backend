@@ -1,28 +1,17 @@
-using Asoode.Core.Contracts.Logging;
-using Asoode.Core.ViewModels.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Asoode.Core.Contracts.General;
-using Asoode.Core.Primitives.Enums;
-using Asoode.Core.ViewModels.Collaboration;
-using Asoode.Core.ViewModels.General;
-using Asoode.Core.ViewModels.ProjectManagement;
-using Asoode.Data.Contexts;
-using Asoode.Data.Models;
-using Asoode.Data.Models.Base;
-using Asoode.Data.Models.Junctions;
-using Microsoft.CSharp.RuntimeBinder;
+using Asoode.Application.Core.Contracts.General;
+using Asoode.Application.Core.Contracts.Logging;
+using Asoode.Application.Core.Primitives.Enums;
+using Asoode.Application.Core.ViewModels.General;
+using Asoode.Application.Core.ViewModels.Logging;
+using Asoode.Application.Data.Contexts;
+using Asoode.Application.Data.Models;
+using Asoode.Application.Data.Models.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using RabbitMQ.Client;
 
-namespace Asoode.Business.Logging
+namespace Asoode.Application.Business.Logging
 {
     internal class ActivityBiz : IActivityBiz
     {
@@ -65,7 +54,7 @@ namespace Asoode.Business.Logging
                 using (var unit = _serviceProvider.GetService<ActivityDbContext>())
                 {
                     var baseUrl = $"https://panel.{Domain}";
-                    var invited = new MemberInfoViewModel[0];
+                    var invited = Array.Empty<MemberInfoViewModel>();
                     var notification = new NotificationViewModel {Url = baseUrl, Type = model.Type};
                     var activity = new ActivityLog {Type = model.Type, UserId = model.UserId};
 
@@ -1365,7 +1354,7 @@ namespace Asoode.Business.Logging
                         case ActivityType.WorkPackageUserSetting:
                         case ActivityType.AccountEdit:
                         case ActivityType.WorkPackageTaskWatch:
-                            notification.PushUsers = new PushNotificationViewModel[0];
+                            notification.PushUsers = Array.Empty<PushNotificationViewModel>();
                             break;
                         default:
                             notification.PushUsers = allWebPushes.Where(a =>
@@ -1534,13 +1523,13 @@ namespace Asoode.Business.Logging
         private async Task<Guid[]> FindChannelMembersIds(ActivityDbContext unit, Guid userId, Guid channelId)
         {
             var channel = await unit.Channels.AsNoTracking().SingleOrDefaultAsync(i => i.Id == channelId);
-            if (channel == null) return new Guid[0];
+            if (channel == null) return Array.Empty<Guid>();
             return channel.Type switch
             {
                 ChannelType.Project => await FindProjectMembersIds(unit, userId, channelId),
                 ChannelType.Group => await FindGroupMembersIds(unit, channelId),
                 ChannelType.WorkPackage => await FindPackageMembersIds(unit, userId, channelId),
-                _ => new Guid[0]
+                _ => Array.Empty<Guid>()
             };
         }
 

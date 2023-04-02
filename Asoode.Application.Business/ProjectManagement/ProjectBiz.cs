@@ -1,29 +1,22 @@
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using Asoode.Core.Contracts.General;
-using Asoode.Core.Contracts.Logging;
-using Asoode.Core.Contracts.ProjectManagement;
-using Asoode.Core.Contracts.Storage;
-using Asoode.Core.Primitives;
-using Asoode.Core.Primitives.Enums;
-using Asoode.Core.ViewModels.Collaboration;
-using Asoode.Core.ViewModels.General;
-using Asoode.Core.ViewModels.Logging;
-using Asoode.Core.ViewModels.ProjectManagement;
-using Asoode.Core.ViewModels.Reports;
-using Asoode.Data.Contexts;
-using Asoode.Data.Models;
-using Asoode.Data.Models.Base;
-using Asoode.Data.Models.Junctions;
-using Microsoft.Data.SqlClient;
+using Asoode.Application.Core.Contracts.General;
+using Asoode.Application.Core.Contracts.Logging;
+using Asoode.Application.Core.Contracts.ProjectManagement;
+using Asoode.Application.Core.Contracts.Storage;
+using Asoode.Application.Core.Primitives;
+using Asoode.Application.Core.Primitives.Enums;
+using Asoode.Application.Core.ViewModels.Collaboration;
+using Asoode.Application.Core.ViewModels.General;
+using Asoode.Application.Core.ViewModels.Logging;
+using Asoode.Application.Core.ViewModels.ProjectManagement;
+using Asoode.Application.Data.Contexts;
+using Asoode.Application.Data.Models;
+using Asoode.Application.Data.Models.Base;
+using Asoode.Application.Data.Models.Junctions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Z.EntityFramework.Plus;
 
-namespace Asoode.Business.ProjectManagement
+namespace Asoode.Application.Business.ProjectManagement
 {
     internal class ProjectBiz : IProjectBiz
     {
@@ -148,7 +141,7 @@ namespace Asoode.Business.ProjectManagement
                 else plan.UsedWorkPackage++;
                 
                 var groupNames = new List<string>();
-                var workPackageLabels = new WorkPackageLabel[0];
+                var workPackageLabels = Array.Empty<WorkPackageLabel>();
                 var seasons = new List<ProjectSeason>();
                 var channels = new List<Channel>();
                 var workPackages = new List<WorkPackage>();
@@ -231,7 +224,7 @@ namespace Asoode.Business.ProjectManagement
                     });
                 }
 
-                var packagePendingInvitations = new PendingInvitation[0];
+                var packagePendingInvitations = Array.Empty<PendingInvitation>();
                 var pendingInvitations = parsed.InviteByEmail.Select(e => new PendingInvitation
                 {
                     Access = e.Access,
@@ -682,7 +675,7 @@ namespace Asoode.Business.ProjectManagement
                         Complex = true,
                         Description = model.Description,
                         Title = model.Title,
-                        Groups = new InviteViewModel[0],
+                        Groups = Array.Empty<InviteViewModel>(),
                         Members = model.Members,
                         Import = true
                     });
@@ -695,7 +688,7 @@ namespace Asoode.Business.ProjectManagement
                     }
 
                     var foundMe = false;
-                    if (model.Teams == null) model.Teams = new GroupViewModel[0];
+                    if (model.Teams == null) model.Teams = Array.Empty<GroupViewModel>();
                     
                     foreach (var group in model.Teams)
                     {
@@ -851,7 +844,7 @@ namespace Asoode.Business.ProjectManagement
 
                     op.Data.ViewModel.WorkPackages = model.Packages.Select(p =>
                     {
-                        p.Tasks = new WorkPackageTaskViewModel[0];
+                        p.Tasks = Array.Empty<WorkPackageTaskViewModel>();
                         return p;
                     }).ToArray();
 
@@ -1923,7 +1916,7 @@ namespace Asoode.Business.ProjectManagement
             try
             {
                 return OperationResult<ProjectObjectiveEstimatedPriceViewModel[]>.Success(
-                    new ProjectObjectiveEstimatedPriceViewModel[0]);
+                    Array.Empty<ProjectObjectiveEstimatedPriceViewModel>());
             }
             catch (Exception ex)
             {
@@ -1950,7 +1943,7 @@ namespace Asoode.Business.ProjectManagement
 
                     var projectsWithPlans = await unit.FindProjectsWithPlans(userId, groupIds);
                     if (!projectsWithPlans.Any())
-                        return OperationResult<ProjectViewModel[]>.Success(new ProjectViewModel[0]);
+                        return OperationResult<ProjectViewModel[]>.Success(Array.Empty<ProjectViewModel>());
 
                     var projects = projectsWithPlans.Select(i => i.Item1).ToArray();
                     var projectWorkPackages = await unit.FindWorkPackages(userId, groupIds);
@@ -2002,7 +1995,7 @@ namespace Asoode.Business.ProjectManagement
                         .GroupBy(p => p.Id)
                         .Select(y => y.First())
                         .ToArray();
-                    if (!projects.Any()) return OperationResult<ProjectViewModel[]>.Success(new ProjectViewModel[0]);
+                    if (!projects.Any()) return OperationResult<ProjectViewModel[]>.Success(Array.Empty<ProjectViewModel>());
 
                     var projectIds = projects.Select(i => i.Id).ToArray();
 

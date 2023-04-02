@@ -32,7 +32,6 @@ namespace Asoode.Application.Data.Models
         #endregion
 
         [Required] public Guid UserId { get; set; }
-        public Guid PlanInfoId { get; set; }
         [Required] [MaxLength(2000)] public string Title { get; set; }
         public GroupType Type { get; set; }
         public DateTime? ExpireAt { get; set; }
@@ -40,8 +39,6 @@ namespace Asoode.Application.Data.Models
         public Guid? ParentId { get; set; }
         public Guid RootId { get; set; }
         public int Level { get; set; }
-        
-        public bool Premium { get; set; }
         public bool Complex { get; set; }
     }
 }

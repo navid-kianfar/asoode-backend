@@ -1,30 +1,22 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Asoode.Business.Extensions;
-using Asoode.Business.ProjectManagement;
-using Asoode.Core.Contracts.Collaboration;
-using Asoode.Core.Contracts.General;
-using Asoode.Core.Contracts.Logging;
-using Asoode.Core.Contracts.ProjectManagement;
-using Asoode.Core.Primitives;
-using Asoode.Core.Primitives.Enums;
-using Asoode.Core.ViewModels.Collaboration;
-using Asoode.Core.ViewModels.General;
-using Asoode.Core.ViewModels.Logging;
-using Asoode.Core.ViewModels.ProjectManagement;
-using Asoode.Core.ViewModels.Reports;
-using Asoode.Data.Contexts;
-using Asoode.Data.Models;
-using Asoode.Data.Models.Base;
-using Asoode.Data.Models.Junctions;
+using Asoode.Application.Business.Extensions;
+using Asoode.Application.Business.ProjectManagement;
+using Asoode.Application.Core.Contracts.Collaboration;
+using Asoode.Application.Core.Contracts.General;
+using Asoode.Application.Core.Contracts.Logging;
+using Asoode.Application.Core.Primitives;
+using Asoode.Application.Core.Primitives.Enums;
+using Asoode.Application.Core.ViewModels.Collaboration;
+using Asoode.Application.Core.ViewModels.General;
+using Asoode.Application.Core.ViewModels.Logging;
+using Asoode.Application.Core.ViewModels.Reports;
+using Asoode.Application.Data.Contexts;
+using Asoode.Application.Data.Models;
+using Asoode.Application.Data.Models.Base;
+using Asoode.Application.Data.Models.Junctions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Z.EntityFramework.Plus;
 
-namespace Asoode.Business.Collaboration
+namespace Asoode.Application.Business.Collaboration
 {
     internal class GroupBiz : IGroupBiz
     {
@@ -54,50 +46,7 @@ namespace Asoode.Business.Collaboration
                             .AsNoTracking()
                             .SingleOrDefaultAsync(i => i.Id == model.ParentId);
 
-                    var plan = parent != null
-                        ? await unit.UserPlanInfo.SingleOrDefaultAsync(p => p.Id == parent.PlanInfoId)
-                        : await unit.FindPlan(userId);
-
-                    if (plan == null) return OperationResult<bool>.Rejected();
-
-                    var parsed = await unit.ParseInvite(userId, plan, validation, model.Members);
-
-                    if ((plan.UsedUser + parsed.NewMembers.Length) > plan.Users)
-                        return OperationResult<bool>.OverCapacity();
-
-                    var freePlan = await unit.Plans
-                        .AsNoTracking()
-                        .SingleAsync(i => i.Type == PlanType.Free);
-
-                    var alreadyCreated = await unit.Groups
-                        .AsNoTracking()
-                        .Where(i => i.PlanInfoId == plan.Id)
-                        .ToArrayAsync();
-
-                    foreach (var newMember in parsed.NewMembers)
-                    {
-                        await unit.PlanMembers.AddAsync(new PlanMember
-                        {
-                            Identifier = newMember,
-                            PlanId = plan.Id,
-                        });
-                    }
-
-                    plan.UsedUser += parsed.NewMembers.Length;
-
-                    bool premium;
-                    if (model.Complex)
-                    {
-                        plan.UsedComplexGroup++;
-                        premium = model.ParentId.HasValue ||
-                                  alreadyCreated.Count(g => g.Complex) >= freePlan.ComplexGroup;
-                    }
-                    else
-                    {
-                        plan.UsedSimpleGroup++;
-                        premium = model.ParentId.HasValue ||
-                                  alreadyCreated.Count(g => !g.Complex) >= freePlan.SimpleGroup;
-                    }
+                    var parsed = await unit.ParseInvite(userId, validation, model.Members);
 
                     var groupId = Guid.NewGuid();
                     var group = new Group
@@ -109,9 +58,7 @@ namespace Asoode.Business.Collaboration
                         Description = model.Description.Trim(),
                         Type = model.Complex ? model.Type : GroupType.Team,
                         Complex = model.Complex,
-                        PlanInfoId = plan.Id,
                         Level = 1,
-                        Premium = premium,
                         ParentId = model.ParentId
                     };
                     var postman = _serviceProvider.GetService<IPostmanBiz>();
@@ -208,10 +155,7 @@ namespace Asoode.Business.Collaboration
 
                     var user = await unit.Users.AsNoTracking().SingleAsync(i => i.Id == userId);
                     var group = await unit.Groups.SingleAsync(i => i.Id == groupId);
-                    var plan = await unit.FindPlan(userId);
 
-                    if (group.Complex) plan.UsedComplexGroup--;
-                    else plan.UsedSimpleGroup--;
                     unit.Groups.Remove(group);
                     await unit.Groups.Where(i => i.ParentId == groupId)
                         .UpdateAsync(g => new Group {ParentId = group.ParentId});
@@ -845,7 +789,7 @@ namespace Asoode.Business.Collaboration
                     if (user == null) return OperationResult<GroupViewModel[]>.Rejected();
 
                     var groups = await unit.FindGroupsWithPlans(userId);
-                    if (!groups.Any()) return OperationResult<GroupViewModel[]>.Success(new GroupViewModel[0]);
+                    if (!groups.Any()) return OperationResult<GroupViewModel[]>.Success(Array.Empty<GroupViewModel>());
 
                     var groupIds = groups.Select(i => i.Item1.Id).ToArray();
                     var groupMembers = await (
@@ -923,7 +867,7 @@ namespace Asoode.Business.Collaboration
                         select grp
                     ).Distinct().AsNoTracking().ToArrayAsync();
 
-                    if (!groups.Any()) return OperationResult<GroupViewModel[]>.Success(new GroupViewModel[0]);
+                    if (!groups.Any()) return OperationResult<GroupViewModel[]>.Success(Array.Empty<GroupViewModel>());
 
                     var groupIds = groups.Select(i => i.Id).ToArray();
                     var groupMembers = await (

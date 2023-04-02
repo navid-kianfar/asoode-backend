@@ -6,8 +6,8 @@ public class AccessViewModel
 {
     public AccessViewModel()
     {
-        Groups = new InviteViewModel[0];
-        Members = new InviteViewModel[0];
+        Groups = Array.Empty<InviteViewModel>();
+        Members = Array.Empty<InviteViewModel>();
     }
 
     public InviteViewModel[] Groups { get; set; }

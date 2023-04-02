@@ -26,14 +26,14 @@ public class WorkPackageViewModel : BaseViewModel
         PermissionEditList = true;
         PermissionCreateList = true;
 
-        Members = new WorkPackageMemberViewModel[0];
-        Objectives = new WorkPackageObjectiveViewModel[0];
-        Lists = new WorkPackageListViewModel[0];
-        Tasks = new WorkPackageTaskViewModel[0];
-        Labels = new WorkPackageLabelViewModel[0];
-        CustomFields = new WorkPackageCustomFieldViewModel[0];
-        CustomFieldsItems = new WorkPackageCustomFieldItemViewModel[0];
-        Pending = new PendingInvitationViewModel[0];
+        Members = Array.Empty<WorkPackageMemberViewModel>();
+        Objectives = Array.Empty<WorkPackageObjectiveViewModel>();
+        Lists = Array.Empty<WorkPackageListViewModel>();
+        Tasks = Array.Empty<WorkPackageTaskViewModel>();
+        Labels = Array.Empty<WorkPackageLabelViewModel>();
+        CustomFields = Array.Empty<WorkPackageCustomFieldViewModel>();
+        CustomFieldsItems = Array.Empty<WorkPackageCustomFieldItemViewModel>();
+        Pending = Array.Empty<PendingInvitationViewModel>();
     }
 
     public WorkPackageMemberViewModel[] Members { get; set; }

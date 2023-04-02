@@ -1,11 +1,8 @@
-using System;
-using System.Threading.Tasks;
-using Asoode.Core.Contracts.Storage;
-using Asoode.Core.Primitives;
-using Asoode.Core.ViewModels.Storage;
-using Microsoft.AspNetCore.Http;
+using Asoode.Application.Core.Contracts.Storage;
+using Asoode.Application.Core.Primitives;
+using Asoode.Application.Core.ViewModels.Storage;
 
-namespace Asoode.Business.Storage
+namespace Asoode.Application.Business.Storage
 {
     internal class StorageBiz : IStorageBiz
     {
@@ -36,7 +33,7 @@ namespace Asoode.Business.Storage
             return _uploadProvider.StorageDelete(userId, model);
         }
 
-        public Task<OperationResult<UploadResultViewModel>> Upload(Guid userId, IFormFile file,
+        public Task<OperationResult<UploadResultViewModel>> Upload(Guid userId, UploadedFileViewModel file,
             FileManagerViewModel model)
         {
             return _uploadProvider.StorageUpload(userId, file, model);

@@ -19,27 +19,7 @@ namespace Asoode.Background
             {
                 try
                 {
-                    var configuration = scope.ServiceProvider.GetService<IConfiguration>();
-                    var serverInfo = scope.ServiceProvider.GetService<IServerInfo>();
-                    serverInfo.IsDevelopment = scope.ServiceProvider.GetService<IWebHostEnvironment>().IsDevelopment();
-                    serverInfo.RootPath = configuration.GetValue<string>(WebHostDefaults.ContentRootKey);
-
-                    if (serverInfo.IsDevelopment)
-                    {
-                        serverInfo.ContentRootPath = Path.Combine(serverInfo.RootPath, "../Asoode.Backend/wwwroot");
-                        serverInfo.FilesRootPath = Path.Combine(serverInfo.ContentRootPath, "storage");
-                        serverInfo.I18nRootPath = Path.Combine(serverInfo.RootPath, "../Asoode.Backend/I18n");
-                        serverInfo.EmailsRootPath = Path.Combine(serverInfo.RootPath, "../Asoode.Backend/templates/email");
-                        serverInfo.SmsRootPath = Path.Combine(serverInfo.RootPath, "../Asoode.Backend/templates/sms");
-                    }
-                    else
-                    {
-                        serverInfo.ContentRootPath = Path.Combine(serverInfo.RootPath, "../api/wwwroot");
-                        serverInfo.FilesRootPath = Path.Combine(serverInfo.ContentRootPath, "storage");
-                        serverInfo.I18nRootPath = Path.Combine(serverInfo.RootPath, "../api/I18n");
-                        serverInfo.EmailsRootPath = Path.Combine(serverInfo.RootPath, "../api/templates/email");
-                        serverInfo.SmsRootPath = Path.Combine(serverInfo.RootPath, "../api/templates/sms");
-                    }
+                    
                 }
                 catch (Exception ex)
                 {

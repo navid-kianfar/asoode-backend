@@ -1,34 +1,20 @@
-using Asoode.Core.Contracts.Storage;
-using Asoode.Core.ViewModels.Storage;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
-using System.Net;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Amazon;
-using Amazon.S3;
-using Amazon.S3.Model;
-using Asoode.Business.ProjectManagement;
-using Asoode.Core.Contracts.General;
-using Asoode.Core.Contracts.Logging;
-using Asoode.Core.Extensions;
-using Asoode.Core.Helpers;
-using Asoode.Core.Primitives;
-using Asoode.Core.Primitives.Enums;
-using Asoode.Core.ViewModels.ProjectManagement;
-using Asoode.Data.Contexts;
-using Asoode.Data.Models;
-using Microsoft.AspNetCore.Http;
+using Asoode.Application.Core.Contracts.General;
+using Asoode.Application.Core.Contracts.Logging;
+using Asoode.Application.Core.Contracts.Storage;
+using Asoode.Application.Core.Extensions;
+using Asoode.Application.Core.Helpers;
+using Asoode.Application.Core.Primitives;
+using Asoode.Application.Core.Primitives.Enums;
+using Asoode.Application.Core.ViewModels.ProjectManagement;
+using Asoode.Application.Core.ViewModels.Storage;
+using Asoode.Application.Data.Contexts;
+using Asoode.Application.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Xabe.FFmpeg;
 
-namespace Asoode.Business.Storage
+namespace Asoode.Application.Business.Storage
 {
     internal class S3UploadProvider : IUploadProvider
     {

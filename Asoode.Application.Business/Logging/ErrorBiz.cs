@@ -1,21 +1,17 @@
-using Asoode.Core.Contracts.Logging;
-using Asoode.Data.Contexts;
-using Asoode.Data.Models;
-using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Asoode.Application.Business.Extensions;
+using Asoode.Application.Core.Contracts.General;
+using Asoode.Application.Core.Contracts.Logging;
+using Asoode.Application.Core.Primitives;
+using Asoode.Application.Core.ViewModels.General;
 using Asoode.Application.Core.ViewModels.Logging;
-using Asoode.Business.Extensions;
-using Asoode.Core.Contracts.General;
-using Asoode.Core.Primitives;
-using Asoode.Core.ViewModels.General;
-using Asoode.Data.Models.Base;
-using Z.EntityFramework.Plus;
+using Asoode.Application.Data.Contexts;
+using Asoode.Application.Data.Models;
+using Asoode.Application.Data.Models.Base;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Asoode.Business.Logging
+namespace Asoode.Application.Business.Logging
 {
     internal class ErrorBiz : IErrorBiz
     {
@@ -71,49 +67,6 @@ namespace Asoode.Business.Logging
             catch (Exception e)
             {
                 Trace.WriteLine(e.ToString());
-            }
-        }
-
-        public async Task<OperationResult<GridResult<ErrorViewModel>>> AdminErrorsList(Guid userId, GridFilter model)
-        {
-            try
-            {
-                using (var unit = _serviceProvider.GetService<LoggerDbContext>())
-                {
-                    var query = unit.ErrorLogs.OrderByDescending(i => i.CreatedAt);
-                    return await DbHelper.GetPaginatedData(query, tuple =>
-                    {
-                        var (items, startIndex) = tuple;
-                        return items.Select((i, index) =>
-                        {
-                            var vm = i.ToViewModel();
-                            vm.Index = startIndex + index + 1;
-                            return vm;
-                        }).ToArray();
-                    }, model.Page, model.PageSize);
-                }
-            }
-            catch (Exception ex)
-            {
-                await LogException(ex);
-                return OperationResult<GridResult<ErrorViewModel>>.Failed();
-            }
-        }
-
-        public async Task<OperationResult<bool>> AdminErrorsDelete(Guid userId, Guid errorId)
-        {
-            try
-            {
-                using (var unit = _serviceProvider.GetService<LoggerDbContext>())
-                {
-                    await unit.ErrorLogs.Where(i => i.Id == errorId).DeleteAsync();
-                    return OperationResult<bool>.Success(true);
-                }
-            }
-            catch (Exception ex)
-            {
-                await LogException(ex);
-                return OperationResult<bool>.Failed();
             }
         }
     }

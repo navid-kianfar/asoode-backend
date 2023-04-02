@@ -4,8 +4,8 @@ public class ExplorerViewModel
 {
     public ExplorerViewModel()
     {
-        Files = new ExplorerFileViewModel[0];
-        Folders = new ExplorerFolderViewModel[0];
+        Files = Array.Empty<ExplorerFileViewModel>();
+        Folders = Array.Empty<ExplorerFolderViewModel>();
     }
 
     public ExplorerFileViewModel[] Files { get; set; }

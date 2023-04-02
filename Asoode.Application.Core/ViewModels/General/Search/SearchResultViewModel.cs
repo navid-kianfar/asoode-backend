@@ -7,10 +7,10 @@ public class SearchResultViewModel
 {
     public SearchResultViewModel()
     {
-        Members = new MemberInfoViewModel[0];
-        Groups = new GroupViewModel[0];
-        Projects = new ProjectViewModel[0];
-        Tasks = new SearchTaskViewModel[0];
+        Members = Array.Empty<MemberInfoViewModel>();
+        Groups = Array.Empty<GroupViewModel>();
+        Projects = Array.Empty<ProjectViewModel>();
+        Tasks = Array.Empty<SearchTaskViewModel>();
         Storage = new SearchStorageViewModel();
     }
 

@@ -1,19 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Asoode.Core.Contracts.Logging;
-using Asoode.Core.Contracts.TimeSpent;
-using Asoode.Core.Primitives;
-using Asoode.Core.Primitives.Enums;
-using Asoode.Core.ViewModels.ProjectManagement;
-using Asoode.Core.ViewModels.Reports;
-using Asoode.Data.Contexts;
-using Asoode.Data.Models.Base;
+using Asoode.Application.Core.Contracts.Logging;
+using Asoode.Application.Core.Contracts.TimeSpent;
+using Asoode.Application.Core.Primitives;
+using Asoode.Application.Core.Primitives.Enums;
+using Asoode.Application.Core.ViewModels.ProjectManagement;
+using Asoode.Application.Core.ViewModels.Reports;
+using Asoode.Application.Data.Contexts;
+using Asoode.Application.Data.Models.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Asoode.Business.TimeSpent
+namespace Asoode.Application.Business.TimeSpent
 {
     internal class TimeSpentBiz : ITimeSpentBiz
     {

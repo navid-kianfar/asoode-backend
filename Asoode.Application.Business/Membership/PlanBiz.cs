@@ -1,20 +1,7 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Asoode.Business.Extensions;
-using Asoode.Core.Contracts.Logging;
-using Asoode.Core.Contracts.Membership;
-using Asoode.Core.Primitives;
-using Asoode.Core.Primitives.Enums;
-using Asoode.Core.ViewModels.General;
-using Asoode.Core.ViewModels.Membership.Plan;
-using Asoode.Data.Contexts;
-using Asoode.Data.Models;
-using Asoode.Data.Models.Base;
-using Microsoft.EntityFrameworkCore;
+using Asoode.Application.Business.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Asoode.Business.Membership
+namespace Asoode.Application.Business.Membership
 {
     internal class PlanBiz : IPlanBiz
     {

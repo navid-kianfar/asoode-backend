@@ -1,12 +1,8 @@
-using System;
-using System.Threading.Tasks;
-using Asoode.Backend.Engine;
-using Asoode.Backend.Filters;
-using Asoode.Core.Contracts.Membership;
-using Asoode.Core.ViewModels.Membership.Order;
+using Asoode.Servers.Api.Engine;
+using Asoode.Servers.Api.Filters;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Asoode.Backend.Controllers.Membership
+namespace Asoode.Servers.Api.Controllers.Membership
 {
     [Route("v2/orders")]
     public class OrderController : BaseController

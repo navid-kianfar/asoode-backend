@@ -7,10 +7,8 @@ public class OrderViewModel : BaseViewModel
 {
     #region Props
 
-    public Guid? DiscountId { get; set; }
     public OrderStatus Status { get; set; }
     public Guid UserId { get; set; }
-    public Guid PlanId { get; set; }
     public PlanType Type { get; set; }
     public CostUnit Unit { get; set; }
     public bool OneTime { get; set; }

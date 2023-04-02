@@ -6,7 +6,7 @@ namespace Asoode.Application.Core
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection SetupApplicationData(this IServiceCollection services)
+        public static IServiceCollection SetupApplicationCore(this IServiceCollection services)
         {
             services.AddSingleton<IJsonBiz, JsonBiz>();
 

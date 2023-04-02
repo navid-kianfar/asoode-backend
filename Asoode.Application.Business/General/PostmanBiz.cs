@@ -1,18 +1,9 @@
-using Asoode.Core.Contracts.General;
-using Asoode.Data.Models;
+using Asoode.Application.Core.Contracts.General;
+using Asoode.Application.Core.Primitives;
+using Asoode.Application.Core.ViewModels.ProjectManagement;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Asoode.Core.Primitives;
-using Asoode.Core.Primitives.Enums;
-using Asoode.Core.ViewModels.General;
-using Asoode.Core.ViewModels.Membership.Order;
-using Asoode.Core.ViewModels.Payment;
-using Asoode.Core.ViewModels.ProjectManagement;
 
-namespace Asoode.Business.General
+namespace Asoode.Application.Business.General
 {
     internal class PostmanBiz : IPostmanBiz
     {
@@ -74,58 +65,6 @@ namespace Asoode.Business.General
             var id = payload.Id.ToString();
             await _serviceProvider.GetService<IEmailBiz>()
                 .InviteProject(subject, fullName, noneMembers, members, "work-package", id, projectName);
-        }
-
-        public async Task OrderCreated(string planTitle, MemberInfoViewModel user, OrderViewModel order)
-        {
-            if (!string.IsNullOrEmpty(user.Phone))
-            {
-                await _serviceProvider.GetService<ISmsBiz>()
-                    .OrderCreated(planTitle, user, order);
-            }
-            var subject = _serviceProvider.GetService<ITranslateBiz>().Get("ORDER_CREATED");
-            await _serviceProvider.GetService<IEmailBiz>()
-                .OrderCreated(subject, planTitle, user, order);
-        }
-
-        public async Task OrderPaid(MemberInfoViewModel user, OrderViewModel order)
-        {
-            if (!string.IsNullOrEmpty(user.Phone))
-            {
-                await _serviceProvider.GetService<ISmsBiz>()
-                    .OrderPaid(user, order);
-            }
-            var subject = _serviceProvider.GetService<ITranslateBiz>().Get("ORDER_CREATED");
-            await _serviceProvider.GetService<IEmailBiz>()
-                .OrderPaid(subject, user, order);
-        }
-
-        public async Task<OperationResult<bool>> Reply(string email, string message)
-        {
-            var subject = _serviceProvider.GetService<ITranslateBiz>().Get("CONTACT_ANSWERED");
-            return await _serviceProvider.GetService<IEmailBiz>()
-                .Reply(subject, email, message);
-        }
-
-        public async Task<OperationResult<bool>> PhoneChange(string phone, string token)
-        {
-            var smsService = _serviceProvider.GetService<ISmsBiz>();
-            var sms = await smsService.ChangeNumber(token);
-            return await smsService.Send(phone, sms);
-        }
-
-        public async Task<OperationResult<bool>> PhoneConfirmAccount(string phone, string token)
-        {
-            var smsService = _serviceProvider.GetService<ISmsBiz>();
-            var sms = await smsService.Register(token);
-            return await smsService.Send(phone, sms);
-        }
-
-        public async Task<OperationResult<bool>> PhoneForgetPassword(string phone, string token)
-        {
-            var smsService = _serviceProvider.GetService<ISmsBiz>();
-            var content = await smsService.Forget(token);
-            return await smsService.Send(phone, content);
         }
     }
 }

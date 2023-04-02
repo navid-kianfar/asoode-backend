@@ -1,6 +1,6 @@
-using Asoode.Core.Contracts.General;
+using Asoode.Application.Core.Contracts.General;
 
-namespace Asoode.Business.General
+namespace Asoode.Application.Business.General
 {
     internal class CalendarBiz : ICalendarBiz
     {

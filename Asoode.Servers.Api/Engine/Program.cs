@@ -1,13 +1,6 @@
-﻿using Asoode.Core.Contracts.General;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.IO;
-using System.Net;
-using Asoode.Backend.Services;
-using Asoode.Core.Contracts.Membership;
+﻿using System.Net;
+using Asoode.Application.Core.Contracts.General;
+using Asoode.Application.Core.Helpers;
 
 // ReSharper disable once CheckNamespace
 namespace Asoode.Backend
@@ -21,18 +14,8 @@ namespace Asoode.Backend
             {
                 try
                 {
-                    var configuration = scope.ServiceProvider.GetService<IConfiguration>();
-                    var serverInfo = scope.ServiceProvider.GetService<IServerInfo>();
-                    var captchaService = scope.ServiceProvider.GetService<ICaptchaBiz>();
-                    serverInfo.IsDevelopment = scope.ServiceProvider.GetService<IWebHostEnvironment>().IsDevelopment();
-                    serverInfo.RootPath = configuration.GetValue<string>(WebHostDefaults.ContentRootKey);
-                    serverInfo.ContentRootPath = Path.Combine(serverInfo.RootPath, "wwwroot");
-                    serverInfo.FilesRootPath = Path.Combine(serverInfo.ContentRootPath, "storage");
-                    serverInfo.I18nRootPath = Path.Combine(serverInfo.RootPath, "I18n");
-                    serverInfo.EmailsRootPath = Path.Combine(serverInfo.RootPath, "templates/email");
-                    serverInfo.SmsRootPath = Path.Combine(serverInfo.RootPath, "templates/sms");
-                    serverInfo.ReportsRootPath = Path.Combine(serverInfo.RootPath, "templates/reports");
-                    if (serverInfo.IsDevelopment) captchaService.Ignore = true;
+                    var captchaService = scope.ServiceProvider.GetService<ICaptchaBiz>()!;
+                    if (EnvironmentHelper.IsDevelopment()) captchaService.Ignore = true;
                 }
                 catch (Exception ex)
                 {

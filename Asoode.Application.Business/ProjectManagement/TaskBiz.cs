@@ -1,33 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Asoode.Core.Contracts.General;
-using Asoode.Core.Contracts.Logging;
-using Asoode.Core.Contracts.ProjectManagement;
-using Asoode.Core.Contracts.Storage;
-using Asoode.Core.Extensions;
-using Asoode.Core.Helpers;
-using Asoode.Core.Primitives;
-using Asoode.Core.Primitives.Enums;
-using Asoode.Core.ViewModels.General;
-using Asoode.Core.ViewModels.Logging;
-using Asoode.Core.ViewModels.ProjectManagement;
-using Asoode.Core.ViewModels.Reports;
-using Asoode.Core.ViewModels.Storage;
-using Asoode.Data.Contexts;
-using Asoode.Data.Models;
-using Asoode.Data.Models.Base;
-using Asoode.Data.Models.Junctions;
-using Microsoft.AspNetCore.Http;
+using Asoode.Application.Core.Contracts.Logging;
+using Asoode.Application.Core.Contracts.ProjectManagement;
+using Asoode.Application.Core.Contracts.Storage;
+using Asoode.Application.Core.Primitives;
+using Asoode.Application.Core.Primitives.Enums;
+using Asoode.Application.Core.ViewModels.General;
+using Asoode.Application.Core.ViewModels.Logging;
+using Asoode.Application.Core.ViewModels.ProjectManagement;
+using Asoode.Application.Core.ViewModels.Reports;
+using Asoode.Application.Core.ViewModels.Storage;
+using Asoode.Application.Data.Contexts;
+using Asoode.Application.Data.Models;
+using Asoode.Application.Data.Models.Base;
+using Asoode.Application.Data.Models.Junctions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Xabe.FFmpeg;
-using Z.EntityFramework.Plus;
 
-namespace Asoode.Business.ProjectManagement
+namespace Asoode.Application.Business.ProjectManagement
 {
     public class TaskBiz : ITaskBiz
     {

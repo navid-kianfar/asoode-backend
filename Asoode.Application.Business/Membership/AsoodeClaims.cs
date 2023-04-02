@@ -1,7 +1,6 @@
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace Asoode.Business.Membership
+namespace Asoode.Application.Business.Membership
 {
     public static class AsoodeClaims
     {

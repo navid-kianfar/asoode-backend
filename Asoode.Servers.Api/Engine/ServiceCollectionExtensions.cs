@@ -1,4 +1,3 @@
-using Asoode.Backend.Engine;
 using Asoode.Core.Contracts.General;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -14,7 +13,9 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using Asoode.Backend.Services;
+using Asoode.Application.Core.Contracts.General;
+using Asoode.Servers.Api.Engine;
+using Asoode.Servers.Api.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 
@@ -23,9 +24,7 @@ namespace Asoode.Backend
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection SetupApplicationApi(
-            this IServiceCollection services,
-            IConfiguration configuration)
+        public static IServiceCollection SetupApplicationApi(this IServiceCollection services)
         {
             var domain = configuration["Setting:Domain"];
             var issuer = configuration["Setting:Issuer"];
@@ -33,9 +32,7 @@ namespace Asoode.Backend
             var key = Encoding.UTF8.GetBytes(secret);
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-            services.AddSingleton<IServerInfo, ServerInfo>();
             services.AddSingleton<ICaptchaBiz, CaptchaBiz>();
-            services.AddSingleton<IJsonBiz, JsonBiz>();
 
             services
                 .Configure<CookiePolicyOptions>(options =>

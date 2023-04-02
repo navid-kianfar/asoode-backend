@@ -7,13 +7,13 @@ public class WorkPackageTaskViewModel : BaseViewModel
 {
     public WorkPackageTaskViewModel()
     {
-        Members = new WorkPackageTaskMemberViewModel[0];
-        Labels = new WorkPackageTaskLabelViewModel[0];
-        Comments = new WorkPackageTaskCommentViewModel[0];
-        Attachments = new WorkPackageTaskAttachmentViewModel[0];
-        SubTasks = new WorkPackageTaskViewModel[0];
-        Votes = new WorkPackageTaskVoteViewModel[0];
-        TimeSpents = new WorkPackageTaskTimeViewModel[0];
+        Members = Array.Empty<WorkPackageTaskMemberViewModel>();
+        Labels = Array.Empty<WorkPackageTaskLabelViewModel>();
+        Comments = Array.Empty<WorkPackageTaskCommentViewModel>();
+        Attachments = Array.Empty<WorkPackageTaskAttachmentViewModel>();
+        SubTasks = Array.Empty<WorkPackageTaskViewModel>();
+        Votes = Array.Empty<WorkPackageTaskVoteViewModel>();
+        TimeSpents = Array.Empty<WorkPackageTaskTimeViewModel>();
     }
 
     public SortType? SubTasksSort { get; set; }

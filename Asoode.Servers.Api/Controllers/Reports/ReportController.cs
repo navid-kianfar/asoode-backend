@@ -1,12 +1,8 @@
-using System;
-using System.Threading.Tasks;
-using Asoode.Backend.Engine;
-using Asoode.Backend.Filters;
-using Asoode.Core.Contracts.Reports;
-using Asoode.Core.ViewModels.Reports;
+using Asoode.Servers.Api.Engine;
+using Asoode.Servers.Api.Filters;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Asoode.Backend.Controllers.Reports
+namespace Asoode.Servers.Api.Controllers.Reports
 {
     [JwtAuthorize]
     [Route("v2/reports")]

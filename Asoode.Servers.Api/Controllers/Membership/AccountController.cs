@@ -1,19 +1,8 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Asoode.Backend.Engine;
-using Asoode.Backend.Filters;
-using Asoode.Core.Contracts.General;
-using Asoode.Core.Contracts.Membership;
-using Asoode.Core.Helpers;
-using Asoode.Core.ViewModels.General;
-using Asoode.Core.ViewModels.Logging;
-using Asoode.Core.ViewModels.Membership.Authentication;
-using Asoode.Core.ViewModels.Membership.Profile;
+using Asoode.Servers.Api.Engine;
+using Asoode.Servers.Api.Filters;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Asoode.Backend.Controllers.Membership
+namespace Asoode.Servers.Api.Controllers.Membership
 {
     [Route("v2/account")]
     [ApiExplorerSettings(GroupName = "Membership")]

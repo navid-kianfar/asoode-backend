@@ -7,11 +7,11 @@ public class ProjectViewModel : BaseViewModel
 {
     public ProjectViewModel()
     {
-        Seasons = new ProjectSeasonViewModel[0];
-        SubProjects = new SubProjectViewModel[0];
-        WorkPackages = new WorkPackageViewModel[0];
-        Members = new ProjectMemberViewModel[0];
-        Pending = new PendingInvitationViewModel[0];
+        Seasons = Array.Empty<ProjectSeasonViewModel>();
+        SubProjects = Array.Empty<SubProjectViewModel>();
+        WorkPackages = Array.Empty<WorkPackageViewModel>();
+        Members = Array.Empty<ProjectMemberViewModel>();
+        Pending = Array.Empty<PendingInvitationViewModel>();
     }
 
     public int AttachmentSize { get; set; }

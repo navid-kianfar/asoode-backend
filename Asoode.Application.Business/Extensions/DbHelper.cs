@@ -1,11 +1,8 @@
+using Asoode.Application.Core.Primitives;
+using Asoode.Application.Core.ViewModels.General;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Asoode.Core.Primitives;
-using Asoode.Core.ViewModels.General;
 
-namespace Asoode.Business.Extensions
+namespace Asoode.Application.Business.Extensions
 {
     public static class DbHelper
     {
@@ -55,7 +52,7 @@ namespace Asoode.Business.Extensions
         {
             return OperationResult<GridResult<T>>.Success(new GridResult<T>
             {
-                Items = new T[0],
+                Items = Array.Empty<T>(),
                 Page = 1,
                 PageSize = 10,
                 TotalItems = 0,

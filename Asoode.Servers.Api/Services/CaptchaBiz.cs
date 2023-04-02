@@ -1,15 +1,14 @@
-using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
-using Asoode.Core.Contracts.General;
-using Asoode.Core.Extensions;
-using Asoode.Core.Helpers;
-using Asoode.Core.Primitives;
-using Asoode.Core.ViewModels.General;
+using System.Net.Mime;
+using Asoode.Application.Core.Contracts.General;
+using Asoode.Application.Core.Extensions;
+using Asoode.Application.Core.Helpers;
+using Asoode.Application.Core.Primitives;
+using Asoode.Application.Core.ViewModels.General;
 using Color = System.Drawing.Color;
 
-namespace Asoode.Backend.Services
+namespace Asoode.Servers.Api.Services
 {
     public class CaptchaBiz : ICaptchaBiz
     {

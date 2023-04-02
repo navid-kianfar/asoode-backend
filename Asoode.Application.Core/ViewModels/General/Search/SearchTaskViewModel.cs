@@ -7,8 +7,8 @@ public class SearchTaskViewModel : BaseViewModel
 {
     public SearchTaskViewModel()
     {
-        Members = new MemberInfoViewModel[0];
-        Labels = new TaskLabelViewModel[0];
+        Members = Array.Empty<MemberInfoViewModel>();
+        Labels = Array.Empty<TaskLabelViewModel>();
     }
 
     public WorkPackageTaskState State { get; set; }

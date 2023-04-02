@@ -7,7 +7,7 @@ public class GroupCreateViewModel
 {
     public GroupCreateViewModel()
     {
-        Members = new InviteViewModel[0];
+        Members = Array.Empty<InviteViewModel>();
     }
 
     public Guid? ParentId { get; set; }

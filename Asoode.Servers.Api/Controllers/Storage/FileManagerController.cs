@@ -1,17 +1,8 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Asoode.Backend.Engine;
-using Asoode.Backend.Filters;
-using Asoode.Core.Contracts.General;
-using Asoode.Core.Contracts.Storage;
-using Asoode.Core.Helpers;
-using Asoode.Core.Primitives.Enums;
-using Asoode.Core.ViewModels.Storage;
+using Asoode.Servers.Api.Engine;
+using Asoode.Servers.Api.Filters;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Asoode.Backend.Controllers.Storage
+namespace Asoode.Servers.Api.Controllers.Storage
 {
     [JwtAuthorize]
     [Route("v2/files")]

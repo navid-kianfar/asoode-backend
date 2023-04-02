@@ -15,10 +15,6 @@ namespace Asoode.Background
             this IServiceCollection services,
             IConfiguration configuration)
         {
-
-            services.AddSingleton<IServerInfo, ServerInfo>();
-            services.AddSingleton<IJsonBiz, JsonBiz>();
-            // services.AddHostedService<PlanSyncerService>();
             // services.AddHostedService<StorageBackgroundTask>();
             services.AddSingleton<BulkQueue, BulkQueue>();
             services.AddHostedService<UserVerificationService>();
@@ -26,8 +22,6 @@ namespace Asoode.Background
             services.AddHostedService<TaskDuePastService>();
             services.AddHostedService<WorkEntryOverTimeService>();
             services.AddHostedService<TaskOverTimeService>();
-
-            services.AddControllers();
 
             return services;
         }

@@ -1,13 +1,8 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Asoode.Backend.Engine;
-using Asoode.Backend.Filters;
-using Asoode.Core.Contracts.Communication;
-using Asoode.Core.ViewModels.Communication;
+using Asoode.Servers.Api.Engine;
+using Asoode.Servers.Api.Filters;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Asoode.Backend.Controllers.Communication
+namespace Asoode.Servers.Api.Controllers.Communication
 {
     [JwtAuthorize]
     [Route("v2/messenger")]

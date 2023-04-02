@@ -1,16 +1,6 @@
-using Asoode.Core.Contracts.General;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Asoode.Core.Contracts.Logging;
-using Asoode.Core.Primitives;
-using Asoode.Core.ViewModels.General;
-using Asoode.Data.Contexts;
-using Asoode.Data.Models;
-using Microsoft.Extensions.DependencyInjection;
+using Asoode.Application.Core.Contracts.General;
 
-namespace Asoode.Business.General
+namespace Asoode.Application.Business.General
 {
     internal class GeneralBiz : IGeneralBiz
     {

@@ -1,25 +1,9 @@
-using System;
-using System.Net;
 using System.Security.Claims;
-using System.Threading;
-using System.Threading.Tasks;
-using Asoode.Backend.Engine;
-using Asoode.Backend.Filters;
-using Asoode.Core.Contracts.General;
-using Asoode.Core.Contracts.Membership;
-using Asoode.Core.Helpers;
-using Asoode.Core.Primitives.Enums;
+using Asoode.Servers.Api.Engine;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Google;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
-namespace Asoode.Backend.Controllers.Mvc
+namespace Asoode.Servers.Api.Controllers.Mvc
 {
     [Route("oauth")]
     public class OAuthController : BaseController

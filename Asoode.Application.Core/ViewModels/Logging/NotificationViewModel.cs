@@ -6,8 +6,8 @@ public class NotificationViewModel
 {
     public NotificationViewModel()
     {
-        Users = new Guid[0];
-        PushUsers = new PushNotificationViewModel[0];
+        Users = Array.Empty<Guid>();
+        PushUsers = Array.Empty<PushNotificationViewModel>();
     }
 
     public dynamic Data { get; set; }

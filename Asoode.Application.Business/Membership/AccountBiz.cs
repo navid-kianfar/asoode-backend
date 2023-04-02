@@ -1,38 +1,28 @@
-using Asoode.Core.Contracts.General;
-using Asoode.Core.Contracts.Logging;
-using Asoode.Core.Contracts.Membership;
-using Asoode.Core.Contracts.Storage;
-using Asoode.Core.Helpers;
-using Asoode.Core.ViewModels.Logging;
-using Asoode.Core.ViewModels.Membership.Authentication;
-using Asoode.Core.ViewModels.Membership.Profile;
-using Asoode.Data.Contexts;
-using Asoode.Data.Models;
-using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using System.Text;
+using Asoode.Application.Business.Extensions;
+using Asoode.Application.Core.Contracts.General;
+using Asoode.Application.Core.Contracts.Logging;
+using Asoode.Application.Core.Contracts.Membership;
+using Asoode.Application.Core.Contracts.Storage;
+using Asoode.Application.Core.Extensions;
+using Asoode.Application.Core.Helpers;
+using Asoode.Application.Core.Primitives;
+using Asoode.Application.Core.Primitives.Enums;
+using Asoode.Application.Core.ViewModels.General;
+using Asoode.Application.Core.ViewModels.Logging;
+using Asoode.Application.Core.ViewModels.Membership.Authentication;
+using Asoode.Application.Core.ViewModels.Membership.Profile;
+using Asoode.Application.Core.ViewModels.Storage;
+using Asoode.Application.Data.Contexts;
+using Asoode.Application.Data.Models;
+using Asoode.Application.Data.Models.Base;
+using Asoode.Application.Data.Models.Junctions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Logging;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using Asoode.Application.Core.ViewModels.Membership.Profile;
-using Asoode.Business.Extensions;
-using Asoode.Core.Extensions;
-using Asoode.Core.Primitives;
-using Asoode.Core.Primitives.Enums;
-using Asoode.Core.ViewModels.General;
-using Asoode.Core.ViewModels.Storage;
-using Asoode.Data.Models.Base;
-using Asoode.Data.Models.Junctions;
-using Z.EntityFramework.Plus;
 
-namespace Asoode.Business.Membership
+namespace Asoode.Application.Business.Membership
 {
     internal class AccountBiz : IAccountBiz
     {
@@ -53,7 +43,7 @@ namespace Asoode.Business.Membership
                 using (var unit = _serviceProvider.GetService<CollaborationDbContext>())
                 {
                     if (string.IsNullOrEmpty(filter.Search) || string.IsNullOrWhiteSpace(filter.Search))
-                        return OperationResult<SelectableItem<string>[]>.Success(new SelectableItem<string>[0]);
+                        return OperationResult<SelectableItem<string>[]>.Success(Array.Empty<SelectableItem<string>>());
                     
                     var validate = _serviceProvider.GetService<IValidateBiz>();
                     filter.Search = filter.Search.Trim().ToLower().ConvertDigitsToLatin();

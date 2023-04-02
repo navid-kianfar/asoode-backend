@@ -17,10 +17,18 @@
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
       <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+      <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>
       <Content Include="Controllers\.DS_Store" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="I18n\ar.json" />
+      <_ContentIncludedByDefault Remove="I18n\en.json" />
+      <_ContentIncludedByDefault Remove="I18n\fa.json" />
+      <_ContentIncludedByDefault Remove="I18n\fr.json" />
     </ItemGroup>
 
 </Project>

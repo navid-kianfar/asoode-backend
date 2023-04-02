@@ -1,19 +1,12 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Asoode.Core.Contracts.General;
-using Asoode.Core.Primitives;
-using Asoode.Core.ViewModels.Collaboration;
-using Asoode.Core.ViewModels.ProjectManagement;
-using Asoode.Data.Contexts;
-using Asoode.Data.Models;
-using Asoode.Data.Models.Base;
-using Asoode.Data.Models.Junctions;
+using Asoode.Application.Core.Contracts.General;
+using Asoode.Application.Core.ViewModels.Collaboration;
+using Asoode.Application.Data.Contexts;
+using Asoode.Application.Data.Models;
+using Asoode.Application.Data.Models.Base;
+using Asoode.Application.Data.Models.Junctions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.EntityFrameworkCore.Query;
 
-namespace Asoode.Business.ProjectManagement
+namespace Asoode.Application.Business.ProjectManagement
 {
     public static class CollaborationDbContextExtensions
     {
@@ -21,13 +14,10 @@ namespace Asoode.Business.ProjectManagement
         public static async Task<ParsedInviteViewModel> ParseInvite(
             this CollaborationDbContext unit,
             Guid userId, 
-            UserPlanInfo plan, 
             IValidateBiz validation,
             InviteViewModel[] members
         )
         {
-            var planMembers = await unit.FindPlanMembers(plan.Id);
-
             var inviteByEmail = members.Where(m => validation.IsEmail(m.Id)).ToList();
             var inviteById = members.Except(inviteByEmail).ToList();
             var idIdentities = inviteById.Select(i => Guid.Parse(i.Id)).ToArray();
@@ -48,8 +38,7 @@ namespace Asoode.Business.ProjectManagement
             emailIdentities = inviteByEmail.Select(i => i.Id).ToArray();
             idIdentities = inviteById.Select(i => Guid.Parse(i.Id)).ToArray();
 
-            var newMembers = emailIdentities.Concat(inviteById.Select(i => i.Id).ToArray())
-                .Except(planMembers).ToArray();
+            var newMembers = emailIdentities.Concat(inviteById.Select(i => i.Id).ToArray()).ToArray();
 
             return new ParsedInviteViewModel
             {
@@ -88,20 +77,6 @@ namespace Asoode.Business.ProjectManagement
             ).Distinct().AsNoTracking().ToArrayAsync();
             return groups;
         }
-        public static async Task<Tuple<Group, UserPlanInfo>[]> FindGroupsWithPlans(this CollaborationDbContext unit, Guid userId)
-        {
-            var groups = await (
-                from member in unit.GroupMembers
-                join grp in unit.Groups on member.GroupId equals grp.Id
-                join plan in unit.UserPlanInfo on grp.PlanInfoId equals plan.Id
-                where member.UserId == userId &&
-                      !grp.ArchivedAt.HasValue &&
-                      !grp.DeletedAt.HasValue &&
-                      !member.DeletedAt.HasValue
-                select new { Group = grp, Plan = plan }
-            ).Distinct().AsNoTracking().ToArrayAsync();
-            return groups.Select(i => new Tuple<Group, UserPlanInfo>(i.Group, i.Plan)).ToArray();
-        }
         public static async Task<GroupMember[]> FindGroupMembers(this CollaborationDbContext unit, Guid[] groupIds)
         {
             var result = await (
@@ -115,24 +90,10 @@ namespace Asoode.Business.ProjectManagement
             
             return result;
         }
-
-        public static async Task<UserPlanInfo> FindPlan(this CollaborationDbContext unit, Guid userId)
-        {
-            return await unit.UserPlanInfo
-                .OrderByDescending(i => i.CreatedAt)
-                .FirstAsync(g => g.UserId == userId);
-        }
         public static async Task<Group> FindGroup(this CollaborationDbContext unit, Guid groupId, bool skipTracking = false)
         {
             var query = skipTracking ? unit.Groups.AsNoTracking() : unit.Groups;
             return await query.FirstAsync(g => g.Id == groupId);
-        }
-        public static async Task<string[]> FindPlanMembers(this CollaborationDbContext unit, Guid planId)
-        {
-            return await unit.PlanMembers.Where(p => p.PlanId == planId)
-                .AsNoTracking()
-                .Select(i => i.Identifier)
-                .ToArrayAsync();
         }
     }
     
@@ -201,26 +162,6 @@ namespace Asoode.Business.ProjectManagement
                 .ToArray();
             
             return result;
-        }
-        public static async Task<Tuple<Project, UserPlanInfo>[]> FindProjectsWithPlans(this ProjectManagementDbContext unit, Guid userId, Guid[] groupIds)
-        {
-            var result = (await (
-                        from proj in unit.Projects
-                        join member in unit.ProjectMembers on proj.Id equals member.ProjectId
-                        join plan in unit.UserPlanInfo on proj.PlanInfoId equals plan.Id
-                        where (member.RecordId == userId || groupIds.Contains(member.RecordId)) &&
-                              !member.DeletedAt.HasValue && !proj.DeletedAt.HasValue && !proj.ArchivedAt.HasValue
-                        select new { Project = proj, Plan = plan }
-                    )
-                    .Distinct()
-                    .OrderByDescending(p => p.Project.CreatedAt)
-                    .AsNoTracking()
-                    .ToArrayAsync())
-                .GroupBy(p => p.Project.Id)
-                .Select(y => y.First())
-                .ToArray();
-            
-            return result.Select(i => new Tuple<Project, UserPlanInfo>(i.Project, i.Plan)).ToArray();
         }
         public static async Task<Guid[]> FindWorkPackageIds(this ProjectManagementDbContext unit, Guid userId, Guid[] groupIds)
         {
@@ -300,30 +241,14 @@ namespace Asoode.Business.ProjectManagement
             
             return result;
         }
-        public static async Task<UserPlanInfo> FindPlan(this ProjectManagementDbContext unit, Guid userId)
-        {
-            return await unit.UserPlanInfo
-                .OrderByDescending(i => i.CreatedAt)
-                .FirstAsync(g => g.UserId == userId);
-        }
-        public static async Task<string[]> FindPlanMembers(this ProjectManagementDbContext unit, Guid planId)
-        {
-            return await unit.PlanMembers.Where(p => p.PlanId == planId)
-                .AsNoTracking()
-                .Select(i => i.Identifier)
-                .ToArrayAsync();
-        }
 
         public static async Task<ParsedInviteViewModel> ParseInvite(
             this ProjectManagementDbContext unit,
             Guid userId, 
-            UserPlanInfo plan, 
             IValidateBiz validation,
             InviteViewModel[] members
         )
         {
-            var planMembers = await unit.FindPlanMembers(plan.Id);
-
             var inviteByEmail = members.Where(m => validation.IsEmail(m.Id)).ToList();
             var inviteById = members.Except(inviteByEmail).ToList();
             var idIdentities = inviteById.Select(i => Guid.Parse(i.Id)).ToArray();
@@ -344,8 +269,7 @@ namespace Asoode.Business.ProjectManagement
             emailIdentities = inviteByEmail.Select(i => i.Id).ToArray();
             idIdentities = inviteById.Select(i => Guid.Parse(i.Id)).ToArray();
 
-            var newMembers = emailIdentities.Concat(inviteById.Select(i => i.Id).ToArray())
-                .Except(planMembers).ToArray();
+            var newMembers = emailIdentities.Concat(inviteById.Select(i => i.Id).ToArray()).ToArray();
 
             return new ParsedInviteViewModel
             {

@@ -1,15 +1,9 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Asoode.Backend.Engine;
-using Asoode.Backend.Filters;
-using Asoode.Core.Contracts.Import;
-using Asoode.Core.ViewModels.Import.Trello;
+using Asoode.Servers.Api.Engine;
+using Asoode.Servers.Api.Filters;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 
-namespace Asoode.Backend.Controllers.Import
+namespace Asoode.Servers.Api.Controllers.Import
 {
     [JwtAuthorize]
     [Route("v2/import")]

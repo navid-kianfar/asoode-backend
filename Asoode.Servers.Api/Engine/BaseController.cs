@@ -1,15 +1,11 @@
-using Asoode.Business.Membership;
-using Asoode.Core.ViewModels.Membership.Authentication;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.IO;
-using System.Linq;
 using System.Security.Claims;
-using Asoode.Backend.Filters;
-using Asoode.Core.Primitives.Enums;
+using Asoode.Application.Business.Membership;
+using Asoode.Application.Core.Primitives.Enums;
+using Asoode.Application.Core.ViewModels.Membership.Authentication;
+using Asoode.Servers.Api.Filters;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Asoode.Backend.Engine
+namespace Asoode.Servers.Api.Engine
 {
     [Localize]
     public abstract class BaseController : Controller

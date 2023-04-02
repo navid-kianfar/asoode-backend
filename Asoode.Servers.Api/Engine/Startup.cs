@@ -1,13 +1,7 @@
 using System;
-using Asoode.Backend.Services;
-using Asoode.Business;
-using Asoode.Data;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using Asoode.Application.Business;
+using Asoode.Application.Core;
+using Asoode.Application.Data;
 
 // ReSharper disable once CheckNamespace
 namespace Asoode.Backend
@@ -58,9 +52,10 @@ namespace Asoode.Backend
         
         private void ConfigureAllServices(IServiceCollection services, bool development)
         {
-            services.SetupApplicationData(_configuration, development);
-            services.SetupApplicationBusiness(_configuration);
-            services.SetupApplicationApi(_configuration);
+            services.SetupApplicationCore();
+            services.SetupApplicationData();
+            services.SetupApplicationBusiness();
+            services.SetupApplicationApi();
         }
 
     }

@@ -1,7 +1,7 @@
-﻿using Asoode.Core.Primitives.Enums;
+﻿using Asoode.Application.Core.Primitives.Enums;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Asoode.Backend.Filters
+namespace Asoode.Servers.Api.Filters
 {
     public class JwtAuthorizeAttribute : TypeFilterAttribute
     {

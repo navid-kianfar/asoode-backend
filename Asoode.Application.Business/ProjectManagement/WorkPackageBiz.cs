@@ -1,27 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Asoode.Core.Contracts.General;
-using Asoode.Core.Contracts.Logging;
-using Asoode.Core.Contracts.ProjectManagement;
-using Asoode.Core.Contracts.Storage;
-using Asoode.Core.Primitives;
-using Asoode.Core.Primitives.Enums;
-using Asoode.Core.ViewModels.General;
-using Asoode.Core.ViewModels.Import.Taskulu;
-using Asoode.Core.ViewModels.Logging;
-using Asoode.Core.ViewModels.ProjectManagement;
-using Asoode.Data.Contexts;
-using Asoode.Data.Models;
-using Asoode.Data.Models.Base;
-using Asoode.Data.Models.Junctions;
+using Asoode.Application.Core.Contracts.General;
+using Asoode.Application.Core.Contracts.Logging;
+using Asoode.Application.Core.Contracts.ProjectManagement;
+using Asoode.Application.Core.Contracts.Storage;
+using Asoode.Application.Core.Primitives;
+using Asoode.Application.Core.Primitives.Enums;
+using Asoode.Application.Core.ViewModels.General;
+using Asoode.Application.Core.ViewModels.Logging;
+using Asoode.Application.Core.ViewModels.ProjectManagement;
+using Asoode.Application.Data.Contexts;
+using Asoode.Application.Data.Models;
+using Asoode.Application.Data.Models.Base;
+using Asoode.Application.Data.Models.Junctions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Z.EntityFramework.Plus;
 using Task = System.Threading.Tasks.Task;
 
-namespace Asoode.Business.ProjectManagement
+namespace Asoode.Application.Business.ProjectManagement
 {
     internal class WorkPackageBiz : IWorkPackageBiz
     {
@@ -53,46 +47,19 @@ namespace Asoode.Business.ProjectManagement
 
                     var project = await unit.Projects.AsNoTracking().SingleAsync(i => i.Id == projectId);
 
-                    var plan = await unit.UserPlanInfo.FirstAsync(g => g.Id == project.PlanInfoId);
-
-                    if (plan.UsedWorkPackage >= plan.WorkPackage) return OperationResult<bool>.OverCapacity();
-                    if (model.Members.Length > plan.Users) return OperationResult<bool>.OverCapacity();
-
                     var season = model.ParentId.HasValue && await unit.SubProjects
                         .Where(s => s.ProjectId == projectId && s.Id == model.ParentId.Value)
                         .AnyAsync();
 
-                    var parsed = await unit.ParseInvite(userId, plan, validation, model.Members);
-                    if ((plan.UsedUser + parsed.NewMembers.Length) > plan.Users) return OperationResult<bool>.OverCapacity();
-
-                    foreach (var newMember in parsed.NewMembers)
-                    {
-                        await unit.PlanMembers.AddAsync(new PlanMember
-                        {
-                            Identifier = newMember,
-                            PlanId = plan.Id,
-                        });
-                    }
-
-                    plan.UsedUser += parsed.NewMembers.Length;
-                    plan.UsedWorkPackage++;
+                    var parsed = await unit.ParseInvite(userId, validation, model.Members);
 
                     var projectMembers = await unit.ProjectMembers
                         .Where(i => i.ProjectId == projectId)
                         .Select(i => i.RecordId)
                         .ToArrayAsync();
 
-                    var freePlan = await unit.Plans
-                        .AsNoTracking()
-                        .SingleAsync(i => i.Type == PlanType.Free);
-
-                    var alreadyCreated = await unit.Projects
-                        .AsNoTracking()
-                        .Where(i => i.PlanInfoId == plan.Id && !i.Complex)
-                        .CountAsync();
-                    
                     var groupNames = new List<string>();
-                    var workPackageLabels = new WorkPackageLabel[0];
+                    var workPackageLabels = Array.Empty<WorkPackageLabel>();
                     var workPackageLists = new List<WorkPackageList>();
                     var workPackage = new WorkPackage
                     {
@@ -117,7 +84,6 @@ namespace Asoode.Business.ProjectManagement
                         Color = AsoodeColors.Default.Value,
                         DarkColor = AsoodeColors.Default.Dark,
                         SubProjectId = season ? model.ParentId : null,
-                        Premium = alreadyCreated >= freePlan.WorkPackage
                     };
 
 
@@ -643,13 +609,6 @@ namespace Asoode.Business.ProjectManagement
                         ).ToArrayAsync();
 
                     unit.PendingInvitations.Remove(access);
-                    if (anyOtherPendingInvitations.Length == 1)
-                    {
-                        var planInfo = await unit.FindPlan(planOwnerId);
-                        planInfo.UsedUser--;
-                    }
-
-                    unit.PendingInvitations.Remove(access);
                     await unit.SaveChangesAsync();
 
                     await _serviceProvider.GetService<IActivityBiz>().Enqueue(new ActivityLogViewModel
@@ -714,21 +673,8 @@ namespace Asoode.Business.ProjectManagement
 
                     var postman = _serviceProvider.GetService<IPostmanBiz>();
                     var validation = _serviceProvider.GetService<IValidateBiz>();
-                    var plan = await unit.FindPlan(project.UserId);
 
-                    var parsed = await unit.ParseInvite(userId, plan, validation, model.Members);
-                    if ((plan.UsedUser + parsed.NewMembers.Length) > plan.Users) return OperationResult<bool>.OverCapacity();
-
-                    foreach (var newMember in parsed.NewMembers)
-                    {
-                        await unit.PlanMembers.AddAsync(new PlanMember
-                        {
-                            Identifier = newMember,
-                            PlanId = plan.Id,
-                        });
-                    }
-
-                    plan.UsedUser += parsed.NewMembers.Length;
+                    var parsed = await unit.ParseInvite(userId, validation, model.Members);
                     var workPackagePermissions = new List<WorkPackageMember>();
                     if (model.Groups.Any())
                     {
@@ -868,7 +814,7 @@ namespace Asoode.Business.ProjectManagement
                     if (!isMember && workPackage.UserId != userId)
                         return OperationResult<WorkPackageViewModel>.Rejected();
 
-                    Guid[] hidden = new Guid[0];
+                    Guid[] hidden = Array.Empty<Guid>();
                     var access = workPackage.UserId == userId
                         ? AccessType.Owner
                         : GetPackageHighestAccess(userId, groupMembers, workPackageMembers);
@@ -949,7 +895,7 @@ namespace Asoode.Business.ProjectManagement
                         await unit.SaveChangesAsync();
                     }
 
-                    var userInTasks = new Guid[0];
+                    var userInTasks = Array.Empty<Guid>();
                     if (filter.Mine)
                     {
                         userInTasks = await unit.WorkPackageTaskMember.Where(i =>
@@ -959,7 +905,7 @@ namespace Asoode.Business.ProjectManagement
                             .ToArrayAsync();
                     }
 
-                    var taskWithLabels = new Guid[0];
+                    var taskWithLabels = Array.Empty<Guid>();
                     var requireLabelFilter = filter.Labels.Values.Any(i => i);
                     if (requireLabelFilter)
                     {
