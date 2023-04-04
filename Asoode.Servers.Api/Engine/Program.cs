@@ -7,44 +7,20 @@ namespace Asoode.Backend
 {
     public static class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            var host = BuildWebHost(args);
-            using (var scope = host.Services.CreateScope())
-            {
-                try
-                {
-                    var captchaService = scope.ServiceProvider.GetService<ICaptchaBiz>()!;
-                    if (EnvironmentHelper.IsDevelopment()) captchaService.Ignore = true;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-            }
+            Console.Title = "Asoode API Server";
 
-            host.Run();
-        }
-
-        private static IHost BuildWebHost(string[] args)
-        {
-            var config = new ConfigurationBuilder().AddCommandLine(args).Build();
-            var ip = config.GetValue<string>("ip") ?? "0.0.0.0";
-            var httpPort = config.GetValue<int?>("port") ?? 5000;
-            return Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.ConfigureAppConfiguration((hostingContext, cfg) =>
-                        {
-                            cfg.AddJsonFile("appSetting.json", false, false);
-                        })
-                        .UseKestrel(options =>
-                        {
-                            options.Limits.MaxRequestBodySize = 1048576000; //1024MB
-                            options.Listen(IPAddress.Parse(ip), httpPort);
-                        })
-                        .UseStartup<Startup>();
-                }).Build();
+            var appIp = EnvironmentHelper.Get("APP_IP")!;
+            var appPort = EnvironmentHelper.Get("APP_PORT")!;
+            var builder = WebApplication.CreateBuilder(args);
+            if (!EnvironmentHelper.IsTest())
+                builder.WebHost.UseUrls($"http://{appIp}:{appPort}");
+            builder.Services.AddAppServices(builder);
+            var app = builder.Build();
+            app.UseAppServices();
+            if (EnvironmentHelper.IsTest()) await app.RunAsync();
+            else await app.RunAsync();
         }
     }
 }

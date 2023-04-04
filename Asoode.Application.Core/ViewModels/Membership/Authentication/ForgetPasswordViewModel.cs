@@ -4,8 +4,7 @@ using Asoode.Application.Core.ViewModels.General;
 
 namespace Asoode.Application.Core.ViewModels.Membership.Authentication;
 
-public class ForgetPasswordViewModel : ICaptchaChallenge
+public class ForgetPasswordViewModel
 {
     [Required] public string Username { get; set; }
-    public CaptchaChallengeViewModel Captcha { get; set; }
 }

@@ -13,7 +13,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.4" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.4" />
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.4" />
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
       <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
@@ -29,6 +31,10 @@
       <_ContentIncludedByDefault Remove="I18n\en.json" />
       <_ContentIncludedByDefault Remove="I18n\fa.json" />
       <_ContentIncludedByDefault Remove="I18n\fr.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Services" />
     </ItemGroup>
 
 </Project>

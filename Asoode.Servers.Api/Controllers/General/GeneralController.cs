@@ -35,12 +35,12 @@ namespace Asoode.Servers.Api.Controllers.General
             return Json(op);
         }
 
-        [ValidateModel]
-        [HttpPost("contact")]
-        public async Task<IActionResult> Contact([FromBody] ContactViewModel model)
-        {
-            var op = await _serviceProvider.GetService<IContactBiz>().Contact(model);
-            return Json(op);
-        }
+        // [ValidateModel]
+        // [HttpPost("contact")]
+        // public async Task<IActionResult> Contact([FromBody] ContactViewModel model)
+        // {
+        //     var op = await _serviceProvider.GetService<IContactBiz>().Contact(model);
+        //     return Json(op);
+        // }
     }
 }

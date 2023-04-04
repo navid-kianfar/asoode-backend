@@ -1,10 +1,8 @@
 ﻿{
   "profiles": {
-    "Asoode.Servers.Api": {
+    "Asoode.Servers.Background": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": true,
-      "applicationUrl": "http://localhost:5020",
       "environmentVariables": {
         "APP_BUILD": "1.0.0",
         "APP_ENVIRONMENT": "Development",
@@ -15,8 +13,6 @@
         "APP_AUTH_ISSUER": "ASOODE",
         "APP_AUTH_SECRET": "Z56zUe7VnKJSjCZkncwarxXjLdgek3fQ5rxULDybh7",
         "APP_AUTH_SALT": "5Jc6D2zTDrKbLs55SC6BrkfUfYCMfvfyN8fzUZ4TkL9SGeMkyd",
-        "GOOGLE_AUTH_ID": "",
-        "GOOGLE_AUTH_SECRET": "",
         
         "APP_DB_SERVER": "localhost",
         "APP_DB_PORT": "3306",

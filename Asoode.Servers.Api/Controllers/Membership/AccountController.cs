@@ -163,7 +163,6 @@ namespace Asoode.Servers.Api.Controllers.Membership
         }
 
         [ValidateModel]
-        [ValidateCaptcha]
         [HttpPost("password/forget")]
         public async Task<IActionResult> ForgetPassword([FromBody] ForgetPasswordViewModel model)
         {
@@ -172,7 +171,6 @@ namespace Asoode.Servers.Api.Controllers.Membership
         }
 
         [ValidateModel]
-        [ValidateCaptcha]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequestViewModel model)
         {
@@ -205,7 +203,6 @@ namespace Asoode.Servers.Api.Controllers.Membership
         }
 
         [ValidateModel]
-        [ValidateCaptcha]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequestViewModel model)
         {
