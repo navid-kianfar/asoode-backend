@@ -29,16 +29,16 @@ namespace Asoode.Application.Business
             this IServiceCollection services)
         {
             
+            // services.AddTransient<IActivityBiz, ActivityBiz>();
+            // services.AddTransient<IUploadProvider, S3UploadProvider>();
             services.AddSingleton<IQueueClient, QueueClient>();
             services.AddSingleton<IValidateBiz, ValidateBiz>();
             services.AddSingleton<IGeneralBiz, GeneralBiz>();
-            services.AddTransient<IUploadProvider, S3UploadProvider>();
+            services.AddTransient<IStorageBiz, StorageBiz>();
             services.AddTransient<ITrelloBiz, TrelloBiz>();
             services.AddTransient<ITaskBiz, TaskBiz>();
             services.AddTransient<IWorkPackageBiz, WorkPackageBiz>();
-            services.AddTransient<IStorageBiz, StorageBiz>();
             services.AddTransient<IMessengerBiz, MessengerBiz>();
-            services.AddTransient<IActivityBiz, ActivityBiz>();
             services.AddTransient<IErrorBiz, ErrorBiz>();
             services.AddTransient<IAccountBiz, AccountBiz>();
             services.AddTransient<IReportBiz, ReportBiz>();

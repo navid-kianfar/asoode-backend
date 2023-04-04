@@ -61,7 +61,7 @@ namespace Asoode.Application.Business.Collaboration
                         Level = 1,
                         ParentId = model.ParentId
                     };
-                    var postman = _serviceProvider.GetService<IPostmanBiz>();
+                    // var postman = _serviceProvider.GetService<IPostmanBiz>();
                     var groupPermissions = new List<GroupMember>
                     {
                         new GroupMember
@@ -129,9 +129,10 @@ namespace Asoode.Application.Business.Collaboration
                         UserIds = groupPermissions.Select(p => p.UserId).ToArray()
                     });
 
-#pragma warning disable 4014
-                    Task.Run(() => postman.InviteGroup(user.FullName, parsed.EmailIdentities, mapped, group.Id, group.Title));
-#pragma warning restore 4014
+                    // TODO: send to queue for background service
+// #pragma warning disable 4014
+//                     Task.Run(() => postman.InviteGroup(user.FullName, parsed.EmailIdentities, mapped, group.Id, group.Title));
+// #pragma warning restore 4014
                     return OperationResult<bool>.Success(true);
                 }
             }
@@ -148,39 +149,40 @@ namespace Asoode.Application.Business.Collaboration
             {
                 using (var unit = _serviceProvider.GetService<CollaborationDbContext>())
                 {
-                    var accessCheck = await unit.GroupMembers
-                        .Where(i => i.GroupId == groupId && i.UserId == userId && i.Access == AccessType.Owner)
-                        .AnyAsync();
-                    if (!accessCheck) return OperationResult<bool>.Rejected();
-
-                    var user = await unit.Users.AsNoTracking().SingleAsync(i => i.Id == userId);
-                    var group = await unit.Groups.SingleAsync(i => i.Id == groupId);
-
-                    unit.Groups.Remove(group);
-                    await unit.Groups.Where(i => i.ParentId == groupId)
-                        .UpdateAsync(g => new Group {ParentId = group.ParentId});
-                    await unit.ProjectMembers.Where(i => i.RecordId == groupId).DeleteAsync();
-                    await unit.WorkPackageMembers.Where(i => i.RecordId == groupId).DeleteAsync();
-                    await unit.WorkPackageTaskMember.Where(i => i.RecordId == groupId).DeleteAsync();
-                    await unit.WorkingTimes.Where(i => i.GroupId == groupId).DeleteAsync();
-                    await unit.Shifts.Where(i => i.GroupId == groupId).DeleteAsync();
-                    await unit.TimeOffs.Where(i => i.GroupId == groupId).DeleteAsync();
-                    await unit.Channels.Where(i => i.Id == groupId).DeleteAsync();
-                    await unit.Conversations.Where(i => i.ChannelId == groupId).DeleteAsync();
-                    await unit.PendingInvitations.Where(i => i.RecordId == groupId).DeleteAsync();
-
-                    // TODO: remove chat attachments and add to plan
-                    await unit.SaveChangesAsync();
-
-                    await _serviceProvider.GetService<IActivityBiz>().Enqueue(new ActivityLogViewModel
-                    {
-                        Type = ActivityType.GroupRemove,
-                        UserId = userId,
-                        Group = group.ToViewModel(),
-                        User = user.ToViewModel()
-                    });
-
-                    await unit.GroupMembers.Where(i => i.GroupId == groupId).DeleteAsync();
+                    // TODO: refactor
+                    // var accessCheck = await unit.GroupMembers
+                    //     .Where(i => i.GroupId == groupId && i.UserId == userId && i.Access == AccessType.Owner)
+                    //     .AnyAsync();
+                    // if (!accessCheck) return OperationResult<bool>.Rejected();
+                    //
+                    // var user = await unit.Users.AsNoTracking().SingleAsync(i => i.Id == userId);
+                    // var group = await unit.Groups.SingleAsync(i => i.Id == groupId);
+                    //
+                    // unit.Groups.Remove(group);
+                    // await unit.Groups.Where(i => i.ParentId == groupId)
+                    //     .UpdateAsync(g => new Group {ParentId = group.ParentId});
+                    // await unit.ProjectMembers.Where(i => i.RecordId == groupId).DeleteAsync();
+                    // await unit.WorkPackageMembers.Where(i => i.RecordId == groupId).DeleteAsync();
+                    // await unit.WorkPackageTaskMember.Where(i => i.RecordId == groupId).DeleteAsync();
+                    // await unit.WorkingTimes.Where(i => i.GroupId == groupId).DeleteAsync();
+                    // await unit.Shifts.Where(i => i.GroupId == groupId).DeleteAsync();
+                    // await unit.TimeOffs.Where(i => i.GroupId == groupId).DeleteAsync();
+                    // await unit.Channels.Where(i => i.Id == groupId).DeleteAsync();
+                    // await unit.Conversations.Where(i => i.ChannelId == groupId).DeleteAsync();
+                    // await unit.PendingInvitations.Where(i => i.RecordId == groupId).DeleteAsync();
+                    //
+                    // // TODO: remove chat attachments and add to plan
+                    // await unit.SaveChangesAsync();
+                    //
+                    // await _serviceProvider.GetService<IActivityBiz>().Enqueue(new ActivityLogViewModel
+                    // {
+                    //     Type = ActivityType.GroupRemove,
+                    //     UserId = userId,
+                    //     Group = group.ToViewModel(),
+                    //     User = user.ToViewModel()
+                    // });
+                    //
+                    // await unit.GroupMembers.Where(i => i.GroupId == groupId).DeleteAsync();
                     return OperationResult<bool>.Success(true);
                 }
             }
@@ -296,25 +298,10 @@ namespace Asoode.Application.Business.Collaboration
 
                     var group = await unit.Groups.AsNoTracking().SingleAsync(g => g.Id == groupId);
 
-                    var plan = await unit.FindPlan(group.UserId);
-                    var postman = _serviceProvider.GetService<IPostmanBiz>();
                     var validation = _serviceProvider.GetService<IValidateBiz>();
 
-                    var parsed = await unit.ParseInvite(userId, plan, validation, model.Members);
-
-                    if ((plan.UsedUser + parsed.NewMembers.Length) > plan.Users)
-                        return OperationResult<bool>.OverCapacity();
-
-                    foreach (var newMember in parsed.NewMembers)
-                    {
-                        await unit.PlanMembers.AddAsync(new PlanMember
-                        {
-                            Identifier = newMember,
-                            PlanId = plan.Id,
-                        });
-                    }
-
-                    plan.UsedUser += parsed.NewMembers.Length;
+                    var parsed = await unit.ParseInvite(userId, validation, model.Members);
+                    
                     var groupPermissions = new List<GroupMember>();
                     foreach (var invite in parsed.InviteById)
                     {
@@ -363,10 +350,11 @@ namespace Asoode.Application.Business.Collaboration
                         UserIds = groupPermissions.Select(p => p.UserId).ToArray(),
                     });
 
-#pragma warning disable 4014
-                    Task.Run(() =>
-                        postman.InviteGroup(user.FullName, parsed.EmailIdentities, mapped, group.Id, group.Title));
-#pragma warning restore 4014
+                    // TODO: send to background
+// #pragma warning disable 4014
+//                     Task.Run(() =>
+//                         postman.InviteGroup(user.FullName, parsed.EmailIdentities, mapped, group.Id, group.Title));
+// #pragma warning restore 4014
                     return OperationResult<bool>.Success(true);
                 }
             }
@@ -418,11 +406,6 @@ namespace Asoode.Application.Business.Collaboration
                         ).ToArrayAsync();
 
                     access.DeletedAt = null;
-                    if (anyOtherPendingInvitations.Length == 1)
-                    {
-                        var planInfo = await unit.FindPlan(planOwnerId);
-                        planInfo.UsedUser--;
-                    }
 
                     await unit.SaveChangesAsync();
                     await _serviceProvider.GetService<IActivityBiz>().Enqueue(new ActivityLogViewModel
@@ -467,9 +450,10 @@ namespace Asoode.Application.Business.Collaboration
                     //     unit.GroupMembers.RemoveRange(subGroupAccess);
                     // }
 
-                    await unit.UserShifts
-                        .Where(i => i.UserId == access.UserId && i.GroupId == access.GroupId)
-                        .UpdateAsync(u => new UserShift{ DeletedAt = null });
+                    // TODO: use linqtodb
+                    // await unit.UserShifts
+                    //     .Where(i => i.UserId == access.UserId && i.GroupId == access.GroupId)
+                    //     .UpdateAsync(u => new UserShift{ DeletedAt = null });
                     
                     access.DeletedAt = DateTime.UtcNow;
                     await unit.SaveChangesAsync();
@@ -509,15 +493,7 @@ namespace Asoode.Application.Business.Collaboration
                     if (group == null) return OperationResult<bool>.NotFound();
 
                     if (group.Complex) return OperationResult<bool>.Duplicate();
-
-                    var plan = await unit.UserPlanInfo
-                        .SingleOrDefaultAsync(i => i.Id == group.PlanInfoId);
-
-                    if (plan.UsedComplexGroup >= plan.ComplexGroup) return OperationResult<bool>.OverCapacity();
-
-                    plan.UsedComplexGroup++;
-                    plan.UsedSimpleGroup--;
-                    group.Premium = true;
+                    
                     group.Complex = true;
                     group.UpdatedAt = DateTime.UtcNow;
 
@@ -570,14 +546,11 @@ namespace Asoode.Application.Business.Collaboration
                     var group = groups.Single(g => g.Id == groupId);
                     if (group.ParentId.HasValue) return OperationResult<bool>.Duplicate();
 
-                    if (parent.PlanInfoId != group.PlanInfoId) return OperationResult<bool>.Rejected();
-
                     var user = await unit.FindUser(userId);
 
                     group.ParentId = parentId;
                     group.RootId = parent.RootId;
                     group.UpdatedAt = DateTime.UtcNow;
-                    group.Premium = true;
 
                     await unit.SaveChangesAsync();
 
@@ -755,7 +728,6 @@ namespace Asoode.Application.Business.Collaboration
 
                     var groups = await unit.Groups
                         .Where(i =>
-                            i.PlanInfoId == group.PlanInfoId &&
                             !i.ParentId.HasValue &&
                             !i.ArchivedAt.HasValue &&
                             !i.DeletedAt.HasValue &&
@@ -788,10 +760,10 @@ namespace Asoode.Application.Business.Collaboration
                     var user = await unit.FindUser(userId);
                     if (user == null) return OperationResult<GroupViewModel[]>.Rejected();
 
-                    var groups = await unit.FindGroupsWithPlans(userId);
+                    var groups = await unit.FindGroups(userId);
                     if (!groups.Any()) return OperationResult<GroupViewModel[]>.Success(Array.Empty<GroupViewModel>());
 
-                    var groupIds = groups.Select(i => i.Item1.Id).ToArray();
+                    var groupIds = groups.Select(i => i.Id).ToArray();
                     var groupMembers = await (
                             from member in unit.GroupMembers
                             join usr in unit.Users on member.UserId equals usr.Id
@@ -815,11 +787,11 @@ namespace Asoode.Application.Business.Collaboration
                     var result = groups.Select(g =>
                     {
                         var currentAccess = groupMembers
-                            .Single(m => m.Member.GroupId == g.Item1.Id && m.User.Id == userId)
+                            .Single(m => m.Member.GroupId == g.Id && m.User.Id == userId)
                             .Member.Access;
 
                         var pendings = pendingMembers
-                            .Where(p =>  p.RecordId == g.Item1.Id &&
+                            .Where(p =>  p.RecordId == g.Id &&
                             (
                                 (p.Access != AccessType.HiddenEditor) ||
                                 (currentAccess <= AccessType.HiddenEditor)
@@ -827,7 +799,7 @@ namespace Asoode.Application.Business.Collaboration
                             .Select(p => p.ToViewModel())
                             .ToArray();
                         var members = groupMembers
-                            .Where(m => m.Member.GroupId == g.Item1.Id &&
+                            .Where(m => m.Member.GroupId == g.Id &&
                             (
                                 (m.Member.Access != AccessType.HiddenEditor) ||
                                 (currentAccess <= AccessType.HiddenEditor)
@@ -835,7 +807,7 @@ namespace Asoode.Application.Business.Collaboration
                             .OrderByDescending(m => m.Member.CreatedAt)
                             .Select(x => x.Member.ToViewModel(x.User))
                             .ToArray();
-                        return g.Item1.ToViewModel(members, null, pendings, g.Item2.AttachmentSize);
+                        return g.ToViewModel(members, pendings);
                     }).ToArray();
                     return OperationResult<GroupViewModel[]>.Success(result);
                 }
@@ -915,7 +887,7 @@ namespace Asoode.Application.Business.Collaboration
                             .OrderByDescending(m => m.Member.CreatedAt)
                             .Select(x => x.Member.ToViewModel(x.User))
                             .ToArray();
-                        return g.ToViewModel(members, null, pendings);
+                        return g.ToViewModel(members, pendings);
                     }).ToArray();
                     return OperationResult<GroupViewModel[]>.Success(result);
                 }
@@ -949,16 +921,6 @@ namespace Asoode.Application.Business.Collaboration
                         !(access.Access == AccessType.Admin || access.Access == AccessType.Owner))
                         return OperationResult<GroupViewModel>.Rejected();
 
-                    if (group.Premium)
-                    {
-                        // check if account is expired
-                        var plan = await unit.UserPlanInfo.AsNoTracking()
-                            .SingleOrDefaultAsync(i => i.Id == group.PlanInfoId);
-
-                        if (plan.ExpireAt.HasValue && plan.ExpireAt.Value < DateTime.UtcNow)
-                            return OperationResult<GroupViewModel>.Expired();
-                    }
-                    
                     var groupMembers = await (
                         from member in unit.GroupMembers
                         join usr in unit.Users on member.UserId equals usr.Id
@@ -1317,11 +1279,12 @@ namespace Asoode.Application.Business.Collaboration
 
                     if (found == null) return OperationResult<bool>.Rejected();
 
-                    await unit.WorkingTimes.Where(i =>
-                        i.GroupId != id &&
-                        i.UserId == userId &&
-                        i.EndAt == null
-                    ).UpdateAsync(u => new WorkingTime {EndAt = DateTime.UtcNow});
+                    // TODO: use linqtodb
+                    // await unit.WorkingTimes.Where(i =>
+                    //     i.GroupId != id &&
+                    //     i.UserId == userId &&
+                    //     i.EndAt == null
+                    // ).UpdateAsync(u => new WorkingTime {EndAt = DateTime.UtcNow});
                     
                     var entry = await unit.WorkingTimes
                         .Where(i => i.GroupId == id && i.UserId == userId)
@@ -1601,10 +1564,11 @@ namespace Asoode.Application.Business.Collaboration
                         return OperationResult<bool>.Rejected();
                     
                     var now = DateTime.UtcNow;
-                    await unit.Shifts.Where(i => i.Id == shiftId)
-                        .UpdateAsync(u => new Shift{ DeletedAt = now});
-                    await unit.UserShifts.Where(i => i.ShiftId == shiftId)
-                        .UpdateAsync(u => new UserShift{ DeletedAt = now});
+                    // TODO: use linqtodb
+                    // await unit.Shifts.Where(i => i.Id == shiftId)
+                    //     .UpdateAsync(u => new Shift{ DeletedAt = now});
+                    // await unit.UserShifts.Where(i => i.ShiftId == shiftId)
+                    //     .UpdateAsync(u => new UserShift{ DeletedAt = now});
                     return OperationResult<bool>.Success(true);
                 }
             }

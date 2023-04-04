@@ -238,7 +238,6 @@ namespace Asoode.Application.Business.Communication
                             var group = await unit.Groups
                                 .AsNoTracking()
                                 .SingleOrDefaultAsync(i => i.Id == channelId);
-                            planId = group.PlanInfoId;
                             hasAccess = await unit.GroupMembers.AnyAsync(i
                                 => i.GroupId == channelId &&
                                    i.UserId == userId &&
