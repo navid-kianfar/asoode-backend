@@ -1,3 +1,6 @@
+using Asoode.Application.Core.Contracts.General;
+using Asoode.Application.Core.ViewModels.General;
+using Asoode.Application.Core.ViewModels.General.Search;
 using Asoode.Servers.Api.Engine;
 using Asoode.Servers.Api.Filters;
 using Microsoft.AspNetCore.Mvc;
@@ -13,13 +16,6 @@ namespace Asoode.Servers.Api.Controllers.General
         public GeneralController(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-        }
-
-        [HttpPost("captcha")]
-        public IActionResult Captcha()
-        {
-            var result = _serviceProvider.GetService<ICaptchaBiz>().Generate();
-            return Json(result);
         }
 
         [HttpGet("enums")]

@@ -1,3 +1,5 @@
+using Asoode.Application.Core.Contracts.TimeSpent;
+using Asoode.Application.Core.ViewModels.Reports;
 using Asoode.Servers.Api.Engine;
 using Asoode.Servers.Api.Filters;
 using Microsoft.AspNetCore.Mvc;

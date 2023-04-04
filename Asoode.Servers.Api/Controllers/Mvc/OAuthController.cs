@@ -1,4 +1,8 @@
 using System.Security.Claims;
+using Asoode.Application.Core.Contracts.General;
+using Asoode.Application.Core.Contracts.Membership;
+using Asoode.Application.Core.Helpers;
+using Asoode.Application.Core.Primitives.Enums;
 using Asoode.Servers.Api.Engine;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -81,11 +85,7 @@ namespace Asoode.Servers.Api.Controllers.Mvc
                 firstName = info.Principal.FindFirstValue(ClaimTypes.GivenName);
             }
             
-            var marketer = Request.Query["marketer"].ToString();
-            var biz = _serviceProvider.GetService<IAccountBiz>();
-            var result = panel ? 
-                await biz.OAuthAuthentication(email, firstName, lastName, marketer) : 
-                await biz.OAuthAdminAuthentication(email);
+            var result = await _serviceProvider.GetService<IAccountBiz>()!.OAuthAuthentication(email, firstName, lastName);
 
             if (result.Status != OperationResultStatus.Success)
             {
@@ -93,7 +93,7 @@ namespace Asoode.Servers.Api.Controllers.Mvc
                 return;
             }
 
-            var access = _serviceProvider.GetService<IJsonBiz>().Serialize(new
+            var access = _serviceProvider.GetService<IJsonBiz>()!.Serialize(new
             {
                 result.Data.Token,
                 result.Data.Username,

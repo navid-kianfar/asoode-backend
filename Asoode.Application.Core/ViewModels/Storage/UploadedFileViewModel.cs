@@ -4,5 +4,6 @@ public class UploadedFileViewModel
 {
     public Stream FileStream { get; set; }
     public string FileName { get; set; }
-    public int Size { get; set; }
+    public long Size { get; set; }
+    public string ContentType { get; set; }
 }

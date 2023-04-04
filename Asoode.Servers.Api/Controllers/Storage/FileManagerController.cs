@@ -1,4 +1,8 @@
+using Asoode.Application.Core.Contracts.General;
+using Asoode.Application.Core.Contracts.Storage;
+using Asoode.Application.Core.ViewModels.Storage;
 using Asoode.Servers.Api.Engine;
+using Asoode.Servers.Api.Extensions;
 using Asoode.Servers.Api.Filters;
 using Microsoft.AspNetCore.Mvc;
 
@@ -56,7 +60,7 @@ namespace Asoode.Servers.Api.Controllers.Storage
         public async Task<IActionResult> Upload()
         {
             var jsonBiz = _serviceProvider.GetService<IJsonBiz>();
-            var file = Request.Form.Files?.FirstOrDefault();
+            var file = await Request.Form.Files?.FirstOrDefault()?.ToViewModel();
             var model = jsonBiz.Deserialize<FileManagerViewModel>(Request.Form["data"]);
             var op = await _storageBiz.Upload(Identity.UserId, file, model);
             return Json(op);

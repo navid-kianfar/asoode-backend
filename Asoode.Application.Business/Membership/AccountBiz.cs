@@ -1156,7 +1156,7 @@ namespace Asoode.Application.Business.Membership
         }
 
         public async Task<OperationResult<LoginResultViewModel>> OAuthAuthentication(
-            string email, string firstName, string lastName, string marketer)
+            string email, string firstName, string lastName)
         {
             try
             {

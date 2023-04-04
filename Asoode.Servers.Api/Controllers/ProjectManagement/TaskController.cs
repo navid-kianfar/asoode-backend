@@ -1,4 +1,11 @@
+using Asoode.Application.Core.Contracts.ProjectManagement;
+using Asoode.Application.Core.Extensions;
+using Asoode.Application.Core.Primitives.Enums;
+using Asoode.Application.Core.ViewModels.General;
+using Asoode.Application.Core.ViewModels.ProjectManagement;
+using Asoode.Application.Core.ViewModels.Reports;
 using Asoode.Servers.Api.Engine;
+using Asoode.Servers.Api.Extensions;
 using Asoode.Servers.Api.Filters;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,7 +48,7 @@ namespace Asoode.Servers.Api.Controllers.ProjectManagement
         [RequestFormLimits(ValueLengthLimit = int.MaxValue, MultipartBodyLengthLimit = int.MaxValue)]
         public async Task<IActionResult> AddAttachment(Guid id)
         {
-            var file = Request.Form.Files?.FirstOrDefault();
+            var file = await Request.Form.Files?.FirstOrDefault()?.ToViewModel();
             var op = await _taskBiz.AddAttachment(Identity.UserId, id, file);
             return Json(op);
         }
@@ -50,7 +57,7 @@ namespace Asoode.Servers.Api.Controllers.ProjectManagement
         [RequestFormLimits(ValueLengthLimit = int.MaxValue, MultipartBodyLengthLimit = int.MaxValue)]
         public async Task<IActionResult> BulkAttachment(Guid id)
         {
-            var file = Request.Form.Files?.FirstOrDefault();
+            var file = await Request.Form.Files?.FirstOrDefault()?.ToViewModel();
             var op = await _taskBiz.BulkAttachment(Identity.UserId, id, file);
             return Json(op);
         }

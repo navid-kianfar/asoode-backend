@@ -1,4 +1,11 @@
+using Asoode.Application.Core.Contracts.General;
+using Asoode.Application.Core.Contracts.Membership;
+using Asoode.Application.Core.ViewModels.General;
+using Asoode.Application.Core.ViewModels.Logging;
+using Asoode.Application.Core.ViewModels.Membership.Authentication;
+using Asoode.Application.Core.ViewModels.Membership.Profile;
 using Asoode.Servers.Api.Engine;
+using Asoode.Servers.Api.Extensions;
 using Asoode.Servers.Api.Filters;
 using Microsoft.AspNetCore.Mvc;
 
@@ -219,7 +226,7 @@ namespace Asoode.Servers.Api.Controllers.Membership
         public async Task<IActionResult> UpdateProfile()
         {
             var jsonBiz = _serviceProvider.GetService<IJsonBiz>();
-            var file = Request.Form.Files?.FirstOrDefault();
+            var file = await Request.Form.Files?.FirstOrDefault()?.ToViewModel();
             var model = jsonBiz.Deserialize<UserProfileUpdateViewModel>(Request.Form["data"]);
             var op = await _accountBiz.UpdateProfile(Identity.UserId, model, file);
             return Json(op);

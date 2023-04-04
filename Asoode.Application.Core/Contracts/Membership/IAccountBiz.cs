@@ -47,7 +47,7 @@ public interface IAccountBiz
     Task<OperationResult<bool>> UsernameTaken(UsernameViewModel model);
 
     Task<OperationResult<LoginResultViewModel>> OAuthAuthentication(string email, string firstName,
-        string lastName, string marketer);
+        string lastName);
 
     Task<OperationResult<GridResult<UserOrderViewModel>>> Transactions(Guid userId,
         GridFilter filter);

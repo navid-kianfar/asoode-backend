@@ -1,3 +1,7 @@
+using Asoode.Application.Core.Contracts.Collaboration;
+using Asoode.Application.Core.ViewModels.Collaboration;
+using Asoode.Application.Core.ViewModels.General;
+using Asoode.Application.Core.ViewModels.Reports;
 using Asoode.Servers.Api.Engine;
 using Asoode.Servers.Api.Filters;
 using Microsoft.AspNetCore.Mvc;
