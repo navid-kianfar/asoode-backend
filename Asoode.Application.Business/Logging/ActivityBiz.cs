@@ -19,7 +19,7 @@ namespace Asoode.Application.Business.Logging
 
         private readonly ITranslateBiz _translateBiz;
         private readonly IServiceProvider _serviceProvider;
-        private readonly IJsonBiz _jsonBiz;
+        private readonly IJsonService _jsonService;
         private readonly string QueueServer;
         private readonly string QueueUsername;
         private readonly string QueuePassword;
@@ -33,12 +33,12 @@ namespace Asoode.Application.Business.Logging
             ITranslateBiz translateBiz,
             IServiceProvider serviceProvider,
             IConfiguration configuration,
-            IJsonBiz jsonBiz
+            IJsonService jsonService
         )
         {
             _translateBiz = translateBiz;
             _serviceProvider = serviceProvider;
-            _jsonBiz = jsonBiz;
+            _jsonService = jsonService;
             QueueServer = configuration["Setting:MessageQueue:Server"];
             QueueUsername = configuration["Setting:MessageQueue:Username"];
             QueuePassword = configuration["Setting:MessageQueue:Password"];
@@ -1417,8 +1417,8 @@ namespace Asoode.Application.Business.Logging
                     Users = notification.PushUsers
                 }
             };
-            var pushSerialized = _jsonBiz.Serialize(pushData);
-            var socketSerialized = _jsonBiz.Serialize(socketData);
+            var pushSerialized = _jsonService.Serialize(pushData);
+            var socketSerialized = _jsonService.Serialize(socketData);
             try
             {
                 var factory = new ConnectionFactory()

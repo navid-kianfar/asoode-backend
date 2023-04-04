@@ -8,7 +8,7 @@ namespace Asoode.Application.Core
     {
         public static IServiceCollection SetupApplicationCore(this IServiceCollection services)
         {
-            services.AddSingleton<IJsonBiz, JsonBiz>();
+            services.AddSingleton<IJsonService, JsonService>();
 
             return services;
         }

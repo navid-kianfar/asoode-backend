@@ -1,6 +1,6 @@
 namespace Asoode.Application.Core.Contracts.General;
 
-public interface IJsonBiz
+public interface IJsonService
 {
     T Deserialize<T>(string json);
 

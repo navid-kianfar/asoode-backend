@@ -42,7 +42,7 @@ namespace Asoode.Application.Business.Import
                     while (reader.Peek() >= 0) result.AppendLine(await reader.ReadLineAsync());
                 }
 
-                var jsonBiz = _serviceProvider.GetService<IJsonBiz>();
+                var jsonBiz = _serviceProvider.GetService<IJsonService>();
                 var json = result.ToString().Trim();
                 var export = jsonBiz.Deserialize<TrelloExport>(json);
                 if (export == null) return OperationResult<ProjectPrepareViewModel>.Failed();

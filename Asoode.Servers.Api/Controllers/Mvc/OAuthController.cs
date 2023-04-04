@@ -93,7 +93,7 @@ namespace Asoode.Servers.Api.Controllers.Mvc
                 return;
             }
 
-            var access = _serviceProvider.GetService<IJsonBiz>()!.Serialize(new
+            var access = _serviceProvider.GetService<IJsonService>()!.Serialize(new
             {
                 result.Data.Token,
                 result.Data.Username,

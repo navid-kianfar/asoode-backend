@@ -4,11 +4,11 @@ using Newtonsoft.Json.Serialization;
 
 namespace Asoode.Application.Core.Implementation
 {
-    internal class JsonBiz : IJsonBiz
+    internal class JsonService : IJsonService
     {
         private readonly JsonSerializerSettings _settings;
 
-        public JsonBiz()
+        public JsonService()
         {
             _settings = new JsonSerializerSettings
             {

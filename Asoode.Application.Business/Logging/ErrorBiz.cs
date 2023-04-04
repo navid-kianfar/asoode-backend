@@ -17,12 +17,12 @@ namespace Asoode.Application.Business.Logging
     {
         private const string Dash = "---------------------------------------------------";
         private readonly IServiceProvider _serviceProvider;
-        private readonly IJsonBiz _jsonBiz;
+        private readonly IJsonService _jsonService;
 
-        public ErrorBiz(IServiceProvider serviceProvider, IJsonBiz jsonBiz)
+        public ErrorBiz(IServiceProvider serviceProvider, IJsonService jsonService)
         {
             _serviceProvider = serviceProvider;
-            _jsonBiz = jsonBiz;
+            _jsonService = jsonService;
         }
 
         public string ExtractError(Exception ex, ErrorLogPayload payload = null)
@@ -44,7 +44,7 @@ namespace Asoode.Application.Business.Logging
             {
                 builder.Append("\r\n");
                 builder.Append("\r\n");
-                _jsonBiz.Serialize(payload);
+                _jsonService.Serialize(payload);
             }
 
             return builder.ToString();

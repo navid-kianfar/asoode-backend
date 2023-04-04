@@ -225,7 +225,7 @@ namespace Asoode.Servers.Api.Controllers.Membership
         [HttpPost("profile/update")]
         public async Task<IActionResult> UpdateProfile()
         {
-            var jsonBiz = _serviceProvider.GetService<IJsonBiz>();
+            var jsonBiz = _serviceProvider.GetService<IJsonService>();
             var file = await Request.Form.Files?.FirstOrDefault()?.ToViewModel();
             var model = jsonBiz.Deserialize<UserProfileUpdateViewModel>(Request.Form["data"]);
             var op = await _accountBiz.UpdateProfile(Identity.UserId, model, file);

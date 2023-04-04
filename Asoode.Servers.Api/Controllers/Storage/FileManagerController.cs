@@ -59,7 +59,7 @@ namespace Asoode.Servers.Api.Controllers.Storage
         [RequestFormLimits(ValueLengthLimit = int.MaxValue, MultipartBodyLengthLimit = int.MaxValue)]
         public async Task<IActionResult> Upload()
         {
-            var jsonBiz = _serviceProvider.GetService<IJsonBiz>();
+            var jsonBiz = _serviceProvider.GetService<IJsonService>();
             var file = await Request.Form.Files?.FirstOrDefault()?.ToViewModel();
             var model = jsonBiz.Deserialize<FileManagerViewModel>(Request.Form["data"]);
             var op = await _storageBiz.Upload(Identity.UserId, file, model);
