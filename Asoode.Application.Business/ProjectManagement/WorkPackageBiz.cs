@@ -39,7 +39,6 @@ namespace Asoode.Application.Business.ProjectManagement
                     if (checkAccess.Status != OperationResultStatus.Success) return checkAccess;
 
                     var validation = _serviceProvider.GetService<IValidateBiz>();
-                    var translate = _serviceProvider.GetService<ITranslateBiz>();
 
                     var user = await unit.Users
                         .AsNoTracking()
@@ -179,31 +178,31 @@ namespace Asoode.Application.Business.ProjectManagement
                                     new WorkPackageList
                                     {
                                         Order = 1,
-                                        Title = translate.Get("BOARD_TEMPLATES_SAMPLES_DEPARTMENT_1"),
+                                        // Title = translate.Get("BOARD_TEMPLATES_SAMPLES_DEPARTMENT_1"),
                                         PackageId = workPackage.Id,
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 2,
-                                        Title = translate.Get("BOARD_TEMPLATES_SAMPLES_DEPARTMENT_2"),
+                                        // Title = translate.Get("BOARD_TEMPLATES_SAMPLES_DEPARTMENT_2"),
                                         PackageId = workPackage.Id
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 3,
-                                        Title = translate.Get("BOARD_TEMPLATES_SAMPLES_DEPARTMENT_3"),
+                                        // Title = translate.Get("BOARD_TEMPLATES_SAMPLES_DEPARTMENT_3"),
                                         PackageId = workPackage.Id
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 4,
-                                        Title = translate.Get("BOARD_TEMPLATES_SAMPLES_DEPARTMENT_4"),
+                                        // Title = translate.Get("BOARD_TEMPLATES_SAMPLES_DEPARTMENT_4"),
                                         PackageId = workPackage.Id
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 5,
-                                        Title = translate.Get("BOARD_TEMPLATES_SAMPLES_DEPARTMENT_5"),
+                                        // Title = translate.Get("BOARD_TEMPLATES_SAMPLES_DEPARTMENT_5"),
                                         PackageId = workPackage.Id
                                     },
                                 });
@@ -214,28 +213,28 @@ namespace Asoode.Application.Business.ProjectManagement
                                     new WorkPackageList
                                     {
                                         Order = 1,
-                                        Title = translate.Get("BOARD_TEMPLATES_SAMPLES_KANBAN_1"),
+                                        // Title = translate.Get("BOARD_TEMPLATES_SAMPLES_KANBAN_1"),
                                         PackageId = workPackage.Id,
                                         Kanban = WorkPackageTaskState.ToDo
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 2,
-                                        Title = translate.Get("BOARD_TEMPLATES_SAMPLES_KANBAN_2"),
+                                        // Title = translate.Get("BOARD_TEMPLATES_SAMPLES_KANBAN_2"),
                                         PackageId = workPackage.Id,
                                         Kanban = WorkPackageTaskState.InProgress
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 3,
-                                        Title = translate.Get("BOARD_TEMPLATES_SAMPLES_KANBAN_3"),
+                                        // Title = translate.Get("BOARD_TEMPLATES_SAMPLES_KANBAN_3"),
                                         PackageId = workPackage.Id,
                                         Kanban = WorkPackageTaskState.Done
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 4,
-                                        Title = translate.Get("BOARD_TEMPLATES_SAMPLES_KANBAN_4"),
+                                        // Title = translate.Get("BOARD_TEMPLATES_SAMPLES_KANBAN_4"),
                                         PackageId = workPackage.Id,
                                         Kanban = WorkPackageTaskState.Canceled
                                     },
@@ -247,43 +246,43 @@ namespace Asoode.Application.Business.ProjectManagement
                                     new WorkPackageList
                                     {
                                         Order = 1,
-                                        Title = translate.Get("ENUMS_WEEKDAY_SATURDAY"),
+                                        // Title = translate.Get("ENUMS_WEEKDAY_SATURDAY"),
                                         PackageId = workPackage.Id
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 2,
-                                        Title = translate.Get("ENUMS_WEEKDAY_SUNDAY"),
+                                        // Title = translate.Get("ENUMS_WEEKDAY_SUNDAY"),
                                         PackageId = workPackage.Id
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 3,
-                                        Title = translate.Get("ENUMS_WEEKDAY_MONDAY"),
+                                        // Title = translate.Get("ENUMS_WEEKDAY_MONDAY"),
                                         PackageId = workPackage.Id
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 4,
-                                        Title = translate.Get("ENUMS_WEEKDAY_TUESDAY"),
+                                        // Title = translate.Get("ENUMS_WEEKDAY_TUESDAY"),
                                         PackageId = workPackage.Id
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 5,
-                                        Title = translate.Get("ENUMS_WEEKDAY_WEDNESDAY"),
+                                        // Title = translate.Get("ENUMS_WEEKDAY_WEDNESDAY"),
                                         PackageId = workPackage.Id
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 6,
-                                        Title = translate.Get("ENUMS_WEEKDAY_THURSDAY"),
+                                        // Title = translate.Get("ENUMS_WEEKDAY_THURSDAY"),
                                         PackageId = workPackage.Id
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 7,
-                                        Title = translate.Get("ENUMS_WEEKDAY_FRIDAY"),
+                                        // Title = translate.Get("ENUMS_WEEKDAY_FRIDAY"),
                                         PackageId = workPackage.Id
                                     },
                                 });
@@ -325,25 +324,25 @@ namespace Asoode.Application.Business.ProjectManagement
                                         new WorkPackageList
                                         {
                                             Order = 1,
-                                            Title = translate.Get("TEMPLATE_ANIMATION_EP_STORY_REEL"),
+                                            // Title = translate.Get("TEMPLATE_ANIMATION_EP_STORY_REEL"),
                                             PackageId = workPackage.Id
                                         },
                                         new WorkPackageList
                                         {
                                             Order = 2,
-                                            Title = translate.Get("TEMPLATE_ANIMATION_EP_ANIMATE"),
+                                            // Title = translate.Get("TEMPLATE_ANIMATION_EP_ANIMATE"),
                                             PackageId = workPackage.Id
                                         },
                                         new WorkPackageList
                                         {
                                             Order = 3,
-                                            Title = translate.Get("TEMPLATE_ANIMATION_EP_COMPOSITE"),
+                                            // Title = translate.Get("TEMPLATE_ANIMATION_EP_COMPOSITE"),
                                             PackageId = workPackage.Id
                                         },
                                         new WorkPackageList
                                         {
                                             Order = 4,
-                                            Title = translate.Get("TEMPLATE_ANIMATION_EP_EDITING"),
+                                            // Title = translate.Get("TEMPLATE_ANIMATION_EP_EDITING"),
                                             PackageId = workPackage.Id
                                         }
                                     });
@@ -392,10 +391,11 @@ namespace Asoode.Application.Business.ProjectManagement
                         User = user.ToViewModel()
                     });
 
-                    var postman = _serviceProvider.GetService<IPostmanBiz>();
-#pragma warning disable 4014
-                    Task.Run(() => postman.InviteWorkPackage(user.FullName, parsed.EmailIdentities, mapped, viewModel));
-#pragma warning restore 4014
+                    // TODO: send to background
+//                     var postman = _serviceProvider.GetService<IPostmanBiz>();
+// #pragma warning disable 4014
+//                     Task.Run(() => postman.InviteWorkPackage(user.FullName, parsed.EmailIdentities, mapped, viewModel));
+// #pragma warning restore 4014
                     return OperationResult<bool>.Success(true);
                 }
             }
@@ -671,7 +671,6 @@ namespace Asoode.Application.Business.ProjectManagement
                         !existingInvites.Contains(g.Id)
                     ).ToArray();
 
-                    var postman = _serviceProvider.GetService<IPostmanBiz>();
                     var validation = _serviceProvider.GetService<IValidateBiz>();
 
                     var parsed = await unit.ParseInvite(userId, validation, model.Members);
@@ -764,10 +763,11 @@ namespace Asoode.Application.Business.ProjectManagement
                         User = user.ToViewModel()
                     });
 
-#pragma warning disable 4014
-                    Task.Run(() =>
-                        postman.InviteWorkPackage(user.FullName, parsed.EmailIdentities, mapped, viewModel));
-#pragma warning restore 4014
+                    // TODO: send to background
+// #pragma warning disable 4014
+//                     Task.Run(() =>
+//                         postman.InviteWorkPackage(user.FullName, parsed.EmailIdentities, mapped, viewModel));
+// #pragma warning restore 4014
                     return OperationResult<bool>.Success(true);
                 }
             }
@@ -1136,131 +1136,132 @@ namespace Asoode.Application.Business.ProjectManagement
                     await unit.SaveChangesAsync();
 
 
-                    await unit.Conversations
-                        .Where(i => i.ChannelId == workPackageId)
-                        .UpdateAsync(i => new Conversation()
-                        {
-                            ChannelId = destinationId
-                        });
-                    await unit.WorkPackageTaskInteractions
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageTaskInteraction
-                        {
-                            PackageId = destinationId
-                        });
-                    await unit.WorkPackageTaskLabels
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageTaskLabel
-                        {
-                            PackageId = destinationId
-                        });
-                    await unit.WorkPackageTaskMember
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageTaskMember
-                        {
-                            PackageId = destinationId
-                        });
-                    await unit.Channels
-                        .Where(i => i.Id == workPackageId)
-                        .UpdateAsync(i => new Channel
-                        {
-                            ArchivedAt = sourcePackage.ArchivedAt
-                        });
-                    await unit.WorkPackageLabels
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageLabel
-                        {
-                            PackageId = destinationId
-                        });
-                    await unit.WorkPackageLists
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageList
-                        {
-                            PackageId = destinationId
-                        });
-                    await unit.WorkPackageObjectives
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageObjective
-                        {
-                            PackageId = destinationId
-                        });
-                    await unit.WorkPackageTasks
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageTask
-                        {
-                            PackageId = destinationId,
-                            ProjectId = destinationProject.Id
-                        });
-                    await unit.WorkPackageTaskAttachments
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageTaskAttachment()
-                        {
-                            PackageId = destinationId,
-                            ProjectId = destinationProject.Id
-                        });
-                    await unit.WorkPackageTaskBlockers
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageTaskBlocker()
-                        {
-                            PackageId = destinationId,
-                            ProjectId = destinationProject.Id
-                        });
-                    await unit.WorkPackageTaskComments
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageTaskComment()
-                        {
-                            PackageId = destinationId,
-                            ProjectId = destinationProject.Id
-                        });
-                    await unit.WorkPackageRelatedTasks
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageRelatedTask
-                        {
-                            PackageId = destinationId,
-                            ProjectId = destinationProject.Id
-                        });
-                    await unit.WorkPackageTaskCustomFields
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageTaskCustomField
-                        {
-                            PackageId = destinationId,
-                            ProjectId = destinationProject.Id
-                        });
-                    await unit.WorkPackageCustomFields
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageCustomField
-                        {
-                            PackageId = destinationId,
-                            ProjectId = destinationProject.Id
-                        });
-                    await unit.WorkPackageCustomFieldItems
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageCustomFieldItem
-                        {
-                            PackageId = destinationId,
-                            ProjectId = destinationProject.Id
-                        });
-                    await unit.WorkPackageTaskObjectives
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageTaskObjective
-                        {
-                            PackageId = destinationId,
-                            ProjectId = destinationProject.Id
-                        });
-                    await unit.WorkPackageTaskTimes
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageTaskTime()
-                        {
-                            PackageId = destinationId,
-                            ProjectId = destinationProject.Id
-                        });
-                    await unit.WorkPackageTaskVotes
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageTaskVote()
-                        {
-                            PackageId = destinationId,
-                            ProjectId = destinationProject.Id
-                        });
+                    // TODO: use linqtodb
+                    // await unit.Conversations
+                    //     .Where(i => i.ChannelId == workPackageId)
+                    //     .UpdateAsync(i => new Conversation()
+                    //     {
+                    //         ChannelId = destinationId
+                    //     });
+                    // await unit.WorkPackageTaskInteractions
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageTaskInteraction
+                    //     {
+                    //         PackageId = destinationId
+                    //     });
+                    // await unit.WorkPackageTaskLabels
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageTaskLabel
+                    //     {
+                    //         PackageId = destinationId
+                    //     });
+                    // await unit.WorkPackageTaskMember
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageTaskMember
+                    //     {
+                    //         PackageId = destinationId
+                    //     });
+                    // await unit.Channels
+                    //     .Where(i => i.Id == workPackageId)
+                    //     .UpdateAsync(i => new Channel
+                    //     {
+                    //         ArchivedAt = sourcePackage.ArchivedAt
+                    //     });
+                    // await unit.WorkPackageLabels
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageLabel
+                    //     {
+                    //         PackageId = destinationId
+                    //     });
+                    // await unit.WorkPackageLists
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageList
+                    //     {
+                    //         PackageId = destinationId
+                    //     });
+                    // await unit.WorkPackageObjectives
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageObjective
+                    //     {
+                    //         PackageId = destinationId
+                    //     });
+                    // await unit.WorkPackageTasks
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageTask
+                    //     {
+                    //         PackageId = destinationId,
+                    //         ProjectId = destinationProject.Id
+                    //     });
+                    // await unit.WorkPackageTaskAttachments
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageTaskAttachment()
+                    //     {
+                    //         PackageId = destinationId,
+                    //         ProjectId = destinationProject.Id
+                    //     });
+                    // await unit.WorkPackageTaskBlockers
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageTaskBlocker()
+                    //     {
+                    //         PackageId = destinationId,
+                    //         ProjectId = destinationProject.Id
+                    //     });
+                    // await unit.WorkPackageTaskComments
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageTaskComment()
+                    //     {
+                    //         PackageId = destinationId,
+                    //         ProjectId = destinationProject.Id
+                    //     });
+                    // await unit.WorkPackageRelatedTasks
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageRelatedTask
+                    //     {
+                    //         PackageId = destinationId,
+                    //         ProjectId = destinationProject.Id
+                    //     });
+                    // await unit.WorkPackageTaskCustomFields
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageTaskCustomField
+                    //     {
+                    //         PackageId = destinationId,
+                    //         ProjectId = destinationProject.Id
+                    //     });
+                    // await unit.WorkPackageCustomFields
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageCustomField
+                    //     {
+                    //         PackageId = destinationId,
+                    //         ProjectId = destinationProject.Id
+                    //     });
+                    // await unit.WorkPackageCustomFieldItems
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageCustomFieldItem
+                    //     {
+                    //         PackageId = destinationId,
+                    //         ProjectId = destinationProject.Id
+                    //     });
+                    // await unit.WorkPackageTaskObjectives
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageTaskObjective
+                    //     {
+                    //         PackageId = destinationId,
+                    //         ProjectId = destinationProject.Id
+                    //     });
+                    // await unit.WorkPackageTaskTimes
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageTaskTime()
+                    //     {
+                    //         PackageId = destinationId,
+                    //         ProjectId = destinationProject.Id
+                    //     });
+                    // await unit.WorkPackageTaskVotes
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageTaskVote()
+                    //     {
+                    //         PackageId = destinationId,
+                    //         ProjectId = destinationProject.Id
+                    //     });
 
 
                     await _serviceProvider.GetService<IActivityBiz>().Enqueue(new ActivityLogViewModel
@@ -1333,73 +1334,73 @@ namespace Asoode.Application.Business.ProjectManagement
                     package.ProjectId = destination.Id;
 
                     await unit.SaveChangesAsync();
-
-                    await unit.WorkPackageTasks
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageTask
-                        {
-                            ProjectId = projectId
-                        });
-                    await unit.WorkPackageTaskAttachments
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageTaskAttachment()
-                        {
-                            ProjectId = projectId
-                        });
-                    await unit.WorkPackageTaskBlockers
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageTaskBlocker()
-                        {
-                            ProjectId = projectId
-                        });
-                    await unit.WorkPackageTaskComments
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageTaskComment()
-                        {
-                            ProjectId = projectId
-                        });
-                    await unit.WorkPackageRelatedTasks
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageRelatedTask
-                        {
-                            ProjectId = projectId
-                        });
-                    await unit.WorkPackageTaskCustomFields
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageTaskCustomField
-                        {
-                            ProjectId = projectId
-                        });
-                    await unit.WorkPackageCustomFields
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageCustomField
-                        {
-                            ProjectId = projectId
-                        });
-                    await unit.WorkPackageCustomFieldItems
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageCustomFieldItem
-                        {
-                            ProjectId = projectId
-                        });
-                    await unit.WorkPackageTaskObjectives
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageTaskObjective
-                        {
-                            ProjectId = projectId
-                        });
-                    await unit.WorkPackageTaskTimes
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageTaskTime()
-                        {
-                            ProjectId = projectId
-                        });
-                    await unit.WorkPackageTaskVotes
-                        .Where(i => i.PackageId == workPackageId)
-                        .UpdateAsync(i => new WorkPackageTaskVote()
-                        {
-                            ProjectId = projectId
-                        });
+                    // TODO: use linq to db
+                    // await unit.WorkPackageTasks
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageTask
+                    //     {
+                    //         ProjectId = projectId
+                    //     });
+                    // await unit.WorkPackageTaskAttachments
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageTaskAttachment()
+                    //     {
+                    //         ProjectId = projectId
+                    //     });
+                    // await unit.WorkPackageTaskBlockers
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageTaskBlocker()
+                    //     {
+                    //         ProjectId = projectId
+                    //     });
+                    // await unit.WorkPackageTaskComments
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageTaskComment()
+                    //     {
+                    //         ProjectId = projectId
+                    //     });
+                    // await unit.WorkPackageRelatedTasks
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageRelatedTask
+                    //     {
+                    //         ProjectId = projectId
+                    //     });
+                    // await unit.WorkPackageTaskCustomFields
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageTaskCustomField
+                    //     {
+                    //         ProjectId = projectId
+                    //     });
+                    // await unit.WorkPackageCustomFields
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageCustomField
+                    //     {
+                    //         ProjectId = projectId
+                    //     });
+                    // await unit.WorkPackageCustomFieldItems
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageCustomFieldItem
+                    //     {
+                    //         ProjectId = projectId
+                    //     });
+                    // await unit.WorkPackageTaskObjectives
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageTaskObjective
+                    //     {
+                    //         ProjectId = projectId
+                    //     });
+                    // await unit.WorkPackageTaskTimes
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageTaskTime()
+                    //     {
+                    //         ProjectId = projectId
+                    //     });
+                    // await unit.WorkPackageTaskVotes
+                    //     .Where(i => i.PackageId == workPackageId)
+                    //     .UpdateAsync(i => new WorkPackageTaskVote()
+                    //     {
+                    //         ProjectId = projectId
+                    //     });
 
                     await _serviceProvider.GetService<IActivityBiz>().Enqueue(new ActivityLogViewModel
                     {
@@ -1437,12 +1438,6 @@ namespace Asoode.Application.Business.ProjectManagement
 
                     var project = await unit.Projects.SingleAsync(i => i.Id == package.ProjectId);
                     if (project.Complex) return OperationResult<bool>.Rejected();
-
-                    var planInfo = await unit.UserPlanInfo.SingleOrDefaultAsync(i => i.Id == project.PlanInfoId);
-                    if (planInfo == null) return OperationResult<bool>.Rejected();
-
-                    if (planInfo.Project <= planInfo.UsedProject) return OperationResult<bool>.OverCapacity();
-                    planInfo.UsedProject++;
 
                     project.Complex = true;
 
@@ -1488,10 +1483,11 @@ namespace Asoode.Application.Business.ProjectManagement
 
                     var now = result.WorkPackage.ArchivedAt.HasValue ? (DateTime?) null : DateTime.UtcNow;
 
-                    await unit.WorkPackageLists.Where(i => i.PackageId == id)
-                        .UpdateAsync(i => new WorkPackageList {ArchivedAt = now});
-                    await unit.WorkPackageTasks.Where(i => i.PackageId == id)
-                        .UpdateAsync(i => new WorkPackageTask {ArchivedAt = now});
+                    // TODO: use linqtodb
+                    // await unit.WorkPackageLists.Where(i => i.PackageId == id)
+                    //     .UpdateAsync(i => new WorkPackageList {ArchivedAt = now});
+                    // await unit.WorkPackageTasks.Where(i => i.PackageId == id)
+                    //     .UpdateAsync(i => new WorkPackageTask {ArchivedAt = now});
 
                     result.WorkPackage.ArchivedAt = now;
                     if (!result.Project.Complex)
@@ -1568,8 +1564,6 @@ namespace Asoode.Application.Business.ProjectManagement
 
                     var members = groupMembers.Concat(memberIds).Distinct().ToArray();
 
-                    var plan = await unit.FindPlan(userId);
-                    plan.UsedWorkPackage--;
 
                     var attachments = await (
                         from attach in unit.WorkPackageTaskAttachments
@@ -1581,8 +1575,6 @@ namespace Asoode.Application.Business.ProjectManagement
                     if (attachments.Any())
                     {
                         var uploadBiz = _serviceProvider.GetService<IUploadProvider>();
-                        var total = attachments.Select(a => a.Upload.Size).Sum();
-                        plan.UsedSpace -= total;
 
                         var attachs = attachments.Select(i => i.Attachment).ToArray();
                         var uploads = attachments.Select(i => i.Upload).ToArray();
@@ -1601,36 +1593,37 @@ namespace Asoode.Application.Business.ProjectManagement
                     }
 
                     unit.WorkPackageMembers.RemoveRange(packageMembers);
-                    await unit.WorkPackages.Where(i => i.Id == id).DeleteAsync();
-                    await unit.WorkPackageTaskMember.Where(i => i.PackageId == id).DeleteAsync();
-                    await unit.WorkPackageLists.Where(i => i.PackageId == id).DeleteAsync();
-                    await unit.WorkPackageTasks.Where(i => i.PackageId == id).DeleteAsync();
-                    await unit.WorkPackageTaskTimes.Where(i => i.PackageId == id).DeleteAsync();
-                    await unit.WorkPackageTaskBlockers.Where(i => i.PackageId == id).DeleteAsync();
-                    await unit.WorkPackageTaskComments.Where(i => i.PackageId == id).DeleteAsync();
-                    await unit.WorkPackageTaskInteractions.Where(i => i.PackageId == id).DeleteAsync();
-                    await unit.WorkPackageTaskObjectives.Where(i => i.PackageId == id).DeleteAsync();
-                    await unit.WorkPackageTaskVotes.Where(i => i.PackageId == id).DeleteAsync();
-                    await unit.WorkPackageTaskCustomFields.Where(i => i.PackageId == id).DeleteAsync();
-                    await unit.WorkPackageCustomFieldItems.Where(i => i.PackageId == id).DeleteAsync();
-                    await unit.WorkPackageCustomFields.Where(i => i.PackageId == id).DeleteAsync();
-                    await unit.WorkPackageTaskLabels.Where(i => i.PackageId == id).DeleteAsync();
-                    await unit.WorkPackageRelatedTasks.Where(i => i.PackageId == id).DeleteAsync();
-                    await unit.PendingInvitations.Where(i => i.RecordId == id).DeleteAsync();
-
-                    await unit.Channels.Where(i => i.Id == id).DeleteAsync();
-                    await unit.Conversations.Where(i => i.ChannelId == id).DeleteAsync();
-                    await unit.WorkPackageObjectives.Where(i => i.PackageId == id).DeleteAsync();
-
-                    if (!found.Project.Complex)
-                    {
-                        await unit.Conversations.Where(i => i.ChannelId == found.Project.Id).DeleteAsync();
-                        await unit.Channels.Where(i => i.Id == found.Project.Id).DeleteAsync();
-                        await unit.Projects.Where(i => i.Id == found.Project.Id).DeleteAsync();
-                        await unit.ProjectMembers.Where(i => i.ProjectId == found.Project.Id).DeleteAsync();
-                        await unit.WorkPackageTaskTimes.Where(i => i.ProjectId == found.Project.Id).DeleteAsync();
-                        await unit.PendingInvitations.Where(i => i.RecordId == found.Project.Id).DeleteAsync();
-                    }
+                    // TODO: use linqtodb
+                    // await unit.WorkPackages.Where(i => i.Id == id).DeleteAsync();
+                    // await unit.WorkPackageTaskMember.Where(i => i.PackageId == id).DeleteAsync();
+                    // await unit.WorkPackageLists.Where(i => i.PackageId == id).DeleteAsync();
+                    // await unit.WorkPackageTasks.Where(i => i.PackageId == id).DeleteAsync();
+                    // await unit.WorkPackageTaskTimes.Where(i => i.PackageId == id).DeleteAsync();
+                    // await unit.WorkPackageTaskBlockers.Where(i => i.PackageId == id).DeleteAsync();
+                    // await unit.WorkPackageTaskComments.Where(i => i.PackageId == id).DeleteAsync();
+                    // await unit.WorkPackageTaskInteractions.Where(i => i.PackageId == id).DeleteAsync();
+                    // await unit.WorkPackageTaskObjectives.Where(i => i.PackageId == id).DeleteAsync();
+                    // await unit.WorkPackageTaskVotes.Where(i => i.PackageId == id).DeleteAsync();
+                    // await unit.WorkPackageTaskCustomFields.Where(i => i.PackageId == id).DeleteAsync();
+                    // await unit.WorkPackageCustomFieldItems.Where(i => i.PackageId == id).DeleteAsync();
+                    // await unit.WorkPackageCustomFields.Where(i => i.PackageId == id).DeleteAsync();
+                    // await unit.WorkPackageTaskLabels.Where(i => i.PackageId == id).DeleteAsync();
+                    // await unit.WorkPackageRelatedTasks.Where(i => i.PackageId == id).DeleteAsync();
+                    // await unit.PendingInvitations.Where(i => i.RecordId == id).DeleteAsync();
+                    //
+                    // await unit.Channels.Where(i => i.Id == id).DeleteAsync();
+                    // await unit.Conversations.Where(i => i.ChannelId == id).DeleteAsync();
+                    // await unit.WorkPackageObjectives.Where(i => i.PackageId == id).DeleteAsync();
+                    //
+                    // if (!found.Project.Complex)
+                    // {
+                    //     await unit.Conversations.Where(i => i.ChannelId == found.Project.Id).DeleteAsync();
+                    //     await unit.Channels.Where(i => i.Id == found.Project.Id).DeleteAsync();
+                    //     await unit.Projects.Where(i => i.Id == found.Project.Id).DeleteAsync();
+                    //     await unit.ProjectMembers.Where(i => i.ProjectId == found.Project.Id).DeleteAsync();
+                    //     await unit.WorkPackageTaskTimes.Where(i => i.ProjectId == found.Project.Id).DeleteAsync();
+                    //     await unit.PendingInvitations.Where(i => i.RecordId == found.Project.Id).DeleteAsync();
+                    // }
 
                     await unit.SaveChangesAsync();
                     await _serviceProvider.GetService<IActivityBiz>().Enqueue(new ActivityLogViewModel
@@ -1928,7 +1921,8 @@ namespace Asoode.Application.Business.ProjectManagement
                     if (checkAccess.Status != OperationResultStatus.Success) return checkAccess;
 
                     unit.WorkPackageLabels.Remove(label);
-                    await unit.WorkPackageTaskLabels.Where(i => i.LabelId == labelId).DeleteAsync();
+                    // TODO: linqtodb
+                    // await unit.WorkPackageTaskLabels.Where(i => i.LabelId == labelId).DeleteAsync();
                     await unit.SaveChangesAsync();
                     await _serviceProvider.GetService<IActivityBiz>().Enqueue(new ActivityLogViewModel
                     {
@@ -2076,12 +2070,14 @@ namespace Asoode.Application.Business.ProjectManagement
 
                     var now = DateTime.UtcNow;
 
-                    await unit.WorkPackageLists
-                        .Where(i => i.Id == listId)
-                        .UpdateAsync(i => new WorkPackageList {ArchivedAt = now});
-                    await unit.WorkPackageTasks
-                        .Where(i => i.ListId == listId && !i.ArchivedAt.HasValue && !i.DeletedAt.HasValue)
-                        .UpdateAsync(i => new WorkPackageTask {ArchivedAt = now});
+                    
+                    // TODO: linqtodb
+                    // await unit.WorkPackageLists
+                    //     .Where(i => i.Id == listId)
+                    //     .UpdateAsync(i => new WorkPackageList {ArchivedAt = now});
+                    // await unit.WorkPackageTasks
+                    //     .Where(i => i.ListId == listId && !i.ArchivedAt.HasValue && !i.DeletedAt.HasValue)
+                    //     .UpdateAsync(i => new WorkPackageTask {ArchivedAt = now});
 
                     await _serviceProvider.GetService<IActivityBiz>().Enqueue(new ActivityLogViewModel
                     {
@@ -2115,9 +2111,10 @@ namespace Asoode.Application.Business.ProjectManagement
 
                     var now = DateTime.UtcNow;
 
-                    await unit.WorkPackageTasks
-                        .Where(i => i.ListId == listId && !i.ArchivedAt.HasValue && !i.DeletedAt.HasValue)
-                        .UpdateAsync(i => new WorkPackageTask {ArchivedAt = now});
+                    // TODO: linqtodb
+                    // await unit.WorkPackageTasks
+                    //     .Where(i => i.ListId == listId && !i.ArchivedAt.HasValue && !i.DeletedAt.HasValue)
+                    //     .UpdateAsync(i => new WorkPackageTask {ArchivedAt = now});
 
                     await _serviceProvider.GetService<IActivityBiz>().Enqueue(new ActivityLogViewModel
                     {
@@ -2150,9 +2147,11 @@ namespace Asoode.Application.Business.ProjectManagement
                     var checkAccess = await IsWorkPackageAdmin(unit, userId, list.PackageId);
                     if (checkAccess.Status != OperationResultStatus.Success) return checkAccess;
 
-                    await unit.WorkPackageTasks
-                        .Where(i => i.ListId == listId && !i.ArchivedAt.HasValue && !i.DeletedAt.HasValue)
-                        .DeleteAsync();
+                    // TODO: linqtodb
+                    //
+                    // await unit.WorkPackageTasks
+                    //     .Where(i => i.ListId == listId && !i.ArchivedAt.HasValue && !i.DeletedAt.HasValue)
+                    //     .DeleteAsync();
 
                     await _serviceProvider.GetService<IActivityBiz>().Enqueue(new ActivityLogViewModel
                     {
@@ -2378,8 +2377,9 @@ namespace Asoode.Application.Business.ProjectManagement
                     var checkAccess = await IsWorkPackageEditor(unit, userId, objective.PackageId);
                     if (checkAccess.Status != OperationResultStatus.Success) return checkAccess;
 
-                    await unit.WorkPackageTasks.Where(i => i.ObjectiveId == objectiveId)
-                        .UpdateAsync(i => new WorkPackageTask {ObjectiveId = null});
+                    // TODO: linqtodb
+                    // await unit.WorkPackageTasks.Where(i => i.ObjectiveId == objectiveId)
+                    //     .UpdateAsync(i => new WorkPackageTask {ObjectiveId = null});
                     unit.WorkPackageObjectives.Remove(objective);
                     await unit.SaveChangesAsync();
                     await _serviceProvider.GetService<IActivityBiz>().Enqueue(new ActivityLogViewModel
