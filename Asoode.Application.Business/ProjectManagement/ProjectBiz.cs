@@ -1,4 +1,3 @@
-using System.Data;
 using Asoode.Application.Core.Contracts.General;
 using Asoode.Application.Core.Contracts.Logging;
 using Asoode.Application.Core.Contracts.ProjectManagement;
@@ -63,12 +62,12 @@ namespace Asoode.Application.Business.ProjectManagement
                         Pendings = op.Data.PendingInvitations
                     });
 
-                    var postman = _serviceProvider.GetService<IPostmanBiz>();
-#pragma warning disable 4014
-                    Task.Run(() =>
-                        postman.InviteProject(op.Data.User.FullName, op.Data.EmailIdentities, mapped,
-                            op.Data.ViewModel));
-#pragma warning restore 4014
+                    // TODO: send to background
+// #pragma warning disable 4014
+//                     Task.Run(() =>
+//                         postman.InviteProject(op.Data.User.FullName, op.Data.EmailIdentities, mapped,
+//                             op.Data.ViewModel));
+// #pragma warning restore 4014
                     return OperationResult<bool>.Success(true);
                 }
             }
@@ -85,61 +84,12 @@ namespace Asoode.Application.Business.ProjectManagement
         {
             try
             {
-                #region Parse Request
-
-                var translate = _serviceProvider.GetService<ITranslateBiz>();
                 var validation = _serviceProvider.GetService<IValidateBiz>();
                 
                 var user = await unit.FindUser(userId);
                 if (user == null) return OperationResult<ProjectPrepareViewModel>.Rejected();
 
-                var plan = await unit.FindPlan(userId);
-                var parsed = await unit.ParseInvite(userId, plan, validation, model.Members);
-                
-                if ((plan.UsedUser + parsed.NewMembers.Length) > plan.Users)
-                    return OperationResult<ProjectPrepareViewModel>.OverCapacity();
-                
-                var freePlan = await unit.Plans
-                    .AsNoTracking()
-                    .SingleAsync(i => i.Type == PlanType.Free);
-
-                var alreadyCreated = await unit.Projects
-                    .AsNoTracking()
-                    .Where(i => i.PlanInfoId == plan.Id)
-                    .Select(i => new { Id = i.Id, Complex = i.Complex, Premium = i.Premium })
-                    .ToArrayAsync();
-                
-                bool premium;
-                if (model.Complex)
-                {
-                    if (
-                        model.Import &&
-                        plan.UsedWorkPackage < plan.WorkPackage &&
-                        plan.UsedProject >= plan.Project)
-                    {
-                        plan.Project++;
-                    }
-
-                    if ((plan.UsedProject >= plan.Project))
-                        return OperationResult<ProjectPrepareViewModel>.OverCapacity();
-
-                    premium = alreadyCreated.Count(c => c.Complex) >= freePlan.Project;
-                }
-                else
-                {
-                    if (plan.UsedWorkPackage >= plan.WorkPackage)
-                        return OperationResult<ProjectPrepareViewModel>.OverCapacity();
-                    
-                    premium = alreadyCreated.Count(c => !c.Complex) >= freePlan.WorkPackage;
-                }
-
-                if (model.Members.Length > plan.Users) return OperationResult<ProjectPrepareViewModel>.OverCapacity();
-
-                #endregion
-                
-                if (model.Complex) plan.UsedProject++;
-                else plan.UsedWorkPackage++;
-                
+                var parsed = await unit.ParseInvite(userId, validation, model.Members);
                 var groupNames = new List<string>();
                 var workPackageLabels = Array.Empty<WorkPackageLabel>();
                 var seasons = new List<ProjectSeason>();
@@ -154,8 +104,6 @@ namespace Asoode.Application.Business.ProjectManagement
                     Title = model.Title,
                     Description = model.Description,
                     Complex = model.Complex,
-                    Premium = premium,
-                    PlanInfoId = plan.Id,
                     Template = model.Complex ? model.Template : ProjectTemplate.None
                 };
                 var channel = new Channel
@@ -202,17 +150,6 @@ namespace Asoode.Application.Business.ProjectManagement
                     }
                 }
 
-                foreach (var newMember in parsed.NewMembers)
-                {
-                    await unit.PlanMembers.AddAsync(new PlanMember
-                    {
-                        Identifier = newMember,
-                        PlanId = plan.Id,
-                    });
-                }
-
-                plan.UsedUser += parsed.NewMembers.Length;
-                
                 foreach (var invite in parsed.InviteById)
                 {
                     projectPermissions.Add(new ProjectMember
@@ -239,73 +176,36 @@ namespace Asoode.Application.Business.ProjectManagement
 
                     seasons.Add(new ProjectSeason
                     {
-                        Title = translate.Get("COMPLEX_PROJECT_SEASON_1"),
-                        Description = translate.Get("COMPLEX_PROJECT_SEASON_1_DESCRIPTION"),
+                        // Title = translate.Get("COMPLEX_PROJECT_SEASON_1"),
+                        // Description = translate.Get("COMPLEX_PROJECT_SEASON_1_DESCRIPTION"),
                         ProjectId = project.Id,
                         UserId = userId,
                         Order = 1
                     });
                     seasons.Add(new ProjectSeason
                     {
-                        Title = translate.Get("COMPLEX_PROJECT_SEASON_2"),
-                        Description = translate.Get("COMPLEX_PROJECT_SEASON_2_DESCRIPTION"),
+                        // Title = translate.Get("COMPLEX_PROJECT_SEASON_2"),
+                        // Description = translate.Get("COMPLEX_PROJECT_SEASON_2_DESCRIPTION"),
                         ProjectId = project.Id,
                         UserId = userId,
                         Order = 2
                     });
                     seasons.Add(new ProjectSeason
                     {
-                        Title = translate.Get("COMPLEX_PROJECT_SEASON_3"),
-                        Description = translate.Get("COMPLEX_PROJECT_SEASON_3_DESCRIPTION"),
+                        // Title = translate.Get("COMPLEX_PROJECT_SEASON_3"),
+                        // Description = translate.Get("COMPLEX_PROJECT_SEASON_3_DESCRIPTION"),
                         ProjectId = project.Id,
                         UserId = userId,
                         Order = 3
                     });
                     seasons.Add(new ProjectSeason
                     {
-                        Title = translate.Get("COMPLEX_PROJECT_SEASON_4"),
-                        Description = translate.Get("COMPLEX_PROJECT_SEASON_4_DESCRIPTION"),
+                        // Title = translate.Get("COMPLEX_PROJECT_SEASON_4"),
+                        // Description = translate.Get("COMPLEX_PROJECT_SEASON_4_DESCRIPTION"),
                         ProjectId = project.Id,
                         UserId = userId,
                         Order = 4
                     });
-
-                    #endregion
-
-                    #region Animation Template
-
-                    if (model.Template == ProjectTemplate.Animation)
-                    {
-                        var produceId = Guid.NewGuid();
-                        subProjects.Add(new SubProject
-                        {
-                            Description = translate.Get("TEMPLATE_ANIMATION_PRE_PRODUCE_DESCRIPTION"),
-                            Title = translate.Get("TEMPLATE_ANIMATION_PRE_PRODUCE_TITLE"),
-                            Level = 1,
-                            Order = 1,
-                            ProjectId = project.Id,
-                            UserId = userId
-                        });
-                        subProjects.Add(new SubProject
-                        {
-                            Id = produceId,
-                            Description = translate.Get("TEMPLATE_ANIMATION_PRODUCE_DESCRIPTION"),
-                            Title = translate.Get("TEMPLATE_ANIMATION_PRODUCE_TITLE"),
-                            Level = 1,
-                            Order = 2,
-                            ProjectId = project.Id,
-                            UserId = userId
-                        });
-                        subProjects.Add(new SubProject
-                        {
-                            Description = translate.Get("TEMPLATE_ANIMATION_RELEASE_DESCRIPTION"),
-                            Title = translate.Get("TEMPLATE_ANIMATION_RELEASE_TITLE"),
-                            Level = 1,
-                            Order = 3,
-                            ProjectId = project.Id,
-                            UserId = userId
-                        });
-                    }
 
                     #endregion
                 }
@@ -337,7 +237,6 @@ namespace Asoode.Application.Business.ProjectManagement
                         AllowBlockingBoardTasks = true,
                         Color = AsoodeColors.Default.Value,
                         DarkColor = AsoodeColors.Default.Dark,
-                        Premium = premium,
                     });
                     workPackageLabels = AsoodeColors.Plate
                         .Select(c => new WorkPackageLabel
@@ -377,31 +276,31 @@ namespace Asoode.Application.Business.ProjectManagement
                                     new WorkPackageList
                                     {
                                         Order = 1,
-                                        Title = translate.Get("BOARD_TEMPLATES_SAMPLES_DEPARTMENT_1"),
+                                        // Title = translate.Get("BOARD_TEMPLATES_SAMPLES_DEPARTMENT_1"),
                                         PackageId = packageId
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 2,
-                                        Title = translate.Get("BOARD_TEMPLATES_SAMPLES_DEPARTMENT_2"),
+                                        // Title = translate.Get("BOARD_TEMPLATES_SAMPLES_DEPARTMENT_2"),
                                         PackageId = packageId
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 3,
-                                        Title = translate.Get("BOARD_TEMPLATES_SAMPLES_DEPARTMENT_3"),
+                                        // Title = translate.Get("BOARD_TEMPLATES_SAMPLES_DEPARTMENT_3"),
                                         PackageId = packageId
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 4,
-                                        Title = translate.Get("BOARD_TEMPLATES_SAMPLES_DEPARTMENT_4"),
+                                        // Title = translate.Get("BOARD_TEMPLATES_SAMPLES_DEPARTMENT_4"),
                                         PackageId = packageId
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 5,
-                                        Title = translate.Get("BOARD_TEMPLATES_SAMPLES_DEPARTMENT_5"),
+                                        // Title = translate.Get("BOARD_TEMPLATES_SAMPLES_DEPARTMENT_5"),
                                         PackageId = packageId
                                     },
                                 });
@@ -412,28 +311,28 @@ namespace Asoode.Application.Business.ProjectManagement
                                     new WorkPackageList
                                     {
                                         Order = 1,
-                                        Title = translate.Get("BOARD_TEMPLATES_SAMPLES_KANBAN_1"),
+                                        // Title = translate.Get("BOARD_TEMPLATES_SAMPLES_KANBAN_1"),
                                         PackageId = packageId,
                                         Kanban = WorkPackageTaskState.ToDo
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 2,
-                                        Title = translate.Get("BOARD_TEMPLATES_SAMPLES_KANBAN_2"),
+                                        // Title = translate.Get("BOARD_TEMPLATES_SAMPLES_KANBAN_2"),
                                         PackageId = packageId,
                                         Kanban = WorkPackageTaskState.InProgress
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 3,
-                                        Title = translate.Get("BOARD_TEMPLATES_SAMPLES_KANBAN_3"),
+                                        // Title = translate.Get("BOARD_TEMPLATES_SAMPLES_KANBAN_3"),
                                         PackageId = packageId,
                                         Kanban = WorkPackageTaskState.Done
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 4,
-                                        Title = translate.Get("BOARD_TEMPLATES_SAMPLES_KANBAN_4"),
+                                        // Title = translate.Get("BOARD_TEMPLATES_SAMPLES_KANBAN_4"),
                                         PackageId = packageId,
                                         Kanban = WorkPackageTaskState.Canceled
                                     },
@@ -445,43 +344,43 @@ namespace Asoode.Application.Business.ProjectManagement
                                     new WorkPackageList
                                     {
                                         Order = 1,
-                                        Title = translate.Get("ENUMS_WEEKDAY_SATURDAY"),
+                                        // Title = translate.Get("ENUMS_WEEKDAY_SATURDAY"),
                                         PackageId = packageId
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 2,
-                                        Title = translate.Get("ENUMS_WEEKDAY_SUNDAY"),
+                                        // Title = translate.Get("ENUMS_WEEKDAY_SUNDAY"),
                                         PackageId = packageId
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 3,
-                                        Title = translate.Get("ENUMS_WEEKDAY_MONDAY"),
+                                        // Title = translate.Get("ENUMS_WEEKDAY_MONDAY"),
                                         PackageId = packageId
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 4,
-                                        Title = translate.Get("ENUMS_WEEKDAY_TUESDAY"),
+                                        // Title = translate.Get("ENUMS_WEEKDAY_TUESDAY"),
                                         PackageId = packageId
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 5,
-                                        Title = translate.Get("ENUMS_WEEKDAY_WEDNESDAY"),
+                                        // Title = translate.Get("ENUMS_WEEKDAY_WEDNESDAY"),
                                         PackageId = packageId
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 6,
-                                        Title = translate.Get("ENUMS_WEEKDAY_THURSDAY"),
+                                        // Title = translate.Get("ENUMS_WEEKDAY_THURSDAY"),
                                         PackageId = packageId
                                     },
                                     new WorkPackageList
                                     {
                                         Order = 7,
-                                        Title = translate.Get("ENUMS_WEEKDAY_FRIDAY"),
+                                        // Title = translate.Get("ENUMS_WEEKDAY_FRIDAY"),
                                         PackageId = packageId
                                     },
                                 });
@@ -559,8 +458,7 @@ namespace Asoode.Application.Business.ProjectManagement
                     AllInvited = parsed.AllInvited,
                     InviteById = parsed.InviteById,
                     User = user.ToViewModel(),
-                    EmailIdentities = parsed.EmailIdentities,
-                    Plan = plan
+                    EmailIdentities = parsed.EmailIdentities
                 });
             }
             catch (Exception ex)
@@ -699,8 +597,7 @@ namespace Asoode.Application.Business.ProjectManagement
                             Type = group.Type,
                             Title = group.Title,
                             Description = group.Description,
-                            CreatedAt = group.CreatedAt,
-                            PlanInfoId = op.Data.Plan.Id
+                            CreatedAt = group.CreatedAt
                         });
                         await unit.GroupMembers.AddRangeAsync(group.Members.Select(gm => new GroupMember
                         {
@@ -856,13 +753,12 @@ namespace Asoode.Application.Business.ProjectManagement
                         Project = op.Data.ViewModel,
                         Pendings = op.Data.PendingInvitations
                     });
-
-                    var postman = _serviceProvider.GetService<IPostmanBiz>();
-#pragma warning disable 4014
-                    Task.Run(() =>
-                        postman.InviteProject(op.Data.User.FullName, op.Data.EmailIdentities, mapped,
-                            op.Data.ViewModel));
-#pragma warning restore 4014
+                    // TODO: send to background
+// #pragma warning disable 4014
+//                     Task.Run(() =>
+//                         postman.InviteProject(op.Data.User.FullName, op.Data.EmailIdentities, mapped,
+//                             op.Data.ViewModel));
+// #pragma warning restore 4014
                     return OperationResult<ProjectPrepareViewModel>.Success(new ProjectPrepareViewModel
                     {
                         ViewModel = op.Data.ViewModel
@@ -1012,12 +908,7 @@ namespace Asoode.Application.Business.ProjectManagement
 
                     unit.PendingInvitations.Remove(access);
                     unit.PendingInvitations.RemoveRange(packagePending);
-                    if (anyOtherPendingInvitations.Length == 1)
-                    {
-                        var planInfo = await unit.FindPlan(planOwnerId);
-                        planInfo.UsedUser--;
-                    }
-
+                    
                     await unit.SaveChangesAsync();
                     await _serviceProvider.GetService<IActivityBiz>().Enqueue(new ActivityLogViewModel
                     {
@@ -1111,24 +1002,9 @@ namespace Asoode.Application.Business.ProjectManagement
                         !existingInvites.Contains(g.Id.Trim().ToLower())
                     ).ToArray();
 
-                    var plan = await unit.FindPlan(userId);
-
-                    var postman = _serviceProvider.GetService<IPostmanBiz>();
                     var validation = _serviceProvider.GetService<IValidateBiz>();
                     
-                    var parsed = await unit.ParseInvite(userId, plan, validation, model.Members);
-                    if ((plan.UsedUser + parsed.NewMembers.Length) > plan.Users) return OperationResult<bool>.OverCapacity();
-
-                    foreach (var newMember in parsed.NewMembers)
-                    {
-                        await unit.PlanMembers.AddAsync(new PlanMember
-                        {
-                            Identifier = newMember,
-                            PlanId = plan.Id,
-                        });
-                    }
-
-                    plan.UsedUser += parsed.NewMembers.Length;
+                    var parsed = await unit.ParseInvite(userId, validation, model.Members);
                     var project = await unit.Projects.AsNoTracking().SingleAsync(g => g.Id == projectId);
                     var projectPermissions = new List<ProjectMember>();
                     foreach (var invite in parsed.InviteById)
@@ -1200,11 +1076,11 @@ namespace Asoode.Application.Business.ProjectManagement
                             return tmp;
                         }).ToArray()
                     });
-
-#pragma warning disable 4014
-                    Task.Run(() =>
-                        postman.InviteProject(user.FullName, parsed.EmailIdentities, mapped, project.ToViewModel()));
-#pragma warning restore 4014
+                    // TODO: send to background
+// #pragma warning disable 4014
+//                     Task.Run(() =>
+//                         postman.InviteProject(user.FullName, parsed.EmailIdentities, mapped, project.ToViewModel()));
+// #pragma warning restore 4014
                     return OperationResult<bool>.Success(true);
                 }
             }
@@ -1240,19 +1116,20 @@ namespace Asoode.Application.Business.ProjectManagement
                         .AsNoTracking()
                         .SingleOrDefaultAsync(i => i.Id == projectId);
 
-                    await unit.Projects
-                        .Where(i => i.Id == projectId)
-                        .UpdateAsync(i => new Project {ArchivedAt = now});
-
-                    await unit.WorkPackages
-                        .Where(i => i.ProjectId == projectId)
-                        .UpdateAsync(i => new WorkPackage {ArchivedAt = now});
-
-                    await unit.WorkPackageLists.Where(i => packageIds.Contains(i.PackageId))
-                        .UpdateAsync(i => new WorkPackageList {ArchivedAt = now});
-
-                    await unit.WorkPackageTasks.Where(i => i.ProjectId == projectId)
-                        .UpdateAsync(i => new WorkPackageTask {ArchivedAt = now});
+                    // TODO: use linqtodb
+                    // await unit.Projects
+                    //     .Where(i => i.Id == projectId)
+                    //     .UpdateAsync(i => new Project {ArchivedAt = now});
+                    //
+                    // await unit.WorkPackages
+                    //     .Where(i => i.ProjectId == projectId)
+                    //     .UpdateAsync(i => new WorkPackage {ArchivedAt = now});
+                    //
+                    // await unit.WorkPackageLists.Where(i => packageIds.Contains(i.PackageId))
+                    //     .UpdateAsync(i => new WorkPackageList {ArchivedAt = now});
+                    //
+                    // await unit.WorkPackageTasks.Where(i => i.ProjectId == projectId)
+                    //     .UpdateAsync(i => new WorkPackageTask {ArchivedAt = now});
 
                     await unit.SaveChangesAsync();
                     await _serviceProvider.GetService<IActivityBiz>().Enqueue(new ActivityLogViewModel
@@ -1315,10 +1192,6 @@ namespace Asoode.Application.Business.ProjectManagement
                         .Select(i => i.Id)
                         .ToArrayAsync();
 
-                    var plan = await unit.FindPlan(userId);
-                    plan.UsedWorkPackage -= packageIds.Length;
-                    if (project.Complex) plan.UsedProject--;
-
                     var attachments = await (
                         from attach in unit.WorkPackageTaskAttachments
                         join upload in unit.Uploads on attach.UploadId equals upload.Id
@@ -1329,8 +1202,6 @@ namespace Asoode.Application.Business.ProjectManagement
                     if (attachments.Any())
                     {
                         var uploadBiz = _serviceProvider.GetService<IUploadProvider>();
-                        var total = attachments.Select(a => a.Upload.Size).Sum();
-                        plan.UsedSpace -= total;
 
                         var attachs = attachments.Select(i => i.Attachment).ToArray();
                         var uploads = attachments.Select(i => i.Upload).ToArray();
@@ -1350,32 +1221,34 @@ namespace Asoode.Application.Business.ProjectManagement
 
                     unit.ProjectMembers.RemoveRange(projectMembers);
                     unit.Projects.Remove(project);
-                    await unit.SubProjects.Where(i => i.ProjectId == project.Id).DeleteAsync();
-                    await unit.ProjectSeasons.Where(i => i.ProjectId == project.Id).DeleteAsync();
-                    await unit.WorkPackageObjectives.Where(i => packageIds.Contains(i.PackageId)).DeleteAsync();
-                    await unit.WorkPackageMembers.Where(i => i.ProjectId == project.Id).DeleteAsync();
-                    await unit.WorkPackageTaskTimes.Where(i => i.ProjectId == project.Id).DeleteAsync();
-                    await unit.WorkPackages.Where(i => i.ProjectId == projectId).DeleteAsync();
-                    await unit.WorkPackageTaskMember.Where(i => packageIds.Contains(i.PackageId)).DeleteAsync();
-                    await unit.WorkPackageLists.Where(i => packageIds.Contains(i.PackageId)).DeleteAsync();
-                    await unit.WorkPackageTasks.Where(i => i.ProjectId == projectId).DeleteAsync();
-                    await unit.WorkPackageTaskTimes.Where(i => i.ProjectId == projectId).DeleteAsync();
-                    await unit.WorkPackageTaskBlockers.Where(i => i.ProjectId == projectId).DeleteAsync();
-                    await unit.WorkPackageTaskComments.Where(i => i.ProjectId == projectId).DeleteAsync();
-                    await unit.WorkPackageTaskInteractions.Where(i => packageIds.Contains(i.PackageId)).DeleteAsync();
-                    await unit.WorkPackageTaskObjectives.Where(i => i.ProjectId == projectId).DeleteAsync();
-                    await unit.WorkPackageTaskVotes.Where(i => i.ProjectId == projectId).DeleteAsync();
-                    await unit.WorkPackageTaskCustomFields.Where(i => i.ProjectId == projectId).DeleteAsync();
-                    await unit.WorkPackageCustomFieldItems.Where(i => i.ProjectId == projectId).DeleteAsync();
-                    await unit.WorkPackageCustomFields.Where(i => i.ProjectId == projectId).DeleteAsync();
-                    await unit.WorkPackageTaskLabels.Where(i => packageIds.Contains(i.PackageId)).DeleteAsync();
-                    await unit.WorkPackageRelatedTasks.Where(i => i.ProjectId == projectId).DeleteAsync();
-
-                    await unit.Channels.Where(i => i.Id == projectId || packageIds.Contains(i.Id)).DeleteAsync();
-                    await unit.Conversations.Where(i => i.ChannelId == projectId || packageIds.Contains(i.ChannelId))
-                        .DeleteAsync();
-                    await unit.PendingInvitations
-                        .Where(i => i.RecordId == project.Id || packageIds.Contains(i.RecordId)).DeleteAsync();
+                    
+                    // TODO: use linqtodb
+                    // await unit.SubProjects.Where(i => i.ProjectId == project.Id).DeleteAsync();
+                    // await unit.ProjectSeasons.Where(i => i.ProjectId == project.Id).DeleteAsync();
+                    // await unit.WorkPackageObjectives.Where(i => packageIds.Contains(i.PackageId)).DeleteAsync();
+                    // await unit.WorkPackageMembers.Where(i => i.ProjectId == project.Id).DeleteAsync();
+                    // await unit.WorkPackageTaskTimes.Where(i => i.ProjectId == project.Id).DeleteAsync();
+                    // await unit.WorkPackages.Where(i => i.ProjectId == projectId).DeleteAsync();
+                    // await unit.WorkPackageTaskMember.Where(i => packageIds.Contains(i.PackageId)).DeleteAsync();
+                    // await unit.WorkPackageLists.Where(i => packageIds.Contains(i.PackageId)).DeleteAsync();
+                    // await unit.WorkPackageTasks.Where(i => i.ProjectId == projectId).DeleteAsync();
+                    // await unit.WorkPackageTaskTimes.Where(i => i.ProjectId == projectId).DeleteAsync();
+                    // await unit.WorkPackageTaskBlockers.Where(i => i.ProjectId == projectId).DeleteAsync();
+                    // await unit.WorkPackageTaskComments.Where(i => i.ProjectId == projectId).DeleteAsync();
+                    // await unit.WorkPackageTaskInteractions.Where(i => packageIds.Contains(i.PackageId)).DeleteAsync();
+                    // await unit.WorkPackageTaskObjectives.Where(i => i.ProjectId == projectId).DeleteAsync();
+                    // await unit.WorkPackageTaskVotes.Where(i => i.ProjectId == projectId).DeleteAsync();
+                    // await unit.WorkPackageTaskCustomFields.Where(i => i.ProjectId == projectId).DeleteAsync();
+                    // await unit.WorkPackageCustomFieldItems.Where(i => i.ProjectId == projectId).DeleteAsync();
+                    // await unit.WorkPackageCustomFields.Where(i => i.ProjectId == projectId).DeleteAsync();
+                    // await unit.WorkPackageTaskLabels.Where(i => packageIds.Contains(i.PackageId)).DeleteAsync();
+                    // await unit.WorkPackageRelatedTasks.Where(i => i.ProjectId == projectId).DeleteAsync();
+                    //
+                    // await unit.Channels.Where(i => i.Id == projectId || packageIds.Contains(i.Id)).DeleteAsync();
+                    // await unit.Conversations.Where(i => i.ChannelId == projectId || packageIds.Contains(i.ChannelId))
+                    //     .DeleteAsync();
+                    // await unit.PendingInvitations
+                    //     .Where(i => i.RecordId == project.Id || packageIds.Contains(i.RecordId)).DeleteAsync();
 
                     await unit.SaveChangesAsync();
                     await _serviceProvider.GetService<IActivityBiz>().Enqueue(new ActivityLogViewModel
@@ -1511,8 +1384,9 @@ namespace Asoode.Application.Business.ProjectManagement
                     var checkAccess = await IsAdmin(unit, userId, season.ProjectId);
                     if (checkAccess.Status != OperationResultStatus.Success) return checkAccess;
 
-                    await unit.WorkPackageTasks.Where(i => i.SeasonId == seasonId)
-                        .UpdateAsync(i => new WorkPackageTask {SeasonId = null});
+                    // TODO: use linqtodb
+                    // await unit.WorkPackageTasks.Where(i => i.SeasonId == seasonId)
+                    //     .UpdateAsync(i => new WorkPackageTask {SeasonId = null});
                     unit.ProjectSeasons.Remove(season);
                     await unit.SaveChangesAsync();
                     await _serviceProvider.GetService<IActivityBiz>().Enqueue(new ActivityLogViewModel
@@ -1631,38 +1505,39 @@ namespace Asoode.Application.Business.ProjectManagement
                     var checkAccess = await IsAdmin(unit, userId, sub.ProjectId);
                     if (checkAccess.Status != OperationResultStatus.Success) return checkAccess;
 
-                    await unit.WorkPackages.Where(i => i.SubProjectId == subId)
-                        .UpdateAsync(i => new WorkPackage {SubProjectId = sub.ParentId});
-
-                    await unit.WorkPackageCustomFields.Where(i => i.SubProjectId == subId)
-                        .UpdateAsync(i => new WorkPackageCustomField {SubProjectId = sub.ParentId});
-
-                    await unit.WorkPackageCustomFieldItems.Where(i => i.SubProjectId == subId)
-                        .UpdateAsync(i => new WorkPackageCustomFieldItem {SubProjectId = sub.ParentId});
-
-                    await unit.WorkPackageTasks.Where(i => i.SubProjectId == subId)
-                        .UpdateAsync(i => new WorkPackageTask {SubProjectId = sub.ParentId});
-
-                    await unit.WorkPackageTaskAttachments.Where(i => i.SubProjectId == subId)
-                        .UpdateAsync(i => new WorkPackageTaskAttachment {SubProjectId = sub.ParentId});
-
-                    await unit.WorkPackageTaskBlockers.Where(i => i.SubProjectId == subId)
-                        .UpdateAsync(i => new WorkPackageTaskBlocker {SubProjectId = sub.ParentId});
-
-                    await unit.WorkPackageRelatedTasks.Where(i => i.SubProjectId == subId)
-                        .UpdateAsync(i => new WorkPackageRelatedTask {SubProjectId = sub.ParentId});
-
-                    await unit.WorkPackageTaskCustomFields.Where(i => i.SubProjectId == subId)
-                        .UpdateAsync(i => new WorkPackageTaskCustomField {SubProjectId = sub.ParentId});
-
-                    await unit.WorkPackageTaskObjectives.Where(i => i.SubProjectId == subId)
-                        .UpdateAsync(i => new WorkPackageTaskObjective {SubProjectId = sub.ParentId});
-
-                    await unit.WorkPackageTaskTimes.Where(i => i.SubProjectId == subId)
-                        .UpdateAsync(i => new WorkPackageTaskTime {SubProjectId = sub.ParentId});
-
-                    await unit.WorkPackageTaskVotes.Where(i => i.SubProjectId == subId)
-                        .UpdateAsync(i => new WorkPackageTaskVote {SubProjectId = sub.ParentId});
+                    // TODO: use linqtodb
+                    // await unit.WorkPackages.Where(i => i.SubProjectId == subId)
+                    //     .UpdateAsync(i => new WorkPackage {SubProjectId = sub.ParentId});
+                    //
+                    // await unit.WorkPackageCustomFields.Where(i => i.SubProjectId == subId)
+                    //     .UpdateAsync(i => new WorkPackageCustomField {SubProjectId = sub.ParentId});
+                    //
+                    // await unit.WorkPackageCustomFieldItems.Where(i => i.SubProjectId == subId)
+                    //     .UpdateAsync(i => new WorkPackageCustomFieldItem {SubProjectId = sub.ParentId});
+                    //
+                    // await unit.WorkPackageTasks.Where(i => i.SubProjectId == subId)
+                    //     .UpdateAsync(i => new WorkPackageTask {SubProjectId = sub.ParentId});
+                    //
+                    // await unit.WorkPackageTaskAttachments.Where(i => i.SubProjectId == subId)
+                    //     .UpdateAsync(i => new WorkPackageTaskAttachment {SubProjectId = sub.ParentId});
+                    //
+                    // await unit.WorkPackageTaskBlockers.Where(i => i.SubProjectId == subId)
+                    //     .UpdateAsync(i => new WorkPackageTaskBlocker {SubProjectId = sub.ParentId});
+                    //
+                    // await unit.WorkPackageRelatedTasks.Where(i => i.SubProjectId == subId)
+                    //     .UpdateAsync(i => new WorkPackageRelatedTask {SubProjectId = sub.ParentId});
+                    //
+                    // await unit.WorkPackageTaskCustomFields.Where(i => i.SubProjectId == subId)
+                    //     .UpdateAsync(i => new WorkPackageTaskCustomField {SubProjectId = sub.ParentId});
+                    //
+                    // await unit.WorkPackageTaskObjectives.Where(i => i.SubProjectId == subId)
+                    //     .UpdateAsync(i => new WorkPackageTaskObjective {SubProjectId = sub.ParentId});
+                    //
+                    // await unit.WorkPackageTaskTimes.Where(i => i.SubProjectId == subId)
+                    //     .UpdateAsync(i => new WorkPackageTaskTime {SubProjectId = sub.ParentId});
+                    //
+                    // await unit.WorkPackageTaskVotes.Where(i => i.SubProjectId == subId)
+                    //     .UpdateAsync(i => new WorkPackageTaskVote {SubProjectId = sub.ParentId});
 
                     var allSubs = await unit.SubProjects.Where(i => i.ProjectId == sub.ProjectId)
                         .OrderBy(i => i.Order).ToListAsync();
@@ -1819,6 +1694,7 @@ namespace Asoode.Application.Business.ProjectManagement
             {
                 using (var unit = _serviceProvider.GetService<ProjectManagementDbContext>())
                 {
+                    // TODO: fix reports
                     // var groupIds = await unit.FindGroupIds(userId);
                     // var access = await unit.ProjectMembers
                     //     .Where(i => i.RecordId == userId || groupIds.Contains(i.RecordId))
@@ -1829,33 +1705,33 @@ namespace Asoode.Application.Business.ProjectManagement
                     // var packages = await unit.FindProjectWorkPackages(userId, id, groupIds);
                     // var packageIds = packages.Select(i => i.Id).ToArray();
 
-                    var reportResultSets = await unit.GetMultipleResultSets(
-                        "exec spGetMountlyTaskReport @ProjectId", 
-                        new SqlParameter("@ProjectId", SqlDbType.UniqueIdentifier) {Value = id}
-                    );
-
-                    var mapped = new Dictionary<string, ProjectProgressViewModel>();
-                    foreach (var set in reportResultSets["Table-1"])
-                    {
-                        var date = set["Date"].ToString();
-                        if (!mapped.ContainsKey(date)) mapped.Add(date, new ProjectProgressViewModel{ Date = DateTime.Parse(date)});
-                        mapped[date].Blocked = Convert.ToInt32(set["Count"]);
-                    }
-                    foreach (var set in reportResultSets["Table-2"])
-                    {
-                        var date = set["Date"].ToString();
-                        if (!mapped.ContainsKey(date)) mapped.Add(date, new ProjectProgressViewModel{ Date = DateTime.Parse(date)});
-                        mapped[date].Done = Convert.ToInt32(set["Count"]);
-                    }
-                    foreach (var set in reportResultSets["Table-3"])
-                    {
-                        var date = set["Date"].ToString();
-                        if (!mapped.ContainsKey(date)) mapped.Add(date, new ProjectProgressViewModel{ Date = DateTime.Parse(date)});
-                        mapped[date].Created = Convert.ToInt32(set["Count"]);
-                    }
-
-                    var result = mapped.Select(m => m.Value).ToArray();
-                    return OperationResult<ProjectProgressViewModel[]>.Success(result);
+                    // var reportResultSets = await unit.GetMultipleResultSets(
+                    //     "exec spGetMountlyTaskReport @ProjectId", 
+                    //     new SqlParameter("@ProjectId", SqlDbType.UniqueIdentifier) {Value = id}
+                    // );
+                    //
+                    // var mapped = new Dictionary<string, ProjectProgressViewModel>();
+                    // foreach (var set in reportResultSets["Table-1"])
+                    // {
+                    //     var date = set["Date"].ToString();
+                    //     if (!mapped.ContainsKey(date)) mapped.Add(date, new ProjectProgressViewModel{ Date = DateTime.Parse(date)});
+                    //     mapped[date].Blocked = Convert.ToInt32(set["Count"]);
+                    // }
+                    // foreach (var set in reportResultSets["Table-2"])
+                    // {
+                    //     var date = set["Date"].ToString();
+                    //     if (!mapped.ContainsKey(date)) mapped.Add(date, new ProjectProgressViewModel{ Date = DateTime.Parse(date)});
+                    //     mapped[date].Done = Convert.ToInt32(set["Count"]);
+                    // }
+                    // foreach (var set in reportResultSets["Table-3"])
+                    // {
+                    //     var date = set["Date"].ToString();
+                    //     if (!mapped.ContainsKey(date)) mapped.Add(date, new ProjectProgressViewModel{ Date = DateTime.Parse(date)});
+                    //     mapped[date].Created = Convert.ToInt32(set["Count"]);
+                    // }
+                    //
+                    // var result = mapped.Select(m => m.Value).ToArray();
+                    return OperationResult<ProjectProgressViewModel[]>.Success(Array.Empty<ProjectProgressViewModel>());
                 }
             }
             catch (Exception ex)
@@ -1941,20 +1817,9 @@ namespace Asoode.Application.Business.ProjectManagement
                     var groupPermissions = await unit.FindGroupPermissions(userId);
                     var groupIds = groupPermissions.Select(i => i.GroupId).ToArray();
 
-                    var projectsWithPlans = await unit.FindProjectsWithPlans(userId, groupIds);
-                    if (!projectsWithPlans.Any())
-                        return OperationResult<ProjectViewModel[]>.Success(Array.Empty<ProjectViewModel>());
-
-                    var projects = projectsWithPlans.Select(i => i.Item1).ToArray();
+                    var projects = await unit.FindProjects(userId, groupIds);
                     var projectWorkPackages = await unit.FindWorkPackages(userId, groupIds);
                     var result = await MapList(unit, userId, groupIds, projects, projectWorkPackages);
-                    foreach (var model in result.Data)
-                    {
-                        model.AttachmentSize = projectsWithPlans
-                            .Single(p => p.Item1.Id == model.Id)
-                            .Item2.AttachmentSize;
-                    }
-
                     return result;
                 }
             }

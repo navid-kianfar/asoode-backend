@@ -49,9 +49,6 @@ public interface IAccountBiz
     Task<OperationResult<LoginResultViewModel>> OAuthAuthentication(string email, string firstName,
         string lastName);
 
-    Task<OperationResult<GridResult<UserOrderViewModel>>> Transactions(Guid userId,
-        GridFilter filter);
-
     Task<OperationResult<bool>> ResendVerification(Guid userId, Guid id);
     Task<OperationResult<bool>> AddDevice(Guid userId, PushNotificationViewModel model);
     Task<OperationResult<DeviceViewModel[]>> ListDevices(Guid userId);

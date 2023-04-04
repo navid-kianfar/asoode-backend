@@ -35,15 +35,6 @@ namespace Asoode.Servers.Api.Controllers.Membership
 
         [JwtAuthorize]
         [ValidateModel]
-        [HttpPost("transactions")]
-        public async Task<IActionResult> Transactions([FromBody] GridFilter model)
-        {
-            var op = await _accountBiz.Transactions(Identity.UserId, model);
-            return Json(op);
-        }
-
-        [JwtAuthorize]
-        [ValidateModel]
         [HttpPost("devices/add")]
         public async Task<IActionResult> AddDevice([FromBody] PushNotificationViewModel model)
         {

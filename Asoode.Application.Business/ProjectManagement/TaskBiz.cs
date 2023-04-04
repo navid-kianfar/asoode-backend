@@ -1125,300 +1125,9 @@ namespace Asoode.Application.Business.ProjectManagement
         #endregion
 
         #region Attachment
-        
-        public async Task<OperationResult<BulkDownloadResultViewModel>> BulkDownload(Guid userId, Guid id, Guid[] picked)
-        {
-            try
-            {
-                using (var unit = _serviceProvider.GetService<ProjectManagementDbContext>())
-                {
-                    var task = await unit.WorkPackageTasks
-                        .Where(i => i.Id == id)
-                        .Select(i => new { i.Title, i.PackageId })
-                        .SingleOrDefaultAsync();
 
-                    if (task == null) return OperationResult<BulkDownloadResultViewModel>.NotFound();
-                    
-                    var access = await IsWorkPackageEditor(unit, userId, task.PackageId);
-                    if (access.Status != OperationResultStatus.Success || !access.Data)
-                        return OperationResult<BulkDownloadResultViewModel>.Rejected();
-
-                    var paths = (await (
-                        from attach in unit.WorkPackageTaskAttachments
-                        join tsk in unit.WorkPackageTasks on attach.TaskId equals tsk.Id
-                        where picked.Contains(tsk.Id)
-                        select new { tsk.Title, attach.Path }
-                    ).ToArrayAsync())
-                    .GroupBy(i => i.Title)
-                    .ToDictionary(k => k.Key, v => v.Select(o => o.Path).ToArray());
-
-                    var op = await _serviceProvider
-                        .GetService<IUploadProvider>()
-                        .BulkDownload(userId, paths);
-
-                    
-                    if (op.Status != OperationResultStatus.Success) 
-                        return OperationResult<BulkDownloadResultViewModel>.Failed();
-                    
-                    op.Data.Seek(0, SeekOrigin.Begin);
-                    
-                    return OperationResult<BulkDownloadResultViewModel>
-                        .Success(new BulkDownloadResultViewModel { Title = task.Title, Zip = op.Data });
-                }
-            }
-            catch (Exception ex)
-            {
-                await _serviceProvider.GetService<IErrorBiz>().LogException(ex);
-                return OperationResult<BulkDownloadResultViewModel>.Failed();
-            }
-        }
-        
-        public async Task<OperationResult<bool>> EditAdvancedComment(Guid userId, Guid commentId, TitleViewModel model)
-        {
-            try
-            {
-                using (var unit = _serviceProvider.GetService<ProjectManagementDbContext>())
-                {
-                    var comment = await unit.AdvancedPlayerComments
-                        .SingleOrDefaultAsync(c => c.Id == commentId);
-                    if (comment == null) return OperationResult<bool>.NotFound();
-                    if (userId != comment.UserId)
-                    {
-                        var found = await (
-                            from attachment in unit.WorkPackageTaskAttachments
-                            join task in unit.WorkPackageTasks on attachment.TaskId equals task.Id
-                            where attachment.Id == comment.AttachmentId
-                            select new {Attachment = attachment, Task = task}
-                        ).AsNoTracking().SingleOrDefaultAsync();
-
-                        if (found == null) return OperationResult<bool>.NotFound();
-                        var checkAccess = await IsWorkPackageAdmin(unit, userId, found.Task.PackageId);
-                        if (checkAccess.Status != OperationResultStatus.Success)
-                            return OperationResult<bool>.Rejected();
-                    }
-
-                    comment.UpdatedAt = DateTime.UtcNow;
-                    comment.Message = model.Title;
-                    await unit.SaveChangesAsync();
-                    return OperationResult<bool>.Success();
-                }
-            }
-            catch (Exception ex)
-            {
-                await _serviceProvider.GetService<IErrorBiz>().LogException(ex);
-                return OperationResult<bool>.Failed();
-            }
-        }
-        
-        public Task<OperationResult<PdfAdvancedCommentViewModel>> PdfAdvanced(Guid userId, Guid attachmentId)
-        {
-            return Task.FromResult(OperationResult<PdfAdvancedCommentViewModel>.Failed());
-            // try
-            // {
-            //     using (var unit = _serviceProvider.GetService<ProjectManagementDbContext>())
-            //     {
-            //         var found = await (
-            //             from attachment in unit.WorkPackageTaskAttachments
-            //             join task in unit.WorkPackageTasks on attachment.TaskId equals task.Id
-            //             where attachment.Id == attachmentId
-            //             select new {Attachment = attachment, Task = task}
-            //         ).AsNoTracking().SingleOrDefaultAsync();
-            //
-            //         if (found == null) return OperationResult<PdfAdvancedCommentViewModel>.NotFound();
-            //         // if (userId != comment.UserId)
-            //         // {
-            //         //     var checkAccess = await IsWorkPackageEditor(unit, userId, found.Task.PackageId);
-            //         //     if (checkAccess.Status != OperationResultStatus.Success)
-            //         //         return OperationResult<PdfAdvancedCommentViewModel>.Rejected();
-            //         // }
-            //
-            //         var comments = await unit.AdvancedPlayerComments.Where(c => c.AttachmentId == attachmentId)
-            //             .AsNoTracking()
-            //             .OrderBy(i => i.StartFrame)
-            //             .ToArrayAsync();
-            //
-            //         var serverInfo = _serviceProvider.GetService<IServerInfo>();
-            //         var uploadProvider = _serviceProvider.GetService<IUploadProvider>();
-            //         var lastEdit = comments.Select(c => c.UpdatedAt ?? c.CreatedAt).Max();
-            //         var downloadName = $"{found.Task.Title}_{lastEdit.GetTime()}";
-            //         var pdfPath = Path.Combine(serverInfo.FilesRootPath, "pdf/advanced", $"{found.Task.Id}/{attachmentId}/{lastEdit.GetTime()}/{downloadName}.pdf");
-            //         var pdfDir = Path.GetDirectoryName(pdfPath);
-            //         if (!Directory.Exists(pdfDir)) Directory.CreateDirectory(pdfDir);
-            //         if (!File.Exists(pdfPath))
-            //         {
-            //             IConversion conversion;
-            //             Dictionary<string, string> result = new Dictionary<string, string>();
-            //             var source = $"{serverInfo.FilesRootPath}{uploadProvider.RemoveUrlPrefix(found.Attachment.Path)}";
-            //             foreach (var comment in comments)
-            //             {
-            //                 var destination = Path.Combine(pdfDir, comment.Id + ".png");
-            //                 if (!File.Exists(destination))
-            //                 {
-            //                     conversion = await FFmpeg.Conversions.FromSnippet
-            //                         .Snapshot(
-            //                             source, 
-            //                             destination, 
-            //                             TimeSpan.FromSeconds(comment.StartFrame)
-            //                         );
-            //                     await conversion.Start();
-            //                 }
-            //                 
-            //                 result.Add(destination, comment.Message);
-            //             }
-            //
-            //             var htmlSource = Path.Combine(serverInfo.ReportsRootPath, "advanced-pdf.html");
-            //             var html = File.ReadAllText(htmlSource).Replace("{{title}}", found.Attachment.Title);
-            //             var content = new StringBuilder("");
-            //
-            //             foreach (var item in result)
-            //             {
-            //                 content.Append("<div class='page'>");
-            //                 content.Append($"<img src='file://{item.Key}' alt='img' />");
-            //                 content.Append($"<p>{item.Value}</p>");
-            //                 content.Append($"</div>");
-            //             }
-            //             
-            //             var markup = html.Replace("{{content}}", content.ToString());
-            //             await _serviceProvider.GetService<IPdfBiz>().FromHtml(markup, pdfPath);
-            //         }
-            //         return OperationResult<PdfAdvancedCommentViewModel>.Success(new PdfAdvancedCommentViewModel
-            //         {
-            //             Stream = File.OpenRead(pdfPath),
-            //             FileName = downloadName
-            //         });
-            //     }
-            // }
-            // catch (Exception ex)
-            // {
-            //     await _serviceProvider.GetService<IErrorBiz>().LogException(ex);
-            //     return OperationResult<PdfAdvancedCommentViewModel>.Failed();
-            // }
-        }
-
-        public async Task<OperationResult<bool>> RemoveAdvancedComment(Guid userId, Guid commentId)
-        {
-            try
-            {
-                using (var unit = _serviceProvider.GetService<ProjectManagementDbContext>())
-                {
-                    var comment = await unit.AdvancedPlayerComments
-                        .SingleOrDefaultAsync(c => c.Id == commentId);
-                    if (comment == null) return OperationResult<bool>.NotFound();
-                    
-                    var found = await (
-                        from attachment in unit.WorkPackageTaskAttachments
-                        join task in unit.WorkPackageTasks on attachment.TaskId equals task.Id
-                        where attachment.Id == comment.AttachmentId
-                        select new {Attachment = attachment, Task = task}
-                    ).AsNoTracking().SingleOrDefaultAsync();
-
-                    if (found == null) return OperationResult<bool>.NotFound();
-                    
-                    var checkAccess = await IsWorkPackageAdmin(unit, userId, found.Task.PackageId);
-                    if (checkAccess.Status != OperationResultStatus.Success)
-                        return OperationResult<bool>.Rejected();
-
-                    unit.AdvancedPlayerComments.Remove(comment);
-                    await unit.SaveChangesAsync();
-                    return OperationResult<bool>.Success();
-                }
-            }
-            catch (Exception ex)
-            {
-                await _serviceProvider.GetService<IErrorBiz>().LogException(ex);
-                return OperationResult<bool>.Failed();
-            }
-        }
-        
-        public async Task<OperationResult<AdvancedPlayerCommentViewModel>> CommentAdvanced(Guid userId,
-            Guid attachmentId, EditAdvancedCommentViewModel model)
-        {
-            try
-            {
-                using (var unit = _serviceProvider.GetService<ProjectManagementDbContext>())
-                {
-                    var found = await (
-                        from attachment in unit.WorkPackageTaskAttachments
-                        join task in unit.WorkPackageTasks on attachment.TaskId equals task.Id
-                        where attachment.Id == attachmentId
-                        select new {Attachment = attachment, Task = task}
-                    ).AsNoTracking().SingleOrDefaultAsync();
-
-                    if (found == null) return OperationResult<AdvancedPlayerCommentViewModel>.NotFound();
-
-                    var checkAccess = await IsWorkPackageEditor(unit, userId, found.Task.PackageId);
-                    if (checkAccess.Status != OperationResultStatus.Success)
-                        return OperationResult<AdvancedPlayerCommentViewModel>.Rejected();
-
-                    var comment = new AdvancedPlayerComment
-                    {
-                        Message = model.Message.Trim(),
-                        AttachmentId = attachmentId,
-                        StartFrame = model.StartFrame,
-                        EndFrame = model.EndFrame,
-                        UserId = userId
-                    };
-
-                    await unit.AdvancedPlayerComments.AddAsync(comment);
-                    await unit.SaveChangesAsync();
-                    
-                    return OperationResult<AdvancedPlayerCommentViewModel>.Success(comment.ToViewModel());
-                }
-            }
-            catch (Exception ex)
-            {
-                await _serviceProvider.GetService<IErrorBiz>().LogException(ex);
-                return OperationResult<AdvancedPlayerCommentViewModel>.Failed();
-            }
-        }
-        
-        public async Task<OperationResult<AdvancedPlayerViewModel>> FetchAdvanced(Guid userId, Guid attachmentId)
-        {
-            try
-            {
-                using (var unit = _serviceProvider.GetService<ProjectManagementDbContext>())
-                {
-                    var found = await (
-                        from attachment in unit.WorkPackageTaskAttachments
-                        join task in unit.WorkPackageTasks on attachment.TaskId equals task.Id
-                        where attachment.Id == attachmentId
-                        select new {Attachment = attachment, Task = task}
-                    ).AsNoTracking().SingleOrDefaultAsync();
-
-                    if (found == null) return OperationResult<AdvancedPlayerViewModel>.NotFound();
-
-                    var checkAccess = await IsWorkPackageEditor(unit, userId, found.Task.PackageId);
-                    if (checkAccess.Status != OperationResultStatus.Success)
-                        return OperationResult<AdvancedPlayerViewModel>.Rejected();
-
-                    var comments = await unit.AdvancedPlayerComments
-                        .Where(a => a.AttachmentId == attachmentId)
-                        .OrderBy(o => o.StartFrame)
-                        .AsNoTracking()
-                        .ToArrayAsync();
-                    
-                    var shapes = await unit.AdvancedPlayerShapes
-                        .Where(a => a.AttachmentId == attachmentId)
-                        .OrderBy(o => o.StartFrame)
-                        .AsNoTracking()
-                        .ToArrayAsync();
-                    
-                    return OperationResult<AdvancedPlayerViewModel>.Success(new AdvancedPlayerViewModel
-                    {
-                        Comments = comments.Select(i => i.ToViewModel()).ToArray(),
-                        Shapes = shapes.Select(i => i.ToViewModel()).ToArray()
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                await _serviceProvider.GetService<IErrorBiz>().LogException(ex);
-                return OperationResult<AdvancedPlayerViewModel>.Failed();
-            }
-        }
-        
         public async Task<OperationResult<UploadResultViewModel>> AddAttachment(Guid userId, Guid taskId,
-            IFormFile file)
+            UploadedFileViewModel file)
         {
             try
             {
@@ -1431,36 +1140,11 @@ namespace Asoode.Application.Business.ProjectManagement
                     if (checkAccess.Status != OperationResultStatus.Success)
                         return OperationResult<UploadResultViewModel>.Rejected();
 
-                    var projectPlanId = await unit.Projects
-                        .Where(i => i.Id == task.ProjectId)
-                        .Select(i => i.PlanInfoId)
-                        .SingleOrDefaultAsync();
 
-                    var plan = await unit.UserPlanInfo.Where(i => i.Id == projectPlanId).SingleOrDefaultAsync();
-                    if (plan == null) return OperationResult<UploadResultViewModel>.Rejected();
-
-                    if (plan.AttachmentSize < file.Length)
-                    {
-                        return OperationResult<UploadResultViewModel>.Success(new UploadResultViewModel
-                        {
-                            AttachmentSize = true
-                        });
-                    }
-
-                    if ((plan.UsedSpace + file.Length) > plan.Space)
-                    {
-                        return OperationResult<UploadResultViewModel>.Success(new UploadResultViewModel
-                        {
-                            StorageSize = true
-                        });
-                    }
-
-                    plan.UsedSpace += file.Length;
                     var result = await _serviceProvider.GetService<IUploadProvider>().Upload(new StoreViewModel
                     {
-                        FormFile = file,
+                        File = file,
                         Section = UploadSection.WorkPackage,
-                        PlanId = plan.Id,
                         RecordId = taskId,
                         UserId = userId
                     });
@@ -1515,7 +1199,7 @@ namespace Asoode.Application.Business.ProjectManagement
             }
         }
 
-        public async Task<OperationResult<UploadResultViewModel>> BulkAttachment(Guid userId, Guid taskId, IFormFile file)
+        public async Task<OperationResult<UploadResultViewModel>> BulkAttachment(Guid userId, Guid taskId, UploadedFileViewModel file)
         {
             try
             {
@@ -1533,22 +1217,6 @@ namespace Asoode.Application.Business.ProjectManagement
                     if (checkAccess.Status != OperationResultStatus.Success)
                         return OperationResult<UploadResultViewModel>.Rejected();
 
-                    var projectPlanId = await unit.Projects
-                        .Where(i => i.Id == task.ProjectId)
-                        .Select(i => i.PlanInfoId)
-                        .SingleOrDefaultAsync();
-
-                    var plan = await unit.UserPlanInfo.Where(i => i.Id == projectPlanId).SingleOrDefaultAsync();
-                    if (plan == null) return OperationResult<UploadResultViewModel>.Rejected();
-
-                    if ((plan.UsedSpace + file.Length) > plan.Space)
-                    {
-                        return OperationResult<UploadResultViewModel>.Success(new UploadResultViewModel
-                        {
-                            StorageSize = true
-                        });
-                    }
-
                     var subs = await unit.WorkPackageTasks
                         .Where(i => i.ParentId == taskId && !i.ArchivedAt.HasValue)
                         .AsNoTracking()
@@ -1561,9 +1229,8 @@ namespace Asoode.Application.Business.ProjectManagement
                     
                     var result = await _serviceProvider.GetService<IUploadProvider>().BulkUpload(new StoreViewModel
                     {
-                        FormFile = file,
+                        File = file,
                         Section = UploadSection.WorkPackage,
-                        PlanId = plan.Id,
                         RecordId = taskId,
                         UserId = userId,
                         Subs = subs
@@ -1602,7 +1269,6 @@ namespace Asoode.Application.Business.ProjectManagement
                         SubProjectId = task.SubProjectId,
                     }).ToArray();
                     
-                    plan.UsedSpace += uploads.Sum(s => s.Size);
                     await unit.WorkPackageTaskAttachments.AddRangeAsync(attachments);
                     await unit.Uploads.AddRangeAsync(uploads);
                     await unit.SaveChangesAsync();
@@ -1643,14 +1309,6 @@ namespace Asoode.Application.Business.ProjectManagement
                     if (checkAccess.Status != OperationResultStatus.Success)
                         return OperationResult<bool>.Rejected();
 
-                    var projectPlanId = await unit.Projects
-                        .Where(i => i.Id == found.Task.ProjectId)
-                        .Select(i => i.PlanInfoId)
-                        .SingleOrDefaultAsync();
-
-                    var plan = await unit.UserPlanInfo.Where(i => i.Id == projectPlanId).SingleOrDefaultAsync();
-                    if (plan == null) return OperationResult<bool>.Rejected();
-
                     var uploadService = _serviceProvider.GetService<IUploadProvider>();
                     var result = await uploadService.Delete(found.Attachment.Path, UploadSection.WorkPackage);
                     if (result.Status != OperationResultStatus.Success)
@@ -1660,7 +1318,6 @@ namespace Asoode.Application.Business.ProjectManagement
                         u.Id == found.Attachment.UploadId.Value);
                     if (upload != null)
                     {
-                        plan.UsedSpace -= upload.Size;
                         unit.Uploads.Remove(upload);
                     }
 
@@ -1910,7 +1567,8 @@ namespace Asoode.Application.Business.ProjectManagement
                     var checkAccess = await IsWorkPackageAdmin(unit, userId, task.PackageId);
                     if (checkAccess.Status != OperationResultStatus.Success) return checkAccess;
 
-                    await unit.WorkPackageTaskVotes.Where(i => i.TaskId == taskId).DeleteAsync();
+                    // TODO: use linqtodb
+                    // await unit.WorkPackageTaskVotes.Where(i => i.TaskId == taskId).DeleteAsync();
                     await _serviceProvider.GetService<IActivityBiz>().Enqueue(new ActivityLogViewModel
                     {
                         Type = ActivityType.WorkPackageTaskVoteReset,

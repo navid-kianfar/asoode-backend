@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Asoode.Application.Business.Extensions;
@@ -21,6 +22,8 @@ using Asoode.Application.Data.Models.Junctions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Logging;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Asoode.Application.Business.Membership
 {
@@ -164,10 +167,11 @@ namespace Asoode.Application.Business.Membership
                         user.Email = email;
                         user.LastEmailConfirmed = null;
                         var token = CryptoHelper.GeneratePhoneConfirmationCode();
-                        var sent = await _serviceProvider.GetService<IPostmanBiz>()
-                            .EmailChange(user.Id.ToString(), user.Email, token);
-                        if (sent.Status != OperationResultStatus.Success)
-                            return OperationResult<Guid?>.Failed();
+                        // TODO: send to background
+                        // var sent = await _serviceProvider.GetService<IPostmanBiz>()
+                        //     .EmailChange(user.Id.ToString(), user.Email, token);
+                        // if (sent.Status != OperationResultStatus.Success)
+                        //     return OperationResult<Guid?>.Failed();
                         await unit.UserVerifications.AddAsync(new UserVerification
                         {
                             Id = id,
@@ -235,10 +239,11 @@ namespace Asoode.Application.Business.Membership
                         user.Phone = phone;
                         user.LastPhoneConfirmed = null;
                         var token = CryptoHelper.GeneratePhoneConfirmationCode();
-                        var sent = await _serviceProvider.GetService<IPostmanBiz>()
-                            .PhoneChange(user.Phone, token);
-                        if (sent.Status != OperationResultStatus.Success)
-                            return OperationResult<Guid?>.Failed();
+                        // TODO: send to background
+                        // var sent = await _serviceProvider.GetService<IPostmanBiz>()
+                        //     .PhoneChange(user.Phone, token);
+                        // if (sent.Status != OperationResultStatus.Success)
+                        //     return OperationResult<Guid?>.Failed();
                         await unit.UserVerifications.AddAsync(new UserVerification
                         {
                             Id = id,
@@ -262,7 +267,7 @@ namespace Asoode.Application.Business.Membership
             }
         }
 
-        public async Task<OperationResult<bool>> ChangePicture(Guid userId, IFormFile file)
+        public async Task<OperationResult<bool>> ChangePicture(Guid userId, UploadedFileViewModel file)
         {
             try
             {
@@ -273,7 +278,7 @@ namespace Asoode.Application.Business.Membership
                     var uploadService = _serviceProvider.GetService<IUploadProvider>();
                     var upload = await uploadService.Upload(new StoreViewModel
                     {
-                        FormFile = file,
+                        File = file,
                         Section = UploadSection.UserAvatar,
                         RecordId = user.Id,
                         UserId = user.Id
@@ -403,17 +408,18 @@ namespace Asoode.Application.Business.Membership
                     OperationResult<bool> op;
                     if (!string.IsNullOrEmpty(confirmation.PhoneNumber))
                     {
-                        op = await _serviceProvider.GetService<IPostmanBiz>()
-                            .PhoneConfirmAccount(user.Phone, confirmation.Code);
+                        // op = await _serviceProvider.GetService<IPostmanBiz>()
+                        //     .PhoneConfirmAccount(user.Phone, confirmation.Code);
                     }
                     else
                     {
-                        op = await _serviceProvider.GetService<IPostmanBiz>()
-                            .EmailConfirmAccount(user.Id.ToString(), user.Email, confirmation.Code);
+                        // op = await _serviceProvider.GetService<IPostmanBiz>()
+                        //     .EmailConfirmAccount(user.Id.ToString(), user.Email, confirmation.Code);
                     }
 
                     await unit.SaveChangesAsync();
-                    return op;
+                    // return op;
+                    return OperationResult<bool>.Success();
                 }
             }
             catch (Exception ex)
@@ -493,27 +499,29 @@ namespace Asoode.Application.Business.Membership
 
                     if (isPhone)
                     {
-                        var sent = await _serviceProvider.GetService<IPostmanBiz>()
-                            .PhoneForgetPassword(user.Phone, token.Code);
-                        if (sent.Status != OperationResultStatus.Success)
-                        {
-                            await unit.UserVerifications.Where(i => i.Id == token.Id).DeleteAsync();
-                            return OperationResult<ForgetPasswordResultViewModel>
-                                .Success(new ForgetPasswordResultViewModel {SmsFailed = true});
-                        }
+                        // TODO: send to background
+                        // var sent = await _serviceProvider.GetService<IPostmanBiz>()
+                        //     .PhoneForgetPassword(user.Phone, token.Code);
+                        // if (sent.Status != OperationResultStatus.Success)
+                        // {
+                        //     await unit.UserVerifications.Where(i => i.Id == token.Id).DeleteAsync();
+                        //     return OperationResult<ForgetPasswordResultViewModel>
+                        //         .Success(new ForgetPasswordResultViewModel {SmsFailed = true});
+                        // }
 
                         return OperationResult<ForgetPasswordResultViewModel>
                             .Success(new ForgetPasswordResultViewModel {Id = token.Id});
                     }
 
-                    var send = await _serviceProvider.GetService<IPostmanBiz>()
-                        .EmailForgetPassword(user.Id.ToString(), user.Email, token.Code);
-                    if (send.Status != OperationResultStatus.Success)
-                    {
-                        await unit.UserVerifications.Where(i => i.Id == token.Id).DeleteAsync();
-                        return OperationResult<ForgetPasswordResultViewModel>
-                            .Success(new ForgetPasswordResultViewModel {EmailFailed = true});
-                    }
+                    // TODO: send to background
+                    // var send = await _serviceProvider.GetService<IPostmanBiz>()
+                    //     .EmailForgetPassword(user.Id.ToString(), user.Email, token.Code);
+                    // if (send.Status != OperationResultStatus.Success)
+                    // {
+                    //     await unit.UserVerifications.Where(i => i.Id == token.Id).DeleteAsync();
+                    //     return OperationResult<ForgetPasswordResultViewModel>
+                    //         .Success(new ForgetPasswordResultViewModel {EmailFailed = true});
+                    // }
 
                     return OperationResult<ForgetPasswordResultViewModel>
                         .Success(new ForgetPasswordResultViewModel {Id = token.Id});
@@ -534,14 +542,11 @@ namespace Asoode.Application.Business.Membership
                 {
                     var profile = await (
                         from usr in unit.Users
-                        join pln in unit.UserPlanInfo on usr.Id equals pln.UserId
                         where usr.Id == userId
-                        orderby pln.CreatedAt descending 
-                        select new {User = usr, Plan = pln}
+                        select new {User = usr}
                     ).FirstOrDefaultAsync();
 
                     if (profile?.User == null ||
-                        profile.Plan == null ||
                         profile.User.IsLocked ||
                         profile.User.Blocked ||
                         profile.User.DeletedAt.HasValue)
@@ -558,7 +563,7 @@ namespace Asoode.Application.Business.Membership
                         .FirstOrDefaultAsync(i => i.UserId == userId && !i.End.HasValue);
 
 
-                    var result = profile.User.ToProfileViewModel(profile.Plan);
+                    var result = profile.User.ToProfileViewModel();
                     result.WorkingGroupFrom = workingTime?.BeginAt;
                     result.WorkingGroupId = workingTime?.GroupId;
                     result.WorkingProjectId = workingTask?.ProjectId;
@@ -716,15 +721,6 @@ namespace Asoode.Application.Business.Membership
                     model.Username = model.Username.ConvertDigitsToLatin().Trim().ToLower();
                     model.Password = model.Password.ConvertDigitsToLatin().Trim();
 
-                    Guid? marketerId = null;
-                    if (!string.IsNullOrEmpty(model.Marketer))
-                    {
-                        var marketer = await unit.Marketers
-                            .AsNoTracking()
-                            .SingleOrDefaultAsync(m => m.Code == model.Marketer && m.Enabled);
-                        if (marketer != null) marketerId = marketer.Id;
-                    }
-
                     var isPhone = _validateBiz.IsMobile(model.Username);
                     var isEmail = !isPhone && _validateBiz.IsEmail(model.Username);
                     if (!isPhone && !isEmail) { throw new Exception($"('{username}' => '{model.Username}') is not a valid username");}
@@ -757,7 +753,6 @@ namespace Asoode.Application.Business.Membership
                         Type = UserType.User,
                         FirstName = model.FirstName,
                         LastName = model.LastName,
-                        MarketerId = marketerId,
                         Salt = salt,
                         Username = GenerateUsername(),
                         PasswordHash = HashPassword(model.Password, salt)
@@ -811,38 +806,33 @@ namespace Asoode.Application.Business.Membership
                     if (isPhone)
                     {
                         verification.PhoneNumber = phone;
-                        var sent = await _serviceProvider.GetService<IPostmanBiz>()
-                            .PhoneConfirmAccount(newUser.Phone, token);
-                        if (sent.Status != OperationResultStatus.Success)
-                        {
-                            await _serviceProvider.GetService<IErrorBiz>()
-                                .LogException(new Exception($"Phone Registration failed : {phone}"));
-                            return OperationResult<RegisterResultViewModel>
-                                .Success(new RegisterResultViewModel {SmsFailed = true});
-                        }
+                        
+                        // TODO: send to background
+                        // var sent = await _serviceProvider.GetService<IPostmanBiz>()
+                        //     .PhoneConfirmAccount(newUser.Phone, token);
+                        // if (sent.Status != OperationResultStatus.Success)
+                        // {
+                        //     await _serviceProvider.GetService<IErrorBiz>()
+                        //         .LogException(new Exception($"Phone Registration failed : {phone}"));
+                        //     return OperationResult<RegisterResultViewModel>
+                        //         .Success(new RegisterResultViewModel {SmsFailed = true});
+                        // }
                     }
                     else
                     {
                         verification.Email = newUser.Email;
-                        var sent = await _serviceProvider.GetService<IPostmanBiz>()
-                            .EmailConfirmAccount(newUser.Id.ToString(), newUser.Email, token);
-                        if (sent.Status != OperationResultStatus.Success)
-                        {
-                            await _serviceProvider.GetService<IErrorBiz>()
-                                .LogException(new Exception($"Email Registration failed : {newUser.Email}"));
-                            return OperationResult<RegisterResultViewModel>
-                                .Success(new RegisterResultViewModel {EmailFailed = true});
-                        }
+                        // TODO: send to background
+                        // var sent = await _serviceProvider.GetService<IPostmanBiz>()
+                        //     .EmailConfirmAccount(newUser.Id.ToString(), newUser.Email, token);
+                        // if (sent.Status != OperationResultStatus.Success)
+                        // {
+                        //     await _serviceProvider.GetService<IErrorBiz>()
+                        //         .LogException(new Exception($"Email Registration failed : {newUser.Email}"));
+                        //     return OperationResult<RegisterResultViewModel>
+                        //         .Success(new RegisterResultViewModel {EmailFailed = true});
+                        // }
                     }
 
-                    var plan = await unit.Plans.AsNoTracking().SingleAsync(i => i.Type == PlanType.Free);
-                    var planId = Guid.NewGuid();
-                    await unit.UserPlanInfo.AddAsync(plan.ToNewUserPlanInfo(newUser.Id, planId));
-                    await unit.PlanMembers.AddAsync(new PlanMember
-                    {
-                        Identifier = newUser.Id.ToString(),
-                        PlanId = planId,
-                    });
                     await unit.Channels.AddAsync(channel);
                     await unit.Conversations.AddRangeAsync(messages);
                     await unit.Users.AddAsync(newUser);
@@ -892,7 +882,7 @@ namespace Asoode.Application.Business.Membership
         }
 
         public async Task<OperationResult<bool>> UpdateProfile(
-            Guid userId, UserProfileUpdateViewModel model, IFormFile avatar)
+            Guid userId, UserProfileUpdateViewModel model, UploadedFileViewModel avatar)
         {
             try
             {
@@ -908,7 +898,7 @@ namespace Asoode.Application.Business.Membership
                             await uploadBiz.Delete(user.Avatar, UploadSection.UserAvatar, userId);
                         var op = await uploadBiz.Upload(new StoreViewModel
                         {
-                            FormFile = avatar,
+                            File = avatar,
                             Section = UploadSection.UserAvatar,
                             UserId = userId
                         });
@@ -1167,16 +1157,6 @@ namespace Asoode.Application.Business.Membership
                         .SingleOrDefaultAsync(u => u.Email == email);
                     if (user == null)
                     {
-                        Guid? marketerId = null;
-                        if (!string.IsNullOrEmpty(marketer))
-                        {
-                            marketerId = await unit.Marketers
-                                .AsNoTracking()
-                                .Where(i => i.Code == marketer)
-                                .Select(i => i.Id)
-                                .SingleOrDefaultAsync();
-                        }
-
                         var salt = CryptoHelper.CreateSalt(50);
                         user = new User
                         {
@@ -1185,14 +1165,11 @@ namespace Asoode.Application.Business.Membership
                             Type = UserType.User,
                             FirstName = firstName,
                             LastName = lastName,
-                            MarketerId = marketerId,
                             Salt = salt,
                             Username = GenerateUsername(),
                             PasswordHash = HashPassword(Guid.NewGuid().ToString(), salt),
                             LastEmailConfirmed = DateTime.UtcNow
                         };
-                        var plan = await unit.Plans.AsNoTracking().SingleAsync(i => i.Type == PlanType.Free);
-                        var planId = Guid.NewGuid();
                         var channel = new Channel
                         {
                             Title = "ASOODE_BOT_CHANNEL",
@@ -1232,19 +1209,14 @@ namespace Asoode.Application.Business.Membership
                         };
                         await unit.Channels.AddAsync(channel);
                         await unit.Conversations.AddRangeAsync(messages);
-                        await unit.UserPlanInfo.AddAsync(plan.ToNewUserPlanInfo(user.Id, planId));
-                        await unit.PlanMembers.AddAsync(new PlanMember
-                        {
-                            Identifier = user.Id.ToString(),
-                            PlanId = planId,
-                        });
                         await unit.Users.AddAsync(user);
 
-                        var sent = await _serviceProvider.GetService<IPostmanBiz>()
-                            .EmailWelcome(user.Id.ToString(), user.Email);
-                        if (sent.Status != OperationResultStatus.Success)
-                            return OperationResult<LoginResultViewModel>
-                                .Success(new LoginResultViewModel {EmailFailed = true});
+                        // TODO: send to background
+                        // var sent = await _serviceProvider.GetService<IPostmanBiz>()
+                        //     .EmailWelcome(user.Id.ToString(), user.Email);
+                        // if (sent.Status != OperationResultStatus.Success)
+                        //     return OperationResult<LoginResultViewModel>
+                        //         .Success(new LoginResultViewModel {EmailFailed = true});
                         await unit.SaveChangesAsync();
                         await JoinPendingInvitations(user.Email, user.Id);
                     }
@@ -1264,44 +1236,7 @@ namespace Asoode.Application.Business.Membership
             }
         }
 
-        public async Task<OperationResult<GridResult<UserOrderViewModel>>> Transactions(Guid userId,
-            GridFilter model)
-        {
-            try
-            {
-                using (var unit = _serviceProvider.GetService<AccountDbContext>())
-                {
-                    var query = from order in unit.Orders
-                        join plan in unit.Plans on order.PlanId equals plan.Id
-                        where order.UserId == userId
-                        orderby order.CreatedAt descending
-                        select new {Order = order, PlanTitle = plan.Title};
-                    
-                    return await DbHelper.GetPaginatedData(query, tuple =>
-                    {
-                        var (items, startIndex) = tuple;
-                        return items.Select((i, index) => new UserOrderViewModel
-                        {
-                            Amount = i.Order.PaymentAmount,
-                            Id = i.Order.Id,
-                            Title = i.PlanTitle,
-                            CreatedAt = i.Order.CreatedAt,
-                            DueAt = i.Order.ExpireAt,
-                            PreviousDebt = 0,
-                            Index = startIndex + index + 1,
-                            Status = i.Order.Status
-                        }).ToArray();
-                    }, model.Page, model.PageSize);
-                }
-            }
-            catch (Exception ex)
-            {
-                await _serviceProvider.GetService<IErrorBiz>().LogException(ex);
-                return OperationResult<GridResult<UserOrderViewModel>>.Failed();
-            }
-        }
 
-        
         public async Task<OperationResult<MemberInfoViewModel>> OtherUserProfile(Guid userId, Guid id)
         {
             try
@@ -1322,219 +1257,7 @@ namespace Asoode.Application.Business.Membership
         }
         
         #endregion
-        
-        #region Admin
 
-        public async Task<OperationResult<bool>> AdminConfirmUser(Guid userId, Guid id)
-        {
-            try
-            {
-                using (var unit = _serviceProvider.GetService<AccountDbContext>())
-                {
-                    var user = await unit.Users.SingleOrDefaultAsync(i => i.Id == id);
-                    if (user == null) return OperationResult<bool>.NotFound();
-                    user.Blocked = false;
-                    if (!string.IsNullOrEmpty(user.Phone)) user.LastPhoneConfirmed = DateTime.UtcNow;
-                    if (!string.IsNullOrEmpty(user.Email)) user.LastEmailConfirmed = DateTime.UtcNow;
-                    await unit.SaveChangesAsync();
-                    return OperationResult<bool>.Success(true);
-                }
-            }
-            catch (Exception ex)
-            {
-                await _serviceProvider.GetService<IErrorBiz>().LogException(ex);
-                return OperationResult<bool>.Failed();
-            }
-        }
-
-        public async Task<OperationResult<bool>> AdminBlockUser(Guid userId, Guid id)
-        {
-            try
-            {
-                using (var unit = _serviceProvider.GetService<AccountDbContext>())
-                {
-                    var user = await unit.Users.SingleOrDefaultAsync(i => i.Id == id);
-                    if (user == null) return OperationResult<bool>.NotFound();
-                    user.Blocked = true;
-                    user.LastPhoneConfirmed = null;
-                    user.LastEmailConfirmed = null;
-                    await unit.SaveChangesAsync();
-                    return OperationResult<bool>.Success(true);
-                }
-            }
-            catch (Exception ex)
-            {
-                await _serviceProvider.GetService<IErrorBiz>().LogException(ex);
-                return OperationResult<bool>.Failed();
-            }
-        }
-
-        public async Task<OperationResult<GridResult<UserViewModel>>> AdminUsersList(Guid userId,
-            GridFilterWithParams<GridQuery> model)
-        {
-            try
-            {
-                using (var unit = _serviceProvider.GetService<AccountDbContext>())
-                {
-                    var query = unit.Users.Where(i =>
-                        string.IsNullOrEmpty(model.Params.Query) ||
-                        (
-                            i.FirstName.Contains(model.Params.Query) ||
-                            i.LastName.Contains(model.Params.Query) ||
-                            i.Phone.Contains(model.Params.Query) ||
-                            i.Email.Contains(model.Params.Query) ||
-                            i.Bio.Contains(model.Params.Query)
-                        )
-                    ).OrderByDescending(i => i.CreatedAt);
-                    var result = await DbHelper.GetPaginatedData(query, tuple =>
-                    {
-                        var (items, startIndex) = tuple;
-                        return items.Select((i, index) => new UserViewModel
-                        {
-                            Index = startIndex + index + 1,
-                            Avatar = i.Avatar,
-                            Bio = i.Bio,
-                            Calendar = i.Calendar,
-                            Email = i.Email,
-                            Id = i.Id,
-                            Phone = i.Phone,
-                            Type = i.Type,
-                            Username = i.Username,
-                            CreatedAt = i.CreatedAt,
-                            FirstName = i.FirstName,
-                            LastName = i.LastName,
-                            TimeZone = i.TimeZone,
-                            UpdatedAt = i.UpdatedAt,
-                            EmailConfirmed = i.LastEmailConfirmed.HasValue && !i.Email.EndsWith("@asoode.user"),
-                            PhoneConfirmed = i.LastPhoneConfirmed.HasValue,
-                        }).ToArray();
-                    }, model.Page, model.PageSize);
-
-                    var userIds = result.Data.Items.Select(i => i.Id).ToArray();
-                    var plans = await (
-                        from usr in unit.Users
-                        join info in unit.UserPlanInfo on usr.Id equals info.UserId
-                        where userIds.Contains(usr.Id)
-                        orderby info.CreatedAt descending
-                        select info
-                    ).AsNoTracking().ToArrayAsync();
-
-                    foreach (var item in result.Data.Items)
-                    {
-                        item.Plan = plans.First(p => p.UserId == item.Id).ToViewModel();
-                    }
-
-                    return result;
-                }
-            }
-            catch (Exception ex)
-            {
-                await _serviceProvider.GetService<IErrorBiz>().LogException(ex);
-                return OperationResult<GridResult<UserViewModel>>.Failed();
-            }
-        }
-
-        public async Task<OperationResult<LoginResultViewModel>> OAuthAdminAuthentication(string email)
-        {
-            try
-            {
-                using (var unit = _serviceProvider.GetService<AccountDbContext>())
-                {
-                    var user = await unit.Users.AsNoTracking().SingleOrDefaultAsync(i => i.Email == email);
-                    if (user == null || user.Type != UserType.Admin)
-                        return OperationResult<LoginResultViewModel>.Rejected();
-                    var token = GenerateToken(user);
-                    return OperationResult<LoginResultViewModel>.Success(new LoginResultViewModel
-                    {
-                        Token = token,
-                        Username = user.Username,
-                        UserId = user.Id
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                await _serviceProvider.GetService<IErrorBiz>().LogException(ex);
-                return OperationResult<LoginResultViewModel>.Failed();
-            }
-        }
-
-        public async Task<OperationResult<bool>> AdminResetUserPassword(Guid userId, Guid id,
-            UserResetPasswordViewModel model)
-        {
-            try
-            {
-                using (var unit = _serviceProvider.GetService<AccountDbContext>())
-                {
-                    var user = await unit.Users.SingleOrDefaultAsync(i => i.Id == id);
-                    if (user == null) return OperationResult<bool>.NotFound();
-                    HashPassword(user, model.Password);
-                    await unit.SaveChangesAsync();
-                    return OperationResult<bool>.Success(true);
-                }
-            }
-            catch (Exception ex)
-            {
-                await _serviceProvider.GetService<IErrorBiz>().LogException(ex);
-                return OperationResult<bool>.Failed();
-            }
-        }
-
-        public async Task<OperationResult<bool>> AdminEditUser(Guid userId, Guid id, UserEditViewModel model)
-        {
-            try
-            {
-                using (var unit = _serviceProvider.GetService<AccountDbContext>())
-                {
-                    var user = await unit.Users.SingleOrDefaultAsync(i => i.Id == id);
-                    if (user == null) return OperationResult<bool>.NotFound();
-
-                    user.FirstName = model.FirstName;
-                    user.LastName = model.LastName;
-                    user.Type = model.Type;
-                    
-                    if (!string.IsNullOrEmpty(model.Phone))
-                    {
-                        if (model.Phone != user.Phone && _validateBiz.IsMobile(model.Phone))
-                        {
-                            user.Phone = _validateBiz.PrefixMobileNumber(model.Phone);
-                            user.LastPhoneConfirmed = DateTime.UtcNow;
-                        }
-                    }
-                    else
-                    {
-                        user.Phone = null;
-                        user.LastPhoneConfirmed = null;
-                    }
-                    
-                    if (!string.IsNullOrEmpty(model.Email))
-                    {
-                        if (model.Email != user.Email && _validateBiz.IsEmail(model.Email))
-                        {
-                            user.Email = model.Email;
-                            user.LastEmailConfirmed = DateTime.UtcNow;
-                        }
-                    }
-                    else
-                    {
-                        user.Email = null;
-                        user.LastEmailConfirmed = null;
-                    }
-
-                    await unit.SaveChangesAsync();
-                    return OperationResult<bool>.Success(true);
-                }
-            }
-            catch (Exception ex)
-            {
-                await _serviceProvider.GetService<IErrorBiz>().LogException(ex);
-                return OperationResult<bool>.Failed();
-            }
-        }
-
-
-        #endregion
-        
         #region Private Methods
 
         public ClaimsPrincipal ExtractToken(string token, UserType type = UserType.User)
@@ -1677,9 +1400,6 @@ namespace Asoode.Application.Business.Membership
                         }
                     }
 
-                    var planMembers = await unit.PlanMembers
-                        .Where(m => m.Identifier == email).ToArrayAsync();
-                    foreach (var planMember in planMembers) planMember.Identifier = userId.ToString();
                     unit.PendingInvitations.RemoveRange(pendings);
                     await unit.SaveChangesAsync();
                 }

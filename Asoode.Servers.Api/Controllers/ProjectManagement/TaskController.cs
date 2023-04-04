@@ -1,6 +1,4 @@
 using Asoode.Application.Core.Contracts.ProjectManagement;
-using Asoode.Application.Core.Extensions;
-using Asoode.Application.Core.Primitives.Enums;
 using Asoode.Application.Core.ViewModels.General;
 using Asoode.Application.Core.ViewModels.ProjectManagement;
 using Asoode.Application.Core.ViewModels.Reports;
@@ -23,19 +21,6 @@ namespace Asoode.Servers.Api.Controllers.ProjectManagement
             _taskBiz = taskBiz;
         }
 
-        [HttpPost("{id:guid}/{userId:guid}/bulk-download")]
-        [JwtAuthorize(UserType.Anonymous)]
-        public async Task<IActionResult> BulkDownload(Guid id, Guid userId)
-        {
-            var picked = Request.Form
-                .Select(i => Guid.Parse(i.Value))
-                .ToArray();
-            if (!picked.Any()) return NotFound();
-            var op = await _taskBiz.BulkDownload(userId, id, picked);
-            if (op.Status != OperationResultStatus.Success || op.Data.Zip == null) return NotFound();
-            return File(op.Data.Zip, "application/zip", $"{op.Data.Title}_{DateTime.UtcNow.GetTime()}.zip");
-        }
-
         [HttpPost("{id:guid}/create")]
         [ValidateModel]
         public async Task<IActionResult> Creat(Guid id, [FromBody] CreateTaskViewModel model)
@@ -50,15 +35,6 @@ namespace Asoode.Servers.Api.Controllers.ProjectManagement
         {
             var file = await Request.Form.Files?.FirstOrDefault()?.ToViewModel();
             var op = await _taskBiz.AddAttachment(Identity.UserId, id, file);
-            return Json(op);
-        }
-
-        [HttpPost("{id:guid}/bulk-attach")]
-        [RequestFormLimits(ValueLengthLimit = int.MaxValue, MultipartBodyLengthLimit = int.MaxValue)]
-        public async Task<IActionResult> BulkAttachment(Guid id)
-        {
-            var file = await Request.Form.Files?.FirstOrDefault()?.ToViewModel();
-            var op = await _taskBiz.BulkAttachment(Identity.UserId, id, file);
             return Json(op);
         }
 
@@ -84,46 +60,6 @@ namespace Asoode.Servers.Api.Controllers.ProjectManagement
         {
             var op = await _taskBiz.RenameAttachment(Identity.UserId, id, model);
             return Json(op);
-        }
-        
-        [HttpPost("attachment/{id:guid}/advanced")]
-        public async Task<IActionResult> FetchAdvanced(Guid id)
-        {
-            var op = await _taskBiz.FetchAdvanced(Identity.UserId, id);
-            return Json(op);
-        }
-        
-        [HttpPost("attachment/{id:guid}/advanced/comment")]
-        [ValidateModel]
-        public async Task<IActionResult> CommentAdvanced(Guid id, [FromBody]EditAdvancedCommentViewModel model)
-        {
-            var op = await _taskBiz.CommentAdvanced(Identity.UserId, id, model);
-            return Json(op);
-        }
-        
-        [HttpPost("attachment/advanced/{id:guid}/edit-comment")]
-        [ValidateModel]
-        public async Task<IActionResult> EditAdvancedComment(Guid id, [FromBody]TitleViewModel model)
-        {
-            var op = await _taskBiz.EditAdvancedComment(Identity.UserId, id, model);
-            return Json(op);
-        }
-        
-        [HttpPost("attachment/advanced/{id:guid}/remove-comment")]
-        public async Task<IActionResult> RemoveAdvancedComment(Guid id)
-        {
-            var op = await _taskBiz.RemoveAdvancedComment(Identity.UserId, id);
-            return Json(op);
-        }
-        
-        [JwtAuthorize(UserType.Anonymous)]
-        [HttpGet("attachment/advanced/{id:guid}/pdf")]
-        public async Task<IActionResult> PdfAdvanced(Guid id)
-        {
-            // var op = await _taskBiz.PdfAdvancedComment(Identity.UserId, id);
-            var op = await _taskBiz.PdfAdvanced(Guid.Empty, id);
-            if (op.Status != OperationResultStatus.Success) return NotFound();
-            return File(op.Data.Stream, "application/pdf", op.Data.FileName);
         }
 
         [HttpPost("attachment/{id:guid}/remove")]

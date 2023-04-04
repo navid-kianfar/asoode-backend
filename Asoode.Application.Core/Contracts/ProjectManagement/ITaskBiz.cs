@@ -36,15 +36,4 @@ public interface ITaskBiz
     Task<OperationResult<bool>> SetDate(Guid userId, Guid taskId, SetDateViewModel model);
     Task<OperationResult<WorkPackageTaskViewModel[]>> Calendar(Guid userId, DurationViewModel model);
     Task<OperationResult<KartablViewModel>> Kartabl(Guid userId, DurationViewModel model);
-
-    Task<OperationResult<AdvancedPlayerViewModel>> FetchAdvanced(Guid userId, Guid attachmentId);
-
-    Task<OperationResult<AdvancedPlayerCommentViewModel>> CommentAdvanced(Guid userId, Guid attachmentId,
-        EditAdvancedCommentViewModel model);
-
-    Task<OperationResult<bool>> EditAdvancedComment(Guid userId, Guid commentId, TitleViewModel model);
-    Task<OperationResult<bool>> RemoveAdvancedComment(Guid userId, Guid commentId);
-    Task<OperationResult<PdfAdvancedCommentViewModel>> PdfAdvanced(Guid userId, Guid attachmentId);
-    Task<OperationResult<UploadResultViewModel>> BulkAttachment(Guid userId, Guid id, UploadedFileViewModel file);
-    Task<OperationResult<BulkDownloadResultViewModel>> BulkDownload(Guid userId, Guid id, Guid[] picked);
 }
