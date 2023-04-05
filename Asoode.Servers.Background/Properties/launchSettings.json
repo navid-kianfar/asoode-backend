@@ -14,8 +14,8 @@
         "APP_DB_PASS": "JloAC5jkHVc1zwPEhkXuKJHRuiFDCeyCs",
 
         "APP_STORAGE_SERVER": "localhost",
-        "APP_STORAGE_USER": "",
-        "APP_STORAGE_PASS": "",
+        "APP_STORAGE_USER": "14rTOJ6exMZD4l5j",
+        "APP_STORAGE_PASS": "1XhjGdgC6HUJB2RFmWsNXPfDchebeRTF",
         "APP_STORAGE_BUCKET": "asoode",
 
         "APP_QUEUE_SERVER": "localhost",
