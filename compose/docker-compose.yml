@@ -95,31 +95,31 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ${POSTGRES_VOL}/data:/var/lib/postgresql/data
     networks:
-      database_network:
+      asoode_network:
         ipv4_address: 192.168.17.7
         
-  nginx:
-    container_name: nginx
-    image: nginx:latest
-    restart: unless-stopped
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ${NGINX_VOL}/conf:/etc/nginx/conf.d:rw
-      - ${NGINX_VOL}/logs:/var/log/nginx:rw
-      - ${NGINX_VOL}/www:/var/www/nginx:rw
-      - ${CERTBOT_VOL}/www:/var/www/certbot:rw
-    networks:
-      asoode_network:
-        ipv4_address: 192.168.17.8
-  certbot:
-    container_name: certbot
-    image: certbot/certbot
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ${CERTBOT_VOL}/www:/var/www/certbot:rw
+#  nginx:
+#    container_name: nginx
+#    image: nginx:latest
+#    restart: unless-stopped
+#    ports:
+#      - 80:80
+#      - 443:443
+#    volumes:
+#      - /etc/localtime:/etc/localtime:ro
+#      - ${NGINX_VOL}/conf:/etc/nginx/conf.d:rw
+#      - ${NGINX_VOL}/logs:/var/log/nginx:rw
+#      - ${NGINX_VOL}/www:/var/www/nginx:rw
+#      - ${CERTBOT_VOL}/www:/var/www/certbot:rw
+#    networks:
+#      asoode_network:
+#        ipv4_address: 192.168.17.8
+#  certbot:
+#    container_name: certbot
+#    image: certbot/certbot
+#    volumes:
+#      - /etc/localtime:/etc/localtime:ro
+#      - ${CERTBOT_VOL}/www:/var/www/certbot:rw
 #  api:
 #    image: 'asoode-api'
 #    hostname: 'asoode-api'

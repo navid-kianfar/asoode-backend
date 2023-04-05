@@ -160,7 +160,7 @@ namespace Asoode.Application.Business.Membership
                     var user = await unit.Users.SingleOrDefaultAsync(i => i.Id == userId);
                     if (user == null) return OperationResult<Guid?>.NotFound();
 
-                    var id = Guid.NewGuid();
+                    var id = IncrementalGuid.NewId();
                     var sameEmail = string.Equals(user.Email, email, StringComparison.InvariantCultureIgnoreCase);
                     if (!sameEmail || !user.LastEmailConfirmed.HasValue)
                     {
@@ -232,7 +232,7 @@ namespace Asoode.Application.Business.Membership
                     var user = await unit.Users.SingleOrDefaultAsync(i => i.Id == userId);
                     if (user == null) return OperationResult<Guid?>.NotFound();
 
-                    var id = Guid.NewGuid();
+                    var id = IncrementalGuid.NewId();
                     var sameNumber = string.Equals(user.Phone, phone, StringComparison.InvariantCultureIgnoreCase);
                     if (!sameNumber || !user.LastPhoneConfirmed.HasValue)
                     {
@@ -1167,7 +1167,7 @@ namespace Asoode.Application.Business.Membership
                             LastName = lastName,
                             Salt = salt,
                             Username = GenerateUsername(),
-                            PasswordHash = HashPassword(Guid.NewGuid().ToString(), salt),
+                            PasswordHash = HashPassword(IncrementalGuid.NewId().ToString(), salt),
                             LastEmailConfirmed = DateTime.UtcNow
                         };
                         var channel = new Channel
@@ -1423,7 +1423,7 @@ namespace Asoode.Application.Business.Membership
                 new Claim(AsoodeClaims.UserId, user.Id.ToString()),
                 new Claim(AsoodeClaims.Username, user.Username),
                 new Claim(AsoodeClaims.UserType, user.Type.ToString().ToLower()),
-                new Claim(AsoodeClaims.TokenId, Guid.NewGuid().ToString())
+                new Claim(AsoodeClaims.TokenId, IncrementalGuid.NewId().ToString())
             };
             var token = new JwtSecurityToken(issuer, issuer, claims,
                 expires: DateTime.UtcNow.AddDays(120),

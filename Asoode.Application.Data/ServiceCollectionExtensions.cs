@@ -9,9 +9,11 @@ namespace Asoode.Application.Data
     {
         public static IServiceCollection SetupApplicationData(this IServiceCollection services)
         {
-            var connectionString = EnvironmentHelper.IsDevelopment() ? 
-                EnvironmentHelper.Get("RemoteConnection")!:
-                EnvironmentHelper.Get("LocalConnection")!;
+            var server = EnvironmentHelper.Get("APP_DB_SERVER")!;
+            var database = EnvironmentHelper.Get("APP_DB_NAME")!;
+            var username = EnvironmentHelper.Get("APP_DB_USER")!;
+            var password = EnvironmentHelper.Get("APP_DB_PASS")!;
+            var connectionString = $"Server={server}; Port=5432;Database={database};User Id={username}; Password={password};";
             services.AddDbContextPool<ApplicationDbContext>(options =>
             {
                 options.UseNpgsql(connectionString, builder =>

@@ -1,5 +1,6 @@
 using Asoode.Application.Business;
 using Asoode.Application.Core;
+using Asoode.Application.Core.Helpers;
 using Asoode.Application.Data;
 using Microsoft.Extensions.Hosting;
 
@@ -13,6 +14,7 @@ namespace Asoode.Servers.Background.Engine
 
             var app = Host.CreateDefaultBuilder(args).ConfigureServices(services =>
             {
+                AppSettingHelper.Configure();
                 services.SetupApplicationCore();
                 services.SetupApplicationData();
                 services.SetupApplicationBusiness();

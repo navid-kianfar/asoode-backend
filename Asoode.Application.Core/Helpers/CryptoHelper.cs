@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using System.Text;
+using Asoode.Application.Core.Primitives;
 
 namespace Asoode.Application.Core.Helpers;
 
@@ -193,7 +194,7 @@ public static class CryptoHelper
 
     public static string GetShortUniqueId()
     {
-        return Guid.NewGuid().ToShortUniqueId();
+        return IncrementalGuid.NewId().ToShortUniqueId();
     }
 
     public static string GetUniqueKey(int maxSize)

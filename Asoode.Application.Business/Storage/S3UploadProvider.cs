@@ -104,13 +104,13 @@ namespace Asoode.Application.Business.Storage
     //         var name = Path.GetFileNameWithoutExtension(model.FormFile.FileName).RemoveSpecialCharacters();
     //         var ext = Path.GetExtension(model.FormFile.FileName);
     //         if (storage) return $"{destinationPath}/{name}{ext}";
-    //         return $"{destinationPath}/{Guid.NewGuid()}/{name}{ext}";
+    //         return $"{destinationPath}/{IncrementalGuid.NewId()}/{name}{ext}";
     //     }
     //
     //     private async Task<string> SaveTempFile(Stream file, string virtualPath)
     //     {
     //         var name = Path.GetFileName(virtualPath);
-    //         var destinationFile = Path.Combine(_serverInfo.FilesRootPath, "tmp", Guid.NewGuid().ToString(), name);
+    //         var destinationFile = Path.Combine(_serverInfo.FilesRootPath, "tmp", IncrementalGuid.NewId().ToString(), name);
     //         Directory.CreateDirectory(Path.GetDirectoryName(destinationFile));
     //         using (var stream = new FileStream(destinationFile, FileMode.Create)) await file.CopyToAsync(stream);
     //         file.Seek(0, SeekOrigin.Begin);
@@ -313,7 +313,7 @@ namespace Asoode.Application.Business.Storage
     //                 var path = $"{_remote}/{_bucket}/{source}";
     //                 return OperationResult<UploadViewModel>.Success(new UploadViewModel
     //                 {
-    //                     Id = Guid.NewGuid(),
+    //                     Id = IncrementalGuid.NewId(),
     //                     ThumbnailPath = null, //thumbPath,
     //                     Path = path,
     //                     Type = IOHelper.GetFileType(ext),
@@ -955,7 +955,7 @@ namespace Asoode.Application.Business.Storage
     //                 {
     //                     Directory = $"/{GetUserStoragePath(userId, model.Path)}/{model.Name}",
     //                     Extension = ".txt",
-    //                     Id = Guid.NewGuid(),
+    //                     Id = IncrementalGuid.NewId(),
     //                     Name = IGNORE_FILE,
     //                     Path = $"{_remote}/{_bucket}/{key}",
     //                     Public = false,
@@ -963,7 +963,7 @@ namespace Asoode.Application.Business.Storage
     //                     Size = 1,
     //                     Type = FileType.Documents,
     //                     CreatedAt = DateTime.Now,
-    //                     RecordId = Guid.NewGuid(),
+    //                     RecordId = IncrementalGuid.NewId(),
     //                     UserId = userId
     //                 });
     //                 await unit.SaveChangesAsync();
@@ -1272,7 +1272,7 @@ namespace Asoode.Application.Business.Storage
 //                 var allowedExtensions = new[] {".mp3", ".mp4", ".mov", ".moho"};
 //
 //                 var serverInfo = _serviceProvider.GetService<IServerInfo>();
-//                 var zipPath = $"{serverInfo.ContentRootPath}/tmp/{Guid.NewGuid()}/bulk-upload.zip";
+//                 var zipPath = $"{serverInfo.ContentRootPath}/tmp/{IncrementalGuid.NewId()}/bulk-upload.zip";
 //                 var extractDirectory = Path.GetDirectoryName(zipPath);
 //                 Directory.CreateDirectory(extractDirectory);
 //

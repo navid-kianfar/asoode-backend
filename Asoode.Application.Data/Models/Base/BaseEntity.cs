@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Asoode.Application.Core.Primitives;
 
 namespace Asoode.Application.Data.Models.Base
 {
@@ -6,7 +7,7 @@ namespace Asoode.Application.Data.Models.Base
     {
         protected BaseEntity()
         {
-            Id = Guid.NewGuid();
+            Id = IncrementalGuid.NewId();
             CreatedAt = DateTime.UtcNow;
         }
         public DateTime CreatedAt { get; set; }

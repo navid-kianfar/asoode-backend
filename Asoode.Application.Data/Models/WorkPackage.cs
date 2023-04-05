@@ -35,7 +35,6 @@ namespace Asoode.Application.Data.Models
         [MaxLength(2000)] public string Description { get; set; }
 
         public DateTime? BeginAt { get; set; }
-        public bool Premium { get; set; }
         public DateTime? EndAt { get; set; }
         public DateTime? ActualBeginAt { get; set; }
         public DateTime? ActualEndAt { get; set; }

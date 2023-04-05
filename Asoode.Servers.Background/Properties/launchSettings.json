@@ -4,33 +4,25 @@
       "commandName": "Project",
       "dotnetRunMessages": true,
       "environmentVariables": {
+
         "APP_BUILD": "1.0.0",
         "APP_ENVIRONMENT": "Development",
-        
-        "APP_I18N_LANG": "en",
-        "APP_I18N_CULTURE": "en-US",
-        
-        "APP_AUTH_ISSUER": "ASOODE",
-        "APP_AUTH_SECRET": "Z56zUe7VnKJSjCZkncwarxXjLdgek3fQ5rxULDybh7",
-        "APP_AUTH_SALT": "5Jc6D2zTDrKbLs55SC6BrkfUfYCMfvfyN8fzUZ4TkL9SGeMkyd",
-        
+
         "APP_DB_SERVER": "localhost",
-        "APP_DB_PORT": "3306",
-        "APP_DB_USER": "asoode-development",
-        "APP_DB_PASS": "",
-        
-        "APP_STORAGE_SERVER": "",
-        "APP_STORAGE_PORT": "",
+        "APP_DB_NAME": "asoode-development",
+        "APP_DB_USER": "WFY8tS83N0v9o0m",
+        "APP_DB_PASS": "JloAC5jkHVc1zwPEhkXuKJHRuiFDCeyCs",
+
+        "APP_STORAGE_SERVER": "localhost",
         "APP_STORAGE_USER": "",
         "APP_STORAGE_PASS": "",
-        "APP_STORAGE_BUCKET": "",
-        
-        "APP_QUEUE_SERVER": "",
-        "APP_QUEUE_PORT": "",
-        "APP_QUEUE_USER": "",
-        "APP_QUEUE_PASS": "",
-        "APP_QUEUE_PREFIX": "",
-        
+        "APP_STORAGE_BUCKET": "asoode",
+
+        "APP_QUEUE_SERVER": "localhost",
+        "APP_QUEUE_USER": "admin",
+        "APP_QUEUE_PASS": "aPfB0dc4nxhT2S0kxIGlBHNY4DpS0M2l0CBcKRn96ub4GFiJvc",
+        "APP_QUEUE_PREFIX": "asoode",
+
         "APP_SMTP_SERVER": "",
         "APP_SMTP_PORT": "",
         "APP_SMTP_USER": "",

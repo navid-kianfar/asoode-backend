@@ -13,6 +13,13 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Asoode.Application.Business.Logging
 {
+    internal class ActivityBiz : IActivityBiz
+    {
+        public Task Enqueue(ActivityLogViewModel model)
+        {
+            throw new NotImplementedException();
+        }
+    }
     // internal class ActivityBiz : IActivityBiz
     // {
     //     #region Properties

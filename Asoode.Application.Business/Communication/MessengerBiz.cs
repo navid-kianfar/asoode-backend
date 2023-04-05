@@ -215,7 +215,6 @@ namespace Asoode.Application.Business.Communication
                                 .AsNoTracking()
                                 .SingleOrDefaultAsync(i => i.Id == workPackage.ProjectId);
                             if (project.ArchivedAt.HasValue) return OperationResult<UploadResultViewModel>.Rejected();
-                            planId = project.PlanInfoId;
                             hasAccess = await unit.WorkPackageMembers.AnyAsync(i
                                 => i.PackageId == channelId &&
                                    (i.RecordId == userId || groupIds.Contains(i.RecordId)) &&
@@ -227,7 +226,6 @@ namespace Asoode.Application.Business.Communication
                                 .AsNoTracking()
                                 .SingleOrDefaultAsync(i => i.Id == channelId);
                             if (project.ArchivedAt.HasValue) return OperationResult<UploadResultViewModel>.Rejected();
-                            planId = project.PlanInfoId;
                             hasAccess = await unit.ProjectMembers.AnyAsync(i
                                 => i.ProjectId == channelId &&
                                    (i.RecordId == userId || groupIds.Contains(i.RecordId)) &&
@@ -252,7 +250,7 @@ namespace Asoode.Application.Business.Communication
                     
                     if (!hasAccess) return OperationResult<UploadResultViewModel>.Rejected();
                     
-                    var conversationId = Guid.NewGuid();
+                    var conversationId = IncrementalGuid.NewId();
                     var result = await _serviceProvider.GetService<IUploadProvider>().Upload(new StoreViewModel
                     {
                         File = file,

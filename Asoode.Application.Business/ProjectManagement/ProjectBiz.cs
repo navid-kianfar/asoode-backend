@@ -211,7 +211,7 @@ namespace Asoode.Application.Business.ProjectManagement
                 }
                 else
                 {
-                    var packageId = Guid.NewGuid();
+                    var packageId = IncrementalGuid.NewId();
                     channel.Type = ChannelType.WorkPackage;
                     channel.Id = packageId;
                     workPackages.Add(new WorkPackage
@@ -624,7 +624,7 @@ namespace Asoode.Application.Business.ProjectManagement
                             await unit.GroupMembers.AddAsync(new GroupMember
                             {
                                 Access = AccessType.Admin,
-                                Id = Guid.NewGuid(),
+                                Id = IncrementalGuid.NewId(),
                                 Level = 1,
                                 CreatedAt = DateTime.UtcNow,
                                 GroupId = group.Id,
@@ -661,7 +661,6 @@ namespace Asoode.Application.Business.ProjectManagement
                             AllowBlockingBoardTasks = true,
                             Color = AsoodeColors.Default.Value,
                             DarkColor = AsoodeColors.Default.Dark,
-                            Premium = op.Data.ViewModel.Premium,
                             Order = packageCounter,
                             TaskVisibility = WorkPackageTaskVisibility.Normal,
                         });

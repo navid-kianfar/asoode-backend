@@ -1089,9 +1089,6 @@ namespace Asoode.Application.Business.ProjectManagement
                     var destinationPackage = query.Single(i => i.Package.Id == destinationId).Package;
                     var destinationProject = query.Single(i => i.Package.Id == destinationId).Project;
 
-                    if (sourceProject.PlanInfoId != destinationProject.PlanInfoId)
-                        return OperationResult<bool>.Rejected();
-
                     var packageMembers = await unit.WorkPackageMembers.Where(i =>
                         i.PackageId == workPackageId || i.PackageId == destinationId).ToArrayAsync();
 
@@ -1305,8 +1302,6 @@ namespace Asoode.Application.Business.ProjectManagement
                     var destination = projects.Single(i => i.Id == projectId);
 
                     if (!destination.Complex) return OperationResult<bool>.Rejected();
-
-                    if (source.PlanInfoId != destination.PlanInfoId) return OperationResult<bool>.Rejected();
 
                     var user = await unit.Users.SingleAsync(i => i.Id == userId);
 
@@ -2011,7 +2006,7 @@ namespace Asoode.Application.Business.ProjectManagement
                     if (checkAccess.Status != OperationResultStatus.Success) return checkAccess;
 
                     var now = DateTime.UtcNow;
-                    list.Id = Guid.NewGuid();
+                    list.Id = IncrementalGuid.NewId();
                     list.Title = model.Title.Trim();
                     list.CreatedAt = now;
                     list.UpdatedAt = now;
@@ -2024,7 +2019,7 @@ namespace Asoode.Application.Business.ProjectManagement
                     ).AsNoTracking().ToArrayAsync();
 
                     var mappedIds = tasks.ToDictionary(i
-                        => i.Id, j => Guid.NewGuid());
+                        => i.Id, j => IncrementalGuid.NewId());
 
                     foreach (var task in tasks)
                     {

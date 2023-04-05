@@ -65,7 +65,7 @@ namespace Asoode.Application.Business.Import
                 var mappedColorIds = new Dictionary<string, Guid>();
                 var mappedListsIds = new Dictionary<string, Guid>();
                 var labels = new List<WorkPackageLabelViewModel>();
-                var package = new WorkPackageViewModel {Description = export.Desc, Title = export.Name, Id = Guid.NewGuid()};
+                var package = new WorkPackageViewModel {Description = export.Desc, Title = export.Name, Id = IncrementalGuid.NewId()};
                 var allComments = export.Actions.Where(a => a.Type == "commentCard").ToArray();
 
                 #region Users
@@ -89,7 +89,7 @@ namespace Asoode.Application.Business.Import
 
                 package.Members = mappedUserIds.Values.Distinct().Select(i => new WorkPackageMemberViewModel
                 {
-                    Id = Guid.NewGuid(),
+                    Id = IncrementalGuid.NewId(),
                     Access = i == userId ? AccessType.Admin : AccessType.Editor,
                     RecordId = i
                 }).ToArray();
@@ -102,7 +102,7 @@ namespace Asoode.Application.Business.Import
                 {
                     var lbl = new WorkPackageLabelViewModel
                     {
-                        Id = Guid.NewGuid(),
+                        Id = IncrementalGuid.NewId(),
                         Color = label.Color,
                         Title = label.Name,
                     };
@@ -118,7 +118,7 @@ namespace Asoode.Application.Business.Import
 
                 package.Lists = export.Lists?.Select((l, i) =>
                 {
-                    var listId = Guid.NewGuid();
+                    var listId = IncrementalGuid.NewId();
                     mappedListsIds.Add(l.Id, listId);
                     return new WorkPackageListViewModel
                     {
@@ -136,7 +136,7 @@ namespace Asoode.Application.Business.Import
 
                 package.Tasks = export.Cards?.OrderByDescending(c => c.DateLastActivity).Select(c =>
                 {
-                    var taskId = Guid.NewGuid();
+                    var taskId = IncrementalGuid.NewId();
                     var createdAt = c.Due ?? DateTime.UtcNow; // CHECK LATER;
                     DateTime? archivedAt = null;
                     if (c.Closed) archivedAt = c.Due;
@@ -157,21 +157,21 @@ namespace Asoode.Application.Business.Import
                         GeoLocation = c.Coordinates?.ToString(),
                         Labels = c.IdLabels.Select(l => new WorkPackageTaskLabelViewModel
                         {
-                            Id = Guid.NewGuid(),
+                            Id = IncrementalGuid.NewId(),
                             LabelId = mappedColorIds[l],
                             PackageId = package.Id,
                             TaskId = taskId
                         }).ToArray(),
                         Members = c.IdMembers.Select(i => new WorkPackageTaskMemberViewModel
                         {
-                            Id = Guid.NewGuid(),
+                            Id = IncrementalGuid.NewId(),
                             PackageId = package.Id,
                             RecordId = mappedUserIds[i],
                             TaskId = taskId
                         }).ToArray(),
                         Attachments = c.Attachments?.Select(a => new WorkPackageTaskAttachmentViewModel
                         {
-                            Id = Guid.NewGuid(),
+                            Id = IncrementalGuid.NewId(),
                             TaskId = taskId,
                             UserId = mappedUserIds.ContainsKey(a.IdMember) ? mappedUserIds[a.IdMember] : userId,
                             Path = a.Url,
@@ -187,7 +187,7 @@ namespace Asoode.Application.Business.Import
                             .SelectMany(i => i.CheckItems)
                             .Select(ci =>
                             {
-                                var checkListItemId = Guid.NewGuid();
+                                var checkListItemId = IncrementalGuid.NewId();
                                 var isDone = ci.State != "incomplete";
                                 DateTime? doneAt = null;
                                 if (isDone) doneAt = DateTime.UtcNow;
@@ -209,7 +209,7 @@ namespace Asoode.Application.Business.Import
                         Comments = allComments.Where(k => k.Data.Card.Id == c.Id)
                             .Select(k => new WorkPackageTaskCommentViewModel
                             {
-                                Id = Guid.NewGuid(),
+                                Id = IncrementalGuid.NewId(),
                                 Message = k.Data.Text,
                                 UserId = mappedUserIds[k.IdMemberCreator],
                                 CreatedAt = k.Date,

@@ -1264,7 +1264,7 @@ namespace Asoode.Application.Business.ProjectManagement
                         PackageId = task.PackageId,
                         ProjectId = task.ProjectId,
                         TaskId = u.RecordId,
-                        UploadId = Guid.NewGuid(),
+                        UploadId = IncrementalGuid.NewId(),
                         UserId = userId,
                         SubProjectId = task.SubProjectId,
                     }).ToArray();

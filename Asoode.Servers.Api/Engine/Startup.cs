@@ -20,6 +20,7 @@ namespace Asoode.Backend
     {
         public static void AddAppServices(this IServiceCollection services, WebApplicationBuilder builder)
         {
+            AppSettingHelper.Configure();
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             
             var issuer = EnvironmentHelper.Get("APP_AUTH_ISSUER")!;

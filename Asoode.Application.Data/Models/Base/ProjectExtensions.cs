@@ -25,7 +25,6 @@ namespace Asoode.Application.Data.Models.Base
                 UpdatedAt = project.UpdatedAt,
                 UserId = project.UserId,
                 Complex = project.Complex,
-                Premium = project.Premium,
                 Seasons = seasons,
                 Members = members,
                 WorkPackages = workPackages,

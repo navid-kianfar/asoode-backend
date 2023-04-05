@@ -48,7 +48,7 @@ namespace Asoode.Application.Business.Collaboration
 
                     var parsed = await unit.ParseInvite(userId, validation, model.Members);
 
-                    var groupId = Guid.NewGuid();
+                    var groupId = IncrementalGuid.NewId();
                     var group = new Group
                     {
                         Id = groupId,

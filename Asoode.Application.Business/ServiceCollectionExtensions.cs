@@ -29,8 +29,8 @@ namespace Asoode.Application.Business
             this IServiceCollection services)
         {
             
-            // services.AddTransient<IActivityBiz, ActivityBiz>();
-            // services.AddTransient<IUploadProvider, S3UploadProvider>();
+            services.AddTransient<IActivityBiz, ActivityBiz>();
+            services.AddTransient<IUploadProvider, UploadProvider>();
             services.AddSingleton<IQueueClient, QueueClient>();
             services.AddSingleton<IValidateBiz, ValidateBiz>();
             services.AddSingleton<IGeneralBiz, GeneralBiz>();
