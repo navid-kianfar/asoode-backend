@@ -148,7 +148,7 @@ namespace Asoode.Backend
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Asoode");
-                c.RoutePrefix = string.Empty; // Set Swagger UI at apps root
+                c.RoutePrefix = ""; // Set Swagger UI at apps root
             });
 
             ApplicationStarted(app.Services);

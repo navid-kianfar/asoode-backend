@@ -7,24 +7,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Asoode.Servers.Api.Engine
 {
-    [Localize]
     public abstract class BaseController : Controller
     {
-        private TokenClaimsViewModel _currentUser;
+        private TokenClaimsViewModel? _currentUser;
 
-        protected TokenClaimsViewModel Identity
+        protected TokenClaimsViewModel? Identity
         {
             get
             {
                 try
                 {
-                    if (User == null || !User.Identity.IsAuthenticated) return new TokenClaimsViewModel();
+                    if (!(User.Identity?.IsAuthenticated ?? false)) return new TokenClaimsViewModel();
                     if (_currentUser == null)
                     {
                         Enum.TryParse(User.FindFirstValue(AsoodeClaims.UserId), true, out UserType role);
                         _currentUser = new TokenClaimsViewModel(
-                            User.FindFirstValue(AsoodeClaims.Username),
-                            Guid.Parse(User.FindFirstValue(AsoodeClaims.UserId)),
+                            User.FindFirstValue(AsoodeClaims.Username)!,
+                            Guid.Parse(User.FindFirstValue(AsoodeClaims.UserId)!),
                             role
                         );
                     }

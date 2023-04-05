@@ -5,9 +5,9 @@
       "dotnetRunMessages": true,
       "environmentVariables": {
 
+        "APP_ENV": "Development",
         "APP_BUILD": "1.0.0",
-        "APP_ENVIRONMENT": "Development",
-
+        
         "APP_DB_SERVER": "localhost",
         "APP_DB_NAME": "asoode-development",
         "APP_DB_USER": "WFY8tS83N0v9o0m",

@@ -4,10 +4,12 @@
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:5020",
+      "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
+        "APP_ENV": "Development",
+        "APP_IP": "localhost",
+        "APP_PORT": "5000",
         "APP_BUILD": "1.0.0",
-        "APP_ENVIRONMENT": "Development",
         
         "APP_I18N_LANG": "en",
         "APP_I18N_CULTURE": "en-US",
