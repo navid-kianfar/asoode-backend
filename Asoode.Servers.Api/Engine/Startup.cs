@@ -42,7 +42,7 @@ namespace Asoode.Backend
             });
             services.ConfigureApplicationCookie(options => { });
             services.Configure<IdentityOptions>(IdentityConfiguration.ConfigureOptions);
-            services
+            var authChain = services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddCookie()
                 .AddJwtBearer(options =>
@@ -57,14 +57,17 @@ namespace Asoode.Backend
                         ValidAudience = issuer,
                         IssuerSigningKey = new SymmetricSecurityKey(key)
                     };
-                })
-                .AddGoogle(options =>
+                });
+            if (!string.IsNullOrWhiteSpace(googleClientId))
+            {
+                authChain.AddGoogle(options =>
                 {
                     options.ClientId = googleClientId;
                     options.ClientSecret = googleClientSecret;
                     options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     options.SaveTokens = false;
                 });
+            }
             services.AddControllers().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ContractResolver =
@@ -147,7 +150,7 @@ namespace Asoode.Backend
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Asoode");
+                c.SwaggerEndpoint("/swagger/v2/swagger.json", "Asoode");
                 c.RoutePrefix = ""; // Set Swagger UI at apps root
             });
 
