@@ -6,9 +6,9 @@ namespace Asoode.Console;
 
 internal class Program
 {
-    private static readonly string GmailAccount = "asoode.work@gmail.com";
-    private static readonly string GmailPassword = "rwhaoeetblnkvtgf";
-    private static string SmtpHost = "smtp.gmail.com";
+    private static readonly string GmailAccount = "";
+    private static readonly string GmailPassword = "";
+    private static string SmtpHost = "";
     private static int SmtpPort = 587;
 
     private static void Main(string[] args)
