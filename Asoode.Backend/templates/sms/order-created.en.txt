@@ -1,0 +1,12 @@
+{fullName} , dear asoode user ؛
+
+your bill has been created,
+amount: {amount}
+created at: {date}
+
+you can simply pay it by following the bellow link
+
+https://panel.asoode.com/payment/pay/{id}
+
+
+Thank you for choosing asoode

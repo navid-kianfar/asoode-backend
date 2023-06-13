@@ -1,0 +1,99 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Content Include="templates\**">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="templates\sms\order-created.fa.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="templates\sms\order-created.en.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="templates\sms\order-paid.en.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="templates\sms\order-paid.fa.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="templates\email\order-change.en.html">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="templates\email\order-change.fa.html">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="templates\reports\advanced-pdf.html">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.5" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.5" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.5" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Asoode.Business\Asoode.Business.csproj" />
+        <ProjectReference Include="..\Asoode.Core\Asoode.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\0aae7d66-4a81-44c8-bedd-7b09ec75836f\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e5f56ad667dcd04477b\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\0aae7d66-4a81-44c8-bedd-7b09ec75836f\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e6656ad667d52044780\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\201f62bf-294c-4b68-96b2-940efcba4259\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e5f56ad667dcd04477b\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\201f62bf-294c-4b68-96b2-940efcba4259\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e6656ad667d52044780\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\216854cc-60f0-4701-9792-1997cae927a9\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e5f56ad667dcd04477b\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\216854cc-60f0-4701-9792-1997cae927a9\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e6656ad667d52044780\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\56c5ccde-30f1-49cc-8a6e-3dc167e6e379\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e5f56ad667dcd04477b\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\56c5ccde-30f1-49cc-8a6e-3dc167e6e379\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e6656ad667d52044780\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\587c9c31-a943-40b6-a172-18234abad3b1\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e5f56ad667dcd04477b\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\587c9c31-a943-40b6-a172-18234abad3b1\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e6656ad667d52044780\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\5dae2192-0e98-4a5e-bceb-4f759aee3b4e\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e5f56ad667dcd04477b\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\5dae2192-0e98-4a5e-bceb-4f759aee3b4e\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e6656ad667d52044780\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\72b156d1-e2cc-4c6b-9e35-dd0b9c57f99e\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e5f56ad667dcd04477b\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\72b156d1-e2cc-4c6b-9e35-dd0b9c57f99e\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e6656ad667d52044780\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\7989f3e8-46db-4559-a0d1-3f7da260f49e\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e5f56ad667dcd04477b\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\7989f3e8-46db-4559-a0d1-3f7da260f49e\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e6656ad667d52044780\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\b19092e2-e608-4891-a8d1-cdb346c03d49\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e5f56ad667dcd04477b\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\b19092e2-e608-4891-a8d1-cdb346c03d49\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e6656ad667d52044780\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\b4c7f2fc-efc6-4732-ba03-b5fdc8c523b1\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e5f56ad667dcd04477b\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\b4c7f2fc-efc6-4732-ba03-b5fdc8c523b1\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e6656ad667d52044780\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\c3671a91-393d-4cfe-a9c0-29b6a56b3a96\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e5f56ad667dcd04477b\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\c3671a91-393d-4cfe-a9c0-29b6a56b3a96\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e6656ad667d52044780\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\c52ff9c5-0ada-4562-b3fd-cb28efd44f33\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e5f56ad667dcd04477b\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\c52ff9c5-0ada-4562-b3fd-cb28efd44f33\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e6656ad667d52044780\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\c9ac57f9-baed-4d0b-a8a3-3f84f1e798cf\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e5f56ad667dcd04477b\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\c9ac57f9-baed-4d0b-a8a3-3f84f1e798cf\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e6656ad667d52044780\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\e789be95-4e3e-4dda-8685-e436e664921e\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e5f56ad667dcd04477b\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\e789be95-4e3e-4dda-8685-e436e664921e\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e6656ad667d52044780\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\ec2ed77f-ae62-4c75-af34-4c3a118da74a\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e5f56ad667dcd04477b\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\ec2ed77f-ae62-4c75-af34-4c3a118da74a\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e6656ad667d52044780\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\ef13508a-61f8-427c-945f-f9b98b807f3b\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e5f56ad667dcd04477b\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\ef13508a-61f8-427c-945f-f9b98b807f3b\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e6656ad667d52044780\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\fb42036a-f013-4254-98ed-415dfe4c3a51\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e5f56ad667dcd04477b\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\fb42036a-f013-4254-98ed-415dfe4c3a51\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e6656ad667d52044780\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\fc58fc4b-e29d-4232-9327-3a6589d9134b\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e5f56ad667dcd04477b\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\fc58fc4b-e29d-4232-9327-3a6589d9134b\Project 5d4c280356ad6657a3040c29\Attachments\5d4d5e6656ad667d52044780\Screen Shot 2019-08-09 at 4.21.47 PM.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\storage\19006f50-49b2-4967-ad83-646feaf50f8b\channels\8f61534d-3239-436a-8c67-1ad81c17325b\record.txt.zip" />
+        <_ContentIncludedByDefault Remove="wwwroot\storage\65d90d64-6cb4-49e9-8a69-c680f9e80747\task\0b78a620-5a8d-4759-801e-9467eac9ffbc\name.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\pdf\created\dd7cc93a-72cc-42ee-aae3-8f0d289af914.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\pdf\paid\dd7cc93a-72cc-42ee-aae3-8f0d289af914.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\pdf\paid\b643f2e0-2475-459e-8cde-f40a1a1985bd.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\33d7d8de-b878-4f3c-97b2-5160df61c652\bulk-upload.zip" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\3a337367-adec-4a91-9522-4cc073f06411\bulk-upload.zip" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\4e74bc2b-31d5-4c85-8f06-fc8cfe564ce7\bulk-upload.zip" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\8e721951-a7b2-4356-9671-aa1cbdb5dff8\bulk-upload.zip" />
+        <_ContentIncludedByDefault Remove="wwwroot\tmp\8e8ce02b-4047-45da-b52e-4477ba0db390\bulk-upload.zip" />
+    </ItemGroup>
+
+</Project>
