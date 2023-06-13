@@ -1,0 +1,8 @@
+bin
+obj
+node_modules
+.idea
+.vs
+.vscode
+wwwroot/storage
+wwwroot/app

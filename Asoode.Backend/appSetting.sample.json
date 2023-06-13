@@ -1,0 +1,57 @@
+{
+  "ConnectionStrings": {
+    "MainConnection": ""
+  },
+  "Authentication": {
+    "Google": {
+      "ClientId": "",
+      "ClientSecret": ""
+    }
+  },
+  "Setting": {
+    "Ga": "",
+    "Domain": "",
+    "ClientEndpoint": "http://localhost:4200",
+    "Endpoint": "http://localhost:6070",
+    "PaymentGateWay": {
+    },
+    "Storage": {
+      "Domain": "",
+      "Server": "",
+      "Port": "5060",
+      "Bucket": "asoode-work",
+      "AccessKey": "",
+      "SecretKey": ""
+    },
+    "I18n": {
+      "Default": "en",
+      "Allowed": "['en']"
+    },
+    "Issuer": "ASOODE:ACHASOFT",
+    "Secret": "",
+    "Sms": {
+    },
+    "Email": {
+      "Smtp": {
+        "Host": "smtp.gmail.com",
+        "Port": "587",
+        "SSL": "true",
+        "Username": "",
+        "Password": ""
+      }
+    },
+    "MessageQueue": {
+      "Prefix": "",
+      "Port": "5070",
+      "Server": "",
+      "Username": "",
+      "Password": ""
+    }
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
+}

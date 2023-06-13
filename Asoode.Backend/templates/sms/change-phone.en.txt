@@ -1,0 +1,5 @@
+Are you change your phone number?
+
+This confirmation is just a precaution so no one hijacks your account, the following is your verification code : {token}
+
+https://asoode.com

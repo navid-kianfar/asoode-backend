@@ -1,0 +1,6 @@
+{fullName} , dear asoode user ؛
+
+we have received your payment, thank you
+amount: {amount}
+
+Thank you for choosing asoode

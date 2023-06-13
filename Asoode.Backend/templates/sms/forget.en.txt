@@ -1,0 +1,5 @@
+Did you forget your password?
+
+This confirmation is just a precaution so no one hijacks your account, the following is your verification code : {token}
+
+https://asoode.com
