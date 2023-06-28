@@ -58,6 +58,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asoode.Workers.Background",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asoode.Shared.Abstraction", "Asoode.Shared.Abstraction\Asoode.Shared.Abstraction.csproj", "{73635BCE-6535-4C4E-9A7E-AB5B70685743}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "__Docker__", "__Docker__", "{324C8F32-1E78-4BAF-8E71-64AE1556A480}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile-Admin = Dockerfile-Admin
+		Dockerfile-Application = Dockerfile-Application
+		Dockerfile-Website = Dockerfile-Website
+		Dockerfile-Workers = Dockerfile-Workers
+		compose\environment.sh = compose\environment.sh
+		compose\docker-compose.yml = compose\docker-compose.yml
+		compose\down.sh = compose\down.sh
+		compose\up.sh = compose\up.sh
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

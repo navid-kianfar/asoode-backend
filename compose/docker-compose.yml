@@ -1,0 +1,149 @@
+version: '3.8'
+
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: unless-stopped
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${PORTAINER_VOL}:/data
+    ports:
+      - "8000:9000"
+    command: --admin-password ${PORTAINER_PASSWORD}
+    networks:
+      asoode_network:
+        ipv4_address: 192.168.17.3
+  rabbitmq:
+    container_name: rabbitmq_3
+    restart: unless-stopped
+    image: rabbitmq:3-management
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USERNAME}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
+      - RABBITMQ_USERNAME=${RABBITMQ_USERNAME}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${RABBITMQ_VOL}/data/:/var/lib/rabbitmq/
+      - ${RABBITMQ_VOL}/log/:/var/log/rabbitmq
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:15672" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      asoode_network:
+        ipv4_address: 192.168.17.4
+  minio:
+    container_name: minio
+    restart: unless-stopped
+    hostname: minio
+    image: quay.io/minio/minio:latest
+    command: server --console-address ":9001" /data
+    expose:
+      - "9000"
+      - "9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_USERNAME}
+      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD}
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${MINIO_VOL}/data:/data
+    networks:
+      asoode_network:
+        ipv4_address: 192.168.17.5
+  minio-mc:
+    container_name: minio-mc
+    image: minio/mc
+    depends_on:
+      - minio
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc alias set object_storage http://192.168.17.5:9000 ${MINIO_USERNAME} ${MINIO_PASSWORD};
+      /usr/bin/mc mb object_storage/public;
+      /usr/bin/mc policy set public object_storage/public;
+      exit 0;
+      "
+    networks:
+      asoode_network:
+        ipv4_address: 192.168.17.6
+  postgres:
+    image: postgres:latest
+    container_name: postgres-db
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - '5432:5432'
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${POSTGRES_VOL}/data:/var/lib/postgresql/data
+    networks:
+      asoode_network:
+        ipv4_address: 192.168.17.7
+        
+  redis:
+    image: redis:6.2-alpine
+    container_name: redis
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${REDIS_VOL}/data:/data
+    networks:
+      app_network:
+        ipv4_address: 192.168.17.8
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${MONGO_VOL}/data:/data
+    networks:
+      app_network:
+        ipv4_address: 192.168.17.9
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - '8090:8081'
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
+      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongo:27017/
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      app_network:
+        ipv4_address: 192.168.17.10
+
+networks:
+  asoode_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.17.0/24
