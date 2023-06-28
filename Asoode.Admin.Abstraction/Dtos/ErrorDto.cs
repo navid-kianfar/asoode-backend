@@ -1,3 +1,5 @@
+using Asoode.Shared.Abstraction.Dtos;
+
 namespace Asoode.Admin.Abstraction.Dtos;
 
 public record ErrorDto : BaseDto

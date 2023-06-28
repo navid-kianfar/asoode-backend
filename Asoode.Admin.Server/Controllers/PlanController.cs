@@ -1,6 +1,8 @@
+using Asoode.Admin.Abstraction.Contracts;
 using Asoode.Admin.Abstraction.Fixtures;
 using Asoode.Shared.Abstraction.Contracts;
 using Asoode.Shared.Abstraction.Dtos;
+using Asoode.Shared.Abstraction.Dtos.Plan.Plan;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Asoode.Admin.Server.Controllers;
@@ -9,9 +11,9 @@ namespace Asoode.Admin.Server.Controllers;
 public class PlanController : BaseController
 {
     private readonly IUserIdentityService _identity;
-    private readonly IPlanBiz _planBiz;
+    private readonly IPlanService _planBiz;
 
-    public PlanController(IPlanBiz planBiz, IUserIdentityService identity)
+    public PlanController(IPlanService planBiz, IUserIdentityService identity)
     {
         _planBiz = planBiz;
         _identity = identity;

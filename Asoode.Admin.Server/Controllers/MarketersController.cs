@@ -1,3 +1,4 @@
+using Asoode.Admin.Abstraction.Contracts;
 using Asoode.Admin.Abstraction.Dtos;
 using Asoode.Admin.Abstraction.Fixtures;
 using Asoode.Shared.Abstraction.Contracts;
@@ -10,9 +11,9 @@ namespace Asoode.Admin.Server.Controllers;
 public class MarketersController : BaseController
 {
     private readonly IUserIdentityService _identity;
-    private readonly IMarketerBiz _marketerBiz;
+    private readonly IMarketerService _marketerBiz;
 
-    public MarketersController(IMarketerBiz marketerBiz, IUserIdentityService identity)
+    public MarketersController(IMarketerService marketerBiz, IUserIdentityService identity)
     {
         _marketerBiz = marketerBiz;
         _identity = identity;

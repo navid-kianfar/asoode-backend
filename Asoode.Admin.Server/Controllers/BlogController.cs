@@ -1,3 +1,4 @@
+using Asoode.Admin.Abstraction.Contracts;
 using Asoode.Admin.Abstraction.Dtos;
 using Asoode.Admin.Abstraction.Fixtures;
 using Asoode.Shared.Abstraction.Contracts;
@@ -9,12 +10,12 @@ namespace Asoode.Admin.Server.Controllers;
 [Route(EndpointConstants.Prefix)]
 public class BlogController : BaseController
 {
-    private readonly IBlogBiz _blogBiz;
+    private readonly IBlogService _blogBiz;
     private readonly IUserIdentityService _identity;
     private readonly IJsonService _jsonService;
 
     public BlogController(
-        IBlogBiz blogBiz,
+        IBlogService blogBiz,
         IJsonService jsonService,
         IUserIdentityService identity)
     {
@@ -27,7 +28,7 @@ public class BlogController : BaseController
     [HttpPost("blog/list")]
     public async Task<IActionResult> List([FromBody] GridFilterWithParams<GridQuery> model)
     {
-        var op = await _blogBiz.AdminBlogsList(_identity.User!.UserId, model);
+        var op = await _blogBiz.BlogsList(_identity.User!.UserId, model);
         return Json(op);
     }
 
@@ -35,7 +36,7 @@ public class BlogController : BaseController
     [HttpPost("blog/edit/{id:guid}")]
     public async Task<IActionResult> Edit(Guid id, [FromBody] BlogEditDto model)
     {
-        var op = await _blogBiz.AdminEditBlog(_identity.User!.UserId, id, model);
+        var op = await _blogBiz.EditBlog(_identity.User!.UserId, id, model);
         return Json(op);
     }
 
@@ -43,14 +44,14 @@ public class BlogController : BaseController
     [HttpPost("blog/create")]
     public async Task<IActionResult> Create([FromBody] BlogEditDto model)
     {
-        var op = await _blogBiz.AdminCreateBlog(_identity.User!.UserId, model);
+        var op = await _blogBiz.CreateBlog(_identity.User!.UserId, model);
         return Json(op);
     }
 
     [HttpPost("blog/posts/{id:guid}")]
     public async Task<IActionResult> Posts(Guid id, [FromBody] GridFilterWithParams<GridQuery> model)
     {
-        var op = await _blogBiz.AdminBlogPosts(_identity.User!.UserId, id, model);
+        var op = await _blogBiz.BlogPosts(_identity.User!.UserId, id, model);
         return Json(op);
     }
 
@@ -60,7 +61,7 @@ public class BlogController : BaseController
     {
         var files = await Request.Form.Files.ToStorageItems();
         var model = _jsonService.Deserialize<BlogPostEditDto>(Request.Form["data"]!);
-        var op = await _blogBiz.AdminCreatePost(_identity.User!.UserId, id, model, files);
+        var op = await _blogBiz.CreatePost(_identity.User!.UserId, id, model, files);
         return Json(op);
     }
 
@@ -69,14 +70,14 @@ public class BlogController : BaseController
     {
         var files = await Request.Form.Files.ToStorageItems();
         var model = _jsonService.Deserialize<BlogPostEditDto>(Request.Form["data"]!);
-        var op = await _blogBiz.AdminEditPost(_identity.User!.UserId, id, model, files);
+        var op = await _blogBiz.EditPost(_identity.User!.UserId, id, model, files);
         return Json(op);
     }
 
     [HttpPost("blog/post/delete/{id:guid}")]
     public async Task<IActionResult> DeletePost(Guid id)
     {
-        var op = await _blogBiz.AdminDeletePost(_identity.User!.UserId, id);
+        var op = await _blogBiz.DeletePost(_identity.User!.UserId, id);
         return Json(op);
     }
 }

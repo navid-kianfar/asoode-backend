@@ -1,4 +1,4 @@
-namespace Asoode.Admin.Abstraction.Dtos;
+namespace Asoode.Shared.Abstraction.Dtos;
 
 public record BaseDto
 {
