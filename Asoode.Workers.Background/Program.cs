@@ -1,7 +1,29 @@
-using Asoode.Workers.Background;
+using Asoode.Shared.Abstraction.Contracts;
+using Asoode.Shared.Abstraction.Helpers;
 
-IHost host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices(services => { services.AddHostedService<Worker>(); })
-    .Build();
+namespace Asoode.Workers.Background;
 
-host.Run();
+public class Program
+{
+    public static async Task Main(params string[] args)
+    {
+        Console.Title = "Asoode.Workers";
+        EnvironmentHelper.Configure();
+
+        var app = Host
+            .CreateDefaultBuilder(args)
+            .ConfigureServices(services => services.RegisterApp())
+            .Build();
+
+        if (!EnvironmentHelper.IsDevelopment())
+        {
+            // Migrate the database to latest version & seed
+            await using var scope = app.Services.CreateAsyncScope();
+            var migrator = scope.ServiceProvider.GetRequiredService<IDatabaseMigrator>();
+            await migrator.MigrateToLatestVersion();
+            await migrator.Seed();
+        }
+
+        await app.RunAsync();
+    }
+}
