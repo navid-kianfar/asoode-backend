@@ -1,6 +1,7 @@
 using Asoode.Admin.Abstraction.Contracts;
 using Asoode.Admin.Abstraction.Dtos;
 using Asoode.Shared.Abstraction.Dtos;
+using Asoode.Shared.Abstraction.Dtos.Contact;
 using Asoode.Shared.Abstraction.Types;
 
 namespace Asoode.Admin.Business.Implementation;
