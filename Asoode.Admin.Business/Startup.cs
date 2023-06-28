@@ -18,7 +18,7 @@ public static class Startup
         services.AddScoped<IErrorService, ErrorService>();
         services.AddScoped<IMarketerService, MarketerService>();
         services.AddScoped<ITransactionService, TransactionService>();
-        
+
         return services;
     }
 }

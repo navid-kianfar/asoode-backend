@@ -16,7 +16,7 @@ public class UserController : BaseController
 {
     private readonly IAccountBiz _accountBiz;
 
-    public AdminUserController(IAccountBiz accountBiz)
+    public UserController(IAccountBiz accountBiz)
     {
         _accountBiz = accountBiz;
     }

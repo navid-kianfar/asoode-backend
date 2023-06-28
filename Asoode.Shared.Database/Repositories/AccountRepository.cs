@@ -4,5 +4,4 @@ namespace Asoode.Shared.Database.Repositories;
 
 internal class AccountRepository : IAccountRepository
 {
-    
 }

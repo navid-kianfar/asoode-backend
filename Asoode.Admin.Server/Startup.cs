@@ -28,7 +28,7 @@ public static class Startup
     private static void AddAppServices(this IServiceCollection services)
     {
         services.AddScoped<IUserIdentityService, UserIdentityService>();
-        
+
         JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
         services.Configure<CookiePolicyOptions>(options =>
         {

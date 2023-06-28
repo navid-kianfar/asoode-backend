@@ -12,7 +12,8 @@ internal class BlogService : IBlogService
         throw new NotImplementedException();
     }
 
-    public Task<OperationResult<GridResult<PostDto>>> BlogPosts(Guid userId, Guid id, GridFilterWithParams<GridQuery> model)
+    public Task<OperationResult<GridResult<PostDto>>> BlogPosts(Guid userId, Guid id,
+        GridFilterWithParams<GridQuery> model)
     {
         throw new NotImplementedException();
     }

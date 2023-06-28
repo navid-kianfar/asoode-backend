@@ -15,7 +15,7 @@ public class ErrorsController : BaseController
 {
     private readonly IErrorBiz _errorBiz;
 
-    public AdminErrorsController(IErrorBiz errorBiz)
+    public ErrorsController(IErrorBiz errorBiz)
     {
         _errorBiz = errorBiz;
     }

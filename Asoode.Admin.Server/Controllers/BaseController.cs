@@ -6,5 +6,4 @@ namespace Asoode.Admin.Server.Controllers;
 [JwtAuthorize(UserType.Admin)]
 public class BaseController : Controller
 {
-    
 }

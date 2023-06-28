@@ -16,7 +16,7 @@ public class ContactController : BaseController
 {
     private readonly IContactBiz _contactBiz;
 
-    public AdminContactController(IContactBiz contactBiz)
+    public ContactController(IContactBiz contactBiz)
     {
         _contactBiz = contactBiz;
     }

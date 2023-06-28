@@ -14,7 +14,7 @@ public class TransactionsController : BaseController
 {
     private readonly ITransactionBiz _transactionBiz;
 
-    public AdminTransactionsController(ITransactionBiz transactionBiz)
+    public TransactionsController(ITransactionBiz transactionBiz)
     {
         _transactionBiz = transactionBiz;
     }

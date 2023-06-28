@@ -9,7 +9,7 @@ internal class ApplicationDbContext : DbContext
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
     }
-    
+
     public DbSet<AdvancedPlayerComment> AdvancedPlayerComments { get; set; }
     public DbSet<AdvancedPlayerShape> AdvancedPlayerShapes { get; set; }
     public DbSet<Testimonial> Testimonials { get; set; }

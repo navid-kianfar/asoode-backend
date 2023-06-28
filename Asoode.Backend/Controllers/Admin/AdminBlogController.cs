@@ -20,7 +20,7 @@ public class BlogController : BaseController
     private readonly IBlogBiz _blogBiz;
     private readonly IServiceProvider _serviceProvider;
 
-    public AdminBlogController(IBlogBiz blogBiz, IServiceProvider serviceProvider)
+    public BlogController(IBlogBiz blogBiz, IServiceProvider serviceProvider)
     {
         _blogBiz = blogBiz;
         _serviceProvider = serviceProvider;

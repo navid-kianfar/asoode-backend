@@ -16,7 +16,7 @@ public class DiscountsController : BaseController
 {
     private readonly IDiscountBiz _discountBiz;
 
-    public AdminDiscountsController(IDiscountBiz discountBiz)
+    public DiscountsController(IDiscountBiz discountBiz)
     {
         _discountBiz = discountBiz;
     }

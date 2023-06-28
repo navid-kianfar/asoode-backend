@@ -16,7 +16,7 @@ public class MarketersController : BaseController
 {
     private readonly IMarketerBiz _marketerBiz;
 
-    public AdminMarketersController(IMarketerBiz marketerBiz)
+    public MarketersController(IMarketerBiz marketerBiz)
     {
         _marketerBiz = marketerBiz;
     }

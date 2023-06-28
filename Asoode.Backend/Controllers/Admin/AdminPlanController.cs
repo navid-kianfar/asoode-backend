@@ -16,7 +16,7 @@ public class PlanController : BaseController
 {
     private readonly IPlanBiz _planBiz;
 
-    public AdminPlanController(IPlanBiz planBiz)
+    public PlanController(IPlanBiz planBiz)
     {
         _planBiz = planBiz;
     }

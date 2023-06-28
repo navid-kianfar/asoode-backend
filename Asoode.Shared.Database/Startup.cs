@@ -39,7 +39,7 @@ public static class Startup
     private static void RegisterServices(this IServiceCollection services)
     {
         services.AddScoped<IAccountRepository, AccountRepository>();
-        
+
         // MongoDB
         // services.AddSingleton<IDocumentRepository, DocumentRepository>();
     }
