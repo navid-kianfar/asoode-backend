@@ -3,7 +3,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class Marketer : BaseEntity
+internal class Marketer : BaseEntity
 {
     [Required] [MaxLength(100)] public string Code { get; set; }
     [Required] [MaxLength(2000)] public string Description { get; set; }

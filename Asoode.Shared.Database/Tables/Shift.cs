@@ -4,7 +4,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class Shift : BaseEntity
+internal class Shift : BaseEntity
 {
     [Required] public Guid GroupId { get; set; }
     [Required] public Guid UserId { get; set; }

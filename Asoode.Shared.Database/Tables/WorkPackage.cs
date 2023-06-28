@@ -5,7 +5,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class WorkPackage : BaseEntity
+internal class WorkPackage : BaseEntity
 {
     public WorkPackage()
     {

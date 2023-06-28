@@ -4,7 +4,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class Conversation : BaseEntity
+internal class Conversation : BaseEntity
 {
     public Guid ChannelId { get; set; }
     [MaxLength(2000)] public string Message { get; set; }

@@ -4,7 +4,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables.Junctions;
 
-public class WorkPackageView : BaseEntity
+internal class WorkPackageView : BaseEntity
 {
     [Required] public Guid UserId { get; set; }
     public Guid? PackageId { get; set; }

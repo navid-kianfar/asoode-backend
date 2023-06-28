@@ -3,7 +3,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class Testimonial : BaseEntity
+internal class Testimonial : BaseEntity
 {
     [Required] public Guid UserId { get; set; }
     [Required] [MaxLength(1000)] public string Message { get; set; }

@@ -4,7 +4,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class Discount : BaseEntity
+internal class Discount : BaseEntity
 {
     [MaxLength(500)] public string Title { get; set; }
     [MaxLength(100)] public string Code { get; set; }

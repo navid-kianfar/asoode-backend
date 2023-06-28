@@ -4,7 +4,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class Upload : BaseEntity
+internal class Upload : BaseEntity
 {
     [MaxLength(2000)] public string Directory { get; set; }
     [Required] [MaxLength(10)] public string Extension { get; set; }

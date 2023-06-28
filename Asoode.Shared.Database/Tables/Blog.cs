@@ -4,7 +4,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class Blog : BaseEntity
+internal class Blog : BaseEntity
 {
     public BlogType Type { get; set; }
     [Required] [MaxLength(2)] public string Culture { get; set; }

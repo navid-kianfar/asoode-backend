@@ -3,7 +3,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class Contact : BaseEntity
+internal class Contact : BaseEntity
 {
     [Required] [MaxLength(100)] public string FirstName { get; set; }
     [Required] [MaxLength(100)] public string LastName { get; set; }

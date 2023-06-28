@@ -3,7 +3,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class Order : BaseEntity
+internal class Order : BaseEntity
 {
     #region Props
 

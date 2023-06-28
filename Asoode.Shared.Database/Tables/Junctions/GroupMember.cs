@@ -3,7 +3,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables.Junctions;
 
-public class GroupMember : BaseEntity
+internal class GroupMember : BaseEntity
 {
     public Guid UserId { get; set; }
     public Guid GroupId { get; set; }

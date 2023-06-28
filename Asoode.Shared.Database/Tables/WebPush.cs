@@ -3,7 +3,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class WebPush : BaseEntity
+internal class WebPush : BaseEntity
 {
     public bool Android { get; set; }
     [Required] [MaxLength(500)] public string Auth { get; set; }

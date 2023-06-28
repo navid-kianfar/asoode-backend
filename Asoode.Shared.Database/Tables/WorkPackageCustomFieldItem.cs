@@ -3,7 +3,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class WorkPackageCustomFieldItem : BaseEntity
+internal class WorkPackageCustomFieldItem : BaseEntity
 {
     [Required] public Guid PackageId { get; set; }
     [Required] public Guid ProjectId { get; set; }

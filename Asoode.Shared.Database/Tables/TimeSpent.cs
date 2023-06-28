@@ -4,7 +4,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class TimeSpent : BaseEntity
+internal class TimeSpent : BaseEntity
 {
     public DateTime? BeginAt { get; set; }
     public DateTime? EndAt { get; set; }

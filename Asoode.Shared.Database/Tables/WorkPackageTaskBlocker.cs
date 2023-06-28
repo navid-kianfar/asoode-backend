@@ -3,7 +3,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class WorkPackageTaskBlocker : BaseEntity
+internal class WorkPackageTaskBlocker : BaseEntity
 {
     [Required] public Guid BlockerPackageId { get; set; }
     [Required] public Guid BlockerProjectId { get; set; }

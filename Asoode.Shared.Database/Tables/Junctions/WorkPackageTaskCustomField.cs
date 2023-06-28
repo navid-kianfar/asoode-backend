@@ -4,7 +4,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables.Junctions;
 
-public class WorkPackageTaskCustomField : BaseEntity
+internal class WorkPackageTaskCustomField : BaseEntity
 {
     [Required] public Guid CustomFieldId { get; set; }
     [Required] public Guid TaskId { get; set; }

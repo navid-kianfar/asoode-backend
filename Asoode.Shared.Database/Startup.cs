@@ -1,5 +1,7 @@
 using Asoode.Shared.Abstraction.Helpers;
 using Asoode.Shared.Database.Contexts;
+using Asoode.Shared.Database.Contracts;
+using Asoode.Shared.Database.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -36,9 +38,9 @@ public static class Startup
 
     private static void RegisterServices(this IServiceCollection services)
     {
-        // services.AddScoped<IAccountRepository, AccountRepository>();
-        //
-        // // MongoDB
+        services.AddScoped<IAccountRepository, AccountRepository>();
+        
+        // MongoDB
         // services.AddSingleton<IDocumentRepository, DocumentRepository>();
     }
 }

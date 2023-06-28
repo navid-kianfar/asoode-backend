@@ -3,7 +3,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class ContactReply : BaseEntity
+internal class ContactReply : BaseEntity
 {
     public Guid ContactId { get; set; }
     public Guid UserId { get; set; }

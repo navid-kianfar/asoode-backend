@@ -4,7 +4,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class Transaction : BaseEntity
+internal class Transaction : BaseEntity
 {
     public Guid OrderId { get; set; }
     public TransactionStatus Status { get; set; }

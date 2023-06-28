@@ -4,7 +4,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class WorkPackageTask : BaseEntity
+internal class WorkPackageTask : BaseEntity
 {
     public Guid UserId { get; set; }
     [Required] public Guid ListId { get; set; }

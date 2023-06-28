@@ -3,7 +3,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class PendingInvitation : BaseEntity
+internal class PendingInvitation : BaseEntity
 {
     public string Identifier { get; set; }
     public Guid RecordId { get; set; }

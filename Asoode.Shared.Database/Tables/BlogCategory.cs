@@ -3,7 +3,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class BlogCategory : BaseEntity
+internal class BlogCategory : BaseEntity
 {
     public Guid BlogId { get; set; }
     [Required] [MaxLength(2)] public string Culture { get; set; }

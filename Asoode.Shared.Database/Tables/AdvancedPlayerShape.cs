@@ -2,7 +2,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class AdvancedPlayerShape : BaseEntity
+internal class AdvancedPlayerShape : BaseEntity
 {
     public Guid UserId { get; set; }
     public Guid AttachmentId { get; set; }

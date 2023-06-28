@@ -3,7 +3,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class WorkPackageLabel : BaseEntity
+internal class WorkPackageLabel : BaseEntity
 {
     [Required] public Guid PackageId { get; set; }
     [MaxLength(250)] public string Title { get; set; }

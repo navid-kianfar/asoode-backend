@@ -4,7 +4,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class Channel : BaseEntity
+internal class Channel : BaseEntity
 {
     public DateTime? ArchivedAt { get; set; }
     [Required] [MaxLength(1000)] public string Title { get; set; }

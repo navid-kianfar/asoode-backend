@@ -4,7 +4,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class WorkPackageObjective : BaseEntity
+internal class WorkPackageObjective : BaseEntity
 {
     [Required] public Guid PackageId { get; set; }
     public Guid? ParentId { get; set; }

@@ -4,7 +4,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class BlogPost : BaseEntity
+internal class BlogPost : BaseEntity
 {
     public int Index { get; set; }
     public Guid BlogId { get; set; }

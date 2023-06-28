@@ -4,7 +4,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class Group : BaseEntity
+internal class Group : BaseEntity
 {
     [Required] public Guid UserId { get; set; }
     public Guid PlanInfoId { get; set; }

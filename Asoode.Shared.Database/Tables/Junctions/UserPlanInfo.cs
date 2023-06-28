@@ -5,7 +5,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables.Junctions;
 
-public class UserPlanInfo : BaseEntity
+internal class UserPlanInfo : BaseEntity
 {
     #region Props
 

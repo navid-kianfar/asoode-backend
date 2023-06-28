@@ -3,7 +3,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class MarketerIncome : BaseEntity
+internal class MarketerIncome : BaseEntity
 {
     [Required] public double BillAmount { get; set; }
     [Required] public DateTime? ClearedAt { get; set; }

@@ -3,7 +3,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class AdvancedPlayerComment : BaseEntity
+internal class AdvancedPlayerComment : BaseEntity
 {
     public Guid AttachmentId { get; set; }
     public Guid UserId { get; set; }

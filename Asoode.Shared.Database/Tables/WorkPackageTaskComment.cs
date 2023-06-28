@@ -3,7 +3,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class WorkPackageTaskComment : BaseEntity
+internal class WorkPackageTaskComment : BaseEntity
 {
     [Required] [MaxLength(1000)] public string Message { get; set; }
     public bool Private { get; set; }

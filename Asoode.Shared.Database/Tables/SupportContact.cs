@@ -4,7 +4,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class SupportContact : BaseEntity
+internal class SupportContact : BaseEntity
 {
     public Guid? UserId { get; set; }
     public SupportType Type { get; set; }

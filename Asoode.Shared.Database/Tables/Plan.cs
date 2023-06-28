@@ -4,7 +4,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class Plan : BaseEntity
+internal class Plan : BaseEntity
 {
     #region Props
 

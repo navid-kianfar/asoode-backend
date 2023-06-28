@@ -4,7 +4,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class ActivityLog : BaseEntity
+internal class ActivityLog : BaseEntity
 {
     [Required] [MaxLength(2000)] public string Description { get; set; }
     public Guid RecordId { get; set; }

@@ -4,7 +4,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class TimeOff : BaseEntity
+internal class TimeOff : BaseEntity
 {
     public DateTime BeginAt { get; set; }
     [MaxLength(2000)] public string Description { get; set; }

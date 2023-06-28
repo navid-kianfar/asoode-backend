@@ -5,7 +5,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class User : BaseEntity
+internal class User : BaseEntity
 {
     public User()
     {

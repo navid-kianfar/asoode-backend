@@ -4,7 +4,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
 
-public class WorkPackageList : BaseEntity
+internal class WorkPackageList : BaseEntity
 {
     [Required] public Guid PackageId { get; set; }
     [Required] [MaxLength(250)] public string Title { get; set; }

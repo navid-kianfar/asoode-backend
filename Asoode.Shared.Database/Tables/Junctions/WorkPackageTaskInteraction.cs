@@ -2,7 +2,7 @@ using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables.Junctions;
 
-public class WorkPackageTaskInteraction : BaseEntity
+internal class WorkPackageTaskInteraction : BaseEntity
 {
     public Guid TaskId { get; set; }
     public Guid PackageId { get; set; }
