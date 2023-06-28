@@ -1,0 +1,6 @@
+dotnet ef migrations add init --context=ApplicationDbContext --startup-project=../Asoode.Application.Server/Asoode.Application.Server.csproj
+
+
+
+dotnet ef database update --context=ApplicationDbContext --startup-project=../Asoode.Application.Server/Asoode.Application.Server.csproj
+
