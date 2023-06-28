@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Asoode.Shared.Abstraction.Dtos;
 using Asoode.Shared.Abstraction.Helpers;
 using Asoode.Shared.Abstraction.Types;
 using Microsoft.IdentityModel.Tokens;

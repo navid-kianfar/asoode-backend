@@ -18,7 +18,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Asoode.Application.Abstraction\Asoode.Application.Abstraction.csproj" />
+      <ProjectReference Include="..\Asoode.Application.Business\Asoode.Application.Business.csproj" />
       <ProjectReference Include="..\Asoode.Shared.Abstraction\Asoode.Shared.Abstraction.csproj" />
+      <ProjectReference Include="..\Asoode.Shared.Core\Asoode.Shared.Core.csproj" />
     </ItemGroup>
 
 </Project>

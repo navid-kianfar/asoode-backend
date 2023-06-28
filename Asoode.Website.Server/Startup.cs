@@ -1,4 +1,9 @@
 using System.IdentityModel.Tokens.Jwt;
+using Asoode.Shared.Abstraction.Helpers;
+using Asoode.Shared.Core;
+using Asoode.Website.Abstraction.Fixtures;
+using Asoode.Website.Business;
+using Asoode.Website.Server.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
@@ -12,8 +17,8 @@ public static class Startup
 {
     public static IServiceCollection RegisterApp(this IServiceCollection services)
     {
-        services.RegisterCore();
-        services.RegisterBusiness();
+        services.RegisterSharedCore();
+        services.RegisterWebsiteBusiness();
         services.AddAppServices();
         return services;
     }

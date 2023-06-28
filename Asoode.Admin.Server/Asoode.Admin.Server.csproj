@@ -7,7 +7,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Asoode.Admin.Abstraction\Asoode.Admin.Abstraction.csproj" />
+      <ProjectReference Include="..\Asoode.Admin.Business\Asoode.Admin.Business.csproj" />
       <ProjectReference Include="..\Asoode.Shared.Abstraction\Asoode.Shared.Abstraction.csproj" />
+      <ProjectReference Include="..\Asoode.Shared.Core\Asoode.Shared.Core.csproj" />
     </ItemGroup>
 
   <ItemGroup>

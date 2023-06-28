@@ -23,14 +23,14 @@ internal record StorageManager : IStorageManager
     public async Task<StorageItemDto?> DownloadPublic(string path)
     {
         if (!CheckIfPathIsSafe(path)) return null;
-        var op = await _storageService.Download(path, ApplicationConstants.PublicBucket);
+        var op = await _storageService.Download(path, SharedConstants.PublicBucket);
         return op.Data;
     }
 
     public async Task<StorageItemDto?> DownloadProtected(Guid userId, string path)
     {
         if (!CheckIfPathIsSafe(path, userId)) return null;
-        var op = await _storageService.Download(path, ApplicationConstants.ProtectedBucket);
+        var op = await _storageService.Download(path, SharedConstants.ProtectedBucket);
         return op.Data;
     }
 
@@ -38,7 +38,7 @@ internal record StorageManager : IStorageManager
     {
         if (string.IsNullOrWhiteSpace(item.Path))
             item.Path = $"{userId}/{GetPath(item.FileName)}";
-        var op = await _storageService.Upload(item, ApplicationConstants.ProtectedBucket, item.Path);
+        var op = await _storageService.Upload(item, SharedConstants.ProtectedBucket, item.Path);
         if (op.Status == OperationResultStatus.Success)
             op.Data!.Url = $"{publicEndpoint}/{EndpointConstants.DownloadProtected.Replace("{*path}", op.Data.Url)}";
 
@@ -49,7 +49,7 @@ internal record StorageManager : IStorageManager
     {
         if (string.IsNullOrWhiteSpace(item.Path))
             item.Path = GetPath(item.FileName);
-        var op = await _storageService.Upload(item, ApplicationConstants.PublicBucket, item.Path);
+        var op = await _storageService.Upload(item, SharedConstants.PublicBucket, item.Path);
         if (op.Status == OperationResultStatus.Success)
             op.Data!.Url = $"{protectedEndpoint}/{EndpointConstants.DownloadPublic.Replace("{*path}", op.Data.Url)}";
 

@@ -19,6 +19,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Asoode.Shared.Abstraction\Asoode.Shared.Abstraction.csproj" />
+    <ProjectReference Include="..\Asoode.Shared.Core\Asoode.Shared.Core.csproj" />
+    <ProjectReference Include="..\Asoode.Website.Abstraction\Asoode.Website.Abstraction.csproj" />
+    <ProjectReference Include="..\Asoode.Website.Business\Asoode.Website.Business.csproj" />
   </ItemGroup>
 
 </Project>
