@@ -42,7 +42,7 @@ internal record StorageService : IStorageService, IDisposable
         try
         {
             bucketName = FixBucketName(bucketName);
-            
+
             await EnsureBucketExists(_client, bucketName, true);
 
             var destinationPath = path;

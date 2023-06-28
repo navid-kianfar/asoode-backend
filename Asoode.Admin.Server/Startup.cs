@@ -4,6 +4,7 @@ using Asoode.Admin.Business;
 using Asoode.Admin.Server.Services;
 using Asoode.Shared.Abstraction.Helpers;
 using Asoode.Shared.Core;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
@@ -38,11 +39,20 @@ public static class Startup
         });
         services.ConfigureApplicationCookie(options => { });
         services.Configure<IdentityOptions>(IdentityConfiguration.ConfigureOptions);
-        
+
         var authChain = services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddCookie()
             .AddJwtBearer(options => { options.TokenValidationParameters = TokenService.GetParameters(); });
+
+        if (!string.IsNullOrEmpty(EnvironmentHelper.Get("APP_GOOGLE_CLIENT_ID")))
+            authChain.AddGoogle(options =>
+            {
+                options.ClientId = EnvironmentHelper.Get("APP_GOOGLE_CLIENT_ID")!;
+                options.ClientSecret = EnvironmentHelper.Get("APP_GOOGLE_CLIENT_SECRET")!;
+                options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.SaveTokens = false;
+            });
 
         services.AddControllers().AddNewtonsoftJson(options =>
         {
@@ -56,11 +66,11 @@ public static class Startup
         {
             c.DocInclusionPredicate((_, api) => !string.IsNullOrWhiteSpace(api.GroupName));
             c.TagActionsBy(api => new[] { api.GroupName });
-            c.SwaggerDoc("v1", new OpenApiInfo
+            c.SwaggerDoc("v3", new OpenApiInfo
             {
-                Title = $"{ApplicationConstants.ApplicationName} API",
-                Version = "v1",
-                Description = $"{ApplicationConstants.ApplicationName} api explorer"
+                Title = $"{ApplicationConstants.ApplicationName} Admin API",
+                Version = "v3",
+                Description = $"{ApplicationConstants.ApplicationName} admin api explorer"
             });
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
@@ -108,7 +118,7 @@ public static class Startup
         app.UseSwagger();
         app.UseSwaggerUI(c =>
         {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "ZarenGroup");
+            c.SwaggerEndpoint("/swagger/v3/swagger.json", "Asoode");
             c.RoutePrefix = ""; // Set Swagger UI at apps root
         });
     }

@@ -1,6 +1,5 @@
 namespace Asoode.Shared.Abstraction.Dtos;
 
-
 public record UserDto
 {
     public Guid Id { get; set; }
@@ -11,7 +10,7 @@ public record UserDto
     public string Hash { get; set; } = string.Empty;
     public string Salt { get; set; } = string.Empty;
     public int FailedAttempt { get; set; }
-    
+
     public string? Name { get; set; }
     public string? Surname { get; set; }
     public string? Phone { get; set; }

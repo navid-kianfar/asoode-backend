@@ -7,8 +7,8 @@ namespace Asoode.Shared.Core.Implementations;
 
 internal record CacheService : ICacheService
 {
-    private readonly IJsonService _jsonService;
     private readonly IDatabase _cache;
+    private readonly IJsonService _jsonService;
 
     public CacheService(IJsonService jsonService)
     {
@@ -49,7 +49,7 @@ internal record CacheService : ICacheService
     public async Task<T?> Retrieve<T>(string cacheKey)
     {
         var key = new RedisKey(cacheKey);
-        
+
         var exists = await _cache.KeyExistsAsync(key);
         if (!exists) return default;
 

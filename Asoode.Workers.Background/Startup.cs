@@ -15,6 +15,5 @@ public static class Startup
 
     private static void AddAppServices(this IServiceCollection services)
     {
-        
     }
 }

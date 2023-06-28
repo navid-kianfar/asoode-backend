@@ -9,9 +9,9 @@ namespace Asoode.Shared.Core.Implementations;
 
 internal record StorageManager : IStorageManager
 {
-    private readonly string publicEndpoint;
-    private readonly string protectedEndpoint;
     private readonly IStorageService _storageService;
+    private readonly string protectedEndpoint;
+    private readonly string publicEndpoint;
 
     public StorageManager(IStorageService storageService)
     {

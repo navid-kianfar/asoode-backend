@@ -8,5 +8,4 @@ public static class EndpointConstants
     public const string UploadProtected = "storage/upload/protected";
     public const string DownloadPublic = "storage/download/public/{*path}";
     public const string DownloadProtected = "storage/download/protected/{*path}";
-
 }

@@ -11,7 +11,7 @@ internal class ImageService : IImageService
     {
         _loggerService = loggerService;
     }
-    
+
     public async Task<MemoryStream?> Resize(Stream input, int maxWidth, int maxHeight)
     {
         try
@@ -34,5 +34,7 @@ internal class ImageService : IImageService
     }
 
     public Task<MemoryStream?> Resize(MemoryStream input, int width, int height)
-        => Resize(input, width, height);
+    {
+        return Resize(input, width, height);
+    }
 }

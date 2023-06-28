@@ -7,10 +7,10 @@ namespace Asoode.Shared.Core.Implementations;
 
 public class HttpService : IHttpService
 {
-    private string _token = string.Empty;
     private readonly HttpClient _httpClient;
-    private readonly ILoggerService _logger;
     private readonly IJsonService _jsonService;
+    private readonly ILoggerService _logger;
+    private string _token = string.Empty;
 
     public HttpService(ILoggerService logger, IJsonService jsonService)
     {
@@ -99,8 +99,8 @@ public class HttpService : IHttpService
             return default;
         }
     }
-    
-    static string AddQueryString(string url, Dictionary<string, string> parameters)
+
+    private static string AddQueryString(string url, Dictionary<string, string> parameters)
     {
         var builder = new UriBuilder(url);
         var query = HttpUtility.ParseQueryString(builder.Query);

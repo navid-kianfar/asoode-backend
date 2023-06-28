@@ -8,7 +8,7 @@ public static class CryptographyHelper
 {
     private const string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*?_-";
     private const int DerivationIterations = 1000;
-    
+
     public static string ComputeSHA256(string input)
     {
         using (var sha256 = SHA256.Create())
@@ -171,12 +171,12 @@ public static class CryptographyHelper
 
     public static string GeneratePassword(int length = 10)
     {
-        char[] chars = new char[length];
-        for (int i = 0; i < length; i++)
+        var chars = new char[length];
+        for (var i = 0; i < length; i++)
             chars[i] = validChars[RandomNumberGenerator.GetInt32(0, validChars.Length)];
         return new string(chars);
     }
-    
+
     public static string EncryptSHA512(string text, string key)
     {
         if (string.IsNullOrEmpty(key))
@@ -214,7 +214,7 @@ public static class CryptographyHelper
             }
         }
     }
-    
+
     private static byte[] Generate256BitsOfRandomEntropy(int blockSize = 256)
     {
         var randomBytes = new byte[blockSize / 8];

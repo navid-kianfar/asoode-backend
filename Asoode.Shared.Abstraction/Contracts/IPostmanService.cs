@@ -7,14 +7,16 @@ public interface IPostmanService
 {
     Task<OperationResult<bool>> SendMail(SendMailDTO model);
     Task<OperationResult<bool>> SendSms(SendSmsDTO model);
+
     Task<OperationResult<bool>> SendTemplateMail(
-        string template, 
-        string culture, 
-        SendMailDTO model, 
+        string template,
+        string culture,
+        SendMailDTO model,
         Dictionary<string, string>? replace = null);
+
     Task<OperationResult<bool>> SendTemplateSms(
-        string template, 
-        string culture, 
-        string to, 
+        string template,
+        string culture,
+        string to,
         Dictionary<string, string>? replace = null);
 }

@@ -38,7 +38,6 @@ public static class EnvironmentHelper
     public static void Configure(string fileName = "launchSettings.json")
     {
         if (string.IsNullOrWhiteSpace(Env()))
-        {
             try
             {
                 var settingPath = GetAppSettingPath(fileName);
@@ -54,14 +53,13 @@ public static class EnvironmentHelper
             {
                 Console.WriteLine(e);
             }
-        }
     }
 
     private static string GetAppSettingPath(string fileName)
     {
         var path = Path.Combine(Environment.CurrentDirectory, "appSettings.json");
         if (File.Exists(path)) return path;
-        
+
         path = Environment.CurrentDirectory.Replace("\\", "/").Split("/bin/")[0];
         path = $"{path}/Properties/{fileName}";
         if (File.Exists(path)) return path;
