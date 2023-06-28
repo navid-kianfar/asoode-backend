@@ -1,0 +1,42 @@
+﻿FROM mcr.microsoft.com/dotnet/sdk:7.0 AS base
+WORKDIR /app
+
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+WORKDIR /src
+
+COPY ["Asoode.Shared.Abstraction/Asoode.Shared.Abstraction.csproj", "Asoode.Shared.Abstraction/"]
+RUN dotnet restore "Asoode.Shared.Abstraction/Asoode.Shared.Abstraction.csproj"
+COPY ["Asoode.Shared.Abstraction/", "Asoode.Shared.Abstraction/"]
+
+COPY ["Asoode.Shared.Core/Asoode.Shared.Core.csproj", "Asoode.Shared.Core/"]
+RUN dotnet restore "Asoode.Shared.Core/Asoode.Shared.Core.csproj"
+COPY ["Asoode.Shared.Core/", "Asoode.Shared.Core/"]
+
+COPY ["Asoode.Shared.Database/Asoode.Shared.Database.csproj", "Asoode.Shared.Database/"]
+RUN dotnet restore "Asoode.Shared.Database/Asoode.Shared.Database.csproj"
+COPY ["Asoode.Shared.Database/", "Asoode.Shared.Database/"]
+
+COPY ["Asoode.Admin.Abstraction/Asoode.Admin.Abstraction.csproj", "Asoode.Admin.Abstraction/"]
+RUN dotnet restore "Asoode.Admin.Abstraction/Asoode.Admin.Abstraction.csproj"
+COPY ["Asoode.Admin.Abstraction/", "Asoode.Admin.Abstraction/"]
+
+COPY ["Asoode.Admin.Business/Asoode.Admin.Business.csproj", "Asoode.Admin.Business/"]
+RUN dotnet restore "Asoode.Admin.Business/Asoode.Admin.Business.csproj"
+COPY ["Asoode.Admin.Business/", "Asoode.Admin.Business/"]
+
+COPY ["Asoode.Admin.Server/Asoode.Admin.Server.csproj", "Asoode.Admin.Server/"]
+RUN dotnet restore "Asoode.Admin.Server/Asoode.Admin.Server.csproj"
+COPY ["Asoode.Admin.Server/", "Asoode.Admin.Server/"]
+
+
+WORKDIR "/src/Asoode.Admin.Server"
+RUN dotnet build "Asoode.Admin.Server.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "Asoode.Admin.Server.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+EXPOSE 80
+ENTRYPOINT ["dotnet", "Asoode.Admin.Server.dll"]
