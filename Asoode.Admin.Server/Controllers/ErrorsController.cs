@@ -1,3 +1,4 @@
+using Asoode.Admin.Abstraction.Contracts;
 using Asoode.Admin.Abstraction.Fixtures;
 using Asoode.Shared.Abstraction.Contracts;
 using Asoode.Shared.Abstraction.Dtos;
@@ -8,10 +9,10 @@ namespace Asoode.Admin.Server.Controllers;
 [Route(EndpointConstants.Prefix)]
 public class ErrorsController : BaseController
 {
-    private readonly IErrorBiz _errorBiz;
+    private readonly IErrorService _errorBiz;
     private readonly IUserIdentityService _identity;
 
-    public ErrorsController(IErrorBiz errorBiz, IUserIdentityService identity)
+    public ErrorsController(IErrorService errorBiz, IUserIdentityService identity)
     {
         _errorBiz = errorBiz;
         _identity = identity;

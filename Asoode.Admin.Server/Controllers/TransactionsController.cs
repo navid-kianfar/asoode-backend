@@ -1,3 +1,4 @@
+using Asoode.Admin.Abstraction.Contracts;
 using Asoode.Admin.Abstraction.Fixtures;
 using Asoode.Shared.Abstraction.Contracts;
 using Asoode.Shared.Abstraction.Dtos;
@@ -9,9 +10,9 @@ namespace Asoode.Admin.Server.Controllers;
 public class TransactionsController : BaseController
 {
     private readonly IUserIdentityService _identity;
-    private readonly ITransactionBiz _transactionBiz;
+    private readonly ITransactionService _transactionBiz;
 
-    public TransactionsController(ITransactionBiz transactionBiz, IUserIdentityService identity)
+    public TransactionsController(ITransactionService transactionBiz, IUserIdentityService identity)
     {
         _transactionBiz = transactionBiz;
         _identity = identity;

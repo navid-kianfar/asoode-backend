@@ -1,3 +1,4 @@
+using Asoode.Admin.Abstraction.Contracts;
 using Asoode.Admin.Abstraction.Dtos;
 using Asoode.Admin.Abstraction.Fixtures;
 using Asoode.Shared.Abstraction.Contracts;
@@ -9,10 +10,10 @@ namespace Asoode.Admin.Server.Controllers;
 [Route(EndpointConstants.Prefix)]
 public class DiscountsController : BaseController
 {
-    private readonly IDiscountBiz _discountBiz;
+    private readonly IDiscountService _discountBiz;
     private readonly IUserIdentityService _identity;
 
-    public DiscountsController(IDiscountBiz discountBiz, IUserIdentityService identity)
+    public DiscountsController(IDiscountService discountBiz, IUserIdentityService identity)
     {
         _discountBiz = discountBiz;
         _identity = identity;

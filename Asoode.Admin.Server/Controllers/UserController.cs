@@ -1,3 +1,4 @@
+using Asoode.Admin.Abstraction.Contracts;
 using Asoode.Admin.Abstraction.Dtos;
 using Asoode.Admin.Abstraction.Fixtures;
 using Asoode.Shared.Abstraction.Contracts;
@@ -9,10 +10,10 @@ namespace Asoode.Admin.Server.Controllers;
 [Route(EndpointConstants.Prefix)]
 public class UserController : BaseController
 {
-    private readonly IAccountBiz _accountBiz;
+    private readonly IAccountService _accountBiz;
     private readonly IUserIdentityService _identity;
 
-    public UserController(IAccountBiz accountBiz, IUserIdentityService identity)
+    public UserController(IAccountService accountBiz, IUserIdentityService identity)
     {
         _accountBiz = accountBiz;
         _identity = identity;

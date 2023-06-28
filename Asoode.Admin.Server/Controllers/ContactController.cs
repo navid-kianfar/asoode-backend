@@ -1,3 +1,5 @@
+using Asoode.Admin.Abstraction.Contracts;
+using Asoode.Admin.Abstraction.Dtos;
 using Asoode.Admin.Abstraction.Fixtures;
 using Asoode.Shared.Abstraction.Contracts;
 using Asoode.Shared.Abstraction.Dtos;
@@ -8,10 +10,10 @@ namespace Asoode.Admin.Server.Controllers;
 [Route(EndpointConstants.Prefix)]
 public class ContactController : BaseController
 {
-    private readonly IContactBiz _contactBiz;
+    private readonly IContactService _contactBiz;
     private readonly IUserIdentityService _identity;
 
-    public ContactController(IContactBiz contactBiz, IUserIdentityService identity)
+    public ContactController(IContactService contactBiz, IUserIdentityService identity)
     {
         _contactBiz = contactBiz;
         _identity = identity;
