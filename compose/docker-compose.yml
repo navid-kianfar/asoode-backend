@@ -16,7 +16,7 @@ services:
       asoode_network:
         ipv4_address: 192.168.17.3
   rabbitmq:
-    container_name: rabbitmq_3
+    container_name: rabbitmq
     restart: unless-stopped
     image: rabbitmq:3-management
     ports:
@@ -109,10 +109,11 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ${REDIS_VOL}/data:/data
     networks:
-      app_network:
+      asoode_network:
         ipv4_address: 192.168.17.8
   mongo:
     image: mongo
+    container_name: mongo
     restart: unless-stopped
     ports:
       - '27017:27017'
@@ -123,10 +124,11 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ${MONGO_VOL}/data:/data
     networks:
-      app_network:
+      asoode_network:
         ipv4_address: 192.168.17.9
   mongo-express:
     image: mongo-express
+    container_name: mongo_express
     restart: unless-stopped
     ports:
       - '8090:8081'
@@ -137,17 +139,18 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
     networks:
-      app_network:
+      asoode_network:
         ipv4_address: 192.168.17.10
   preview-service:
     image: fpurchess/preview-service
+    container_name: preview_service
     restart: unless-stopped
     ports:
       - '8100:8000'
     volumes:
       - /etc/localtime:/etc/localtime:ro
     networks:
-      app_network:
+      asoode_network:
         ipv4_address: 192.168.17.11
 
 networks:
