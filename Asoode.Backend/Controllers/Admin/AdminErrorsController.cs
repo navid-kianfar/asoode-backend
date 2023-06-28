@@ -11,7 +11,7 @@ namespace Asoode.Backend.Controllers.Admin;
 
 [JwtAuthorize(UserType.Admin)]
 [Route("v2/admin/errors")]
-public class AdminErrorsController : BaseController
+public class ErrorsController : BaseController
 {
     private readonly IErrorBiz _errorBiz;
 

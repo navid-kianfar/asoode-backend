@@ -40,7 +40,7 @@ internal record StorageManager : IStorageManager
             item.Path = $"{userId}/{GetPath(item.FileName)}";
         var op = await _storageService.Upload(item, SharedConstants.ProtectedBucket, item.Path);
         if (op.Status == OperationResultStatus.Success)
-            op.Data!.Url = $"{publicEndpoint}/{EndpointConstants.DownloadProtected.Replace("{*path}", op.Data.Url)}";
+            op.Data!.Url = $"{publicEndpoint}/{SharedConstants.DownloadProtected.Replace("{*path}", op.Data.Url)}";
 
         return op;
     }
@@ -51,7 +51,7 @@ internal record StorageManager : IStorageManager
             item.Path = GetPath(item.FileName);
         var op = await _storageService.Upload(item, SharedConstants.PublicBucket, item.Path);
         if (op.Status == OperationResultStatus.Success)
-            op.Data!.Url = $"{protectedEndpoint}/{EndpointConstants.DownloadPublic.Replace("{*path}", op.Data.Url)}";
+            op.Data!.Url = $"{protectedEndpoint}/{SharedConstants.DownloadPublic.Replace("{*path}", op.Data.Url)}";
 
         return op;
     }

@@ -15,7 +15,7 @@ namespace Asoode.Backend.Controllers.Admin;
 
 [JwtAuthorize(UserType.Admin)]
 [Route("v2/admin/blog")]
-public class AdminBlogController : BaseController
+public class BlogController : BaseController
 {
     private readonly IBlogBiz _blogBiz;
     private readonly IServiceProvider _serviceProvider;

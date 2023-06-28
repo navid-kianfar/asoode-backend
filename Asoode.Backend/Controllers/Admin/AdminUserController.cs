@@ -12,7 +12,7 @@ namespace Asoode.Backend.Controllers.Admin;
 
 [JwtAuthorize(UserType.Admin)]
 [Route("v2/admin/user")]
-public class AdminUserController : BaseController
+public class UserController : BaseController
 {
     private readonly IAccountBiz _accountBiz;
 

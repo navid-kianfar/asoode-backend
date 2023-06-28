@@ -10,7 +10,7 @@ namespace Asoode.Backend.Controllers.Admin;
 
 [JwtAuthorize(UserType.Admin)]
 [Route("v2/admin/transaction")]
-public class AdminTransactionsController : BaseController
+public class TransactionsController : BaseController
 {
     private readonly ITransactionBiz _transactionBiz;
 

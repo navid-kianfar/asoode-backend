@@ -12,7 +12,7 @@ namespace Asoode.Backend.Controllers.Admin;
 
 [JwtAuthorize(UserType.Admin)]
 [Route("v2/admin/marketers")]
-public class AdminMarketersController : BaseController
+public class MarketersController : BaseController
 {
     private readonly IMarketerBiz _marketerBiz;
 
