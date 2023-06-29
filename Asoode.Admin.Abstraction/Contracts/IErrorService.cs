@@ -1,5 +1,5 @@
-using Asoode.Admin.Abstraction.Dtos;
 using Asoode.Shared.Abstraction.Dtos;
+using Asoode.Shared.Abstraction.Dtos.Error;
 using Asoode.Shared.Abstraction.Types;
 
 namespace Asoode.Admin.Abstraction.Contracts;

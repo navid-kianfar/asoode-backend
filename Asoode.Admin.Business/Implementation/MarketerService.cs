@@ -1,6 +1,4 @@
 using Asoode.Admin.Abstraction.Contracts;
-using Asoode.Admin.Abstraction.Dtos;
-using Asoode.Shared.Abstraction.Contracts;
 using Asoode.Shared.Abstraction.Dtos;
 using Asoode.Shared.Abstraction.Dtos.Marketer;
 using Asoode.Shared.Abstraction.Types;

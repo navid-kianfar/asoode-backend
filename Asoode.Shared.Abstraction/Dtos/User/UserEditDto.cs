@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Asoode.Shared.Abstraction.Enums;
 
-namespace Asoode.Admin.Abstraction.Dtos;
+namespace Asoode.Shared.Abstraction.Dtos.User;
 
 public record UserEditDto
 {

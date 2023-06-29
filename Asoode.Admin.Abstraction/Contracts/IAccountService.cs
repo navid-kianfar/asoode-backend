@@ -1,7 +1,7 @@
-using Asoode.Admin.Abstraction.Dtos;
 using Asoode.Shared.Abstraction.Dtos;
+using Asoode.Shared.Abstraction.Dtos.User;
 using Asoode.Shared.Abstraction.Types;
-using UserDto = Asoode.Shared.Abstraction.Dtos.UserDto;
+using UserDto = Asoode.Shared.Abstraction.Dtos.User.UserDto;
 
 namespace Asoode.Admin.Abstraction.Contracts;
 

@@ -1,7 +1,6 @@
 using Asoode.Admin.Abstraction.Contracts;
-using Asoode.Admin.Abstraction.Dtos;
-using Asoode.Shared.Abstraction.Contracts;
 using Asoode.Shared.Abstraction.Dtos;
+using Asoode.Shared.Abstraction.Dtos.Error;
 using Asoode.Shared.Abstraction.Types;
 using Asoode.Shared.Database.Contracts;
 
