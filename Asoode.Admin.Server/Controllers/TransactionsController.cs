@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Asoode.Admin.Server.Controllers;
 
 [Route(EndpointConstants.Prefix)]
+[ApiExplorerSettings(GroupName = "Transactions")]
 public class TransactionsController : BaseController
 {
     private readonly IUserIdentityService _identity;

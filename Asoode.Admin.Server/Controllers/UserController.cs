@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Asoode.Admin.Server.Controllers;
 
 [Route(EndpointConstants.Prefix)]
+[ApiExplorerSettings(GroupName = "User")]
 public class UserController : BaseController
 {
     private readonly IAccountService _accountBiz;

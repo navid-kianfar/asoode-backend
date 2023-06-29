@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Asoode.Admin.Server.Controllers;
 
 [Route(EndpointConstants.Prefix)]
+[ApiExplorerSettings(GroupName = "Blog")]
 public class BlogController : BaseController
 {
     private readonly IBlogService _blogBiz;

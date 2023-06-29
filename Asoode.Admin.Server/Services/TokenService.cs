@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Asoode.Shared.Abstraction.Dtos;
+using Asoode.Shared.Abstraction.Enums;
 using Asoode.Shared.Abstraction.Helpers;
 using Asoode.Shared.Abstraction.Types;
 using Microsoft.IdentityModel.Tokens;
@@ -44,11 +45,34 @@ public static class TokenService
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+            new Claim(JwtRegisteredClaimNames.Typ, user.Type.ToString()),
             new Claim(JwtRegisteredClaimNames.Jti, IncrementalGuid.NewId().ToString())
         };
         var token = new JwtSecurityToken(_issuer, _issuer, claims,
             expires: DateTime.UtcNow.AddDays(7),
             signingCredentials: credentials);
         return $"Bearer {new JwtSecurityTokenHandler().WriteToken(token)}";
+    }
+
+    public static AuthenticatedUserDto? ExtractIdentity(IEnumerable<Claim> claims)
+    {
+        var all = claims.ToArray();
+        if (!all.Any()) return null;
+        
+        var tokenId = all.FirstOrDefault(i => i.Type == JwtRegisteredClaimNames.Jti)!.Value;
+        var userId = all.FirstOrDefault(i => i.Type == ClaimTypes.NameIdentifier)!.Value;
+        var userType = all.FirstOrDefault(i => i.Type == JwtRegisteredClaimNames.Typ)!.Value;
+        var userName = all.FirstOrDefault(i => i.Type == JwtRegisteredClaimNames.Sub)!.Value;
+
+        var parsed = Enum.TryParse(userType, out UserType parsedType);
+        if (!parsed) return null;
+        
+        return new AuthenticatedUserDto
+        {
+            UserType = parsedType,
+            Username = userName,
+            UserId = Guid.Parse(userId),
+            TokenId = Guid.Parse(tokenId),
+        };
     }
 }

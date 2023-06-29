@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Asoode.Admin.Server.Controllers;
 
 [Route(EndpointConstants.Prefix)]
+[ApiExplorerSettings(GroupName = "Discounts")]
 public class DiscountsController : BaseController
 {
     private readonly IDiscountService _discountBiz;

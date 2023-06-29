@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Asoode.Admin.Server.Controllers;
 
 [Route(EndpointConstants.Prefix)]
+[ApiExplorerSettings(GroupName = "Errors")]
 public class ErrorsController : BaseController
 {
     private readonly IErrorService _errorBiz;

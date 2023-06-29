@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Asoode.Admin.Server.Controllers;
 
 [Route(EndpointConstants.Prefix)]
+[ApiExplorerSettings(GroupName = "Marketers")]
 public class MarketersController : BaseController
 {
     private readonly IUserIdentityService _identity;

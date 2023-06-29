@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Asoode.Admin.Server.Controllers;
 
 [Route(EndpointConstants.Prefix)]
+[ApiExplorerSettings(GroupName = "Contact")]
 public class ContactController : BaseController
 {
     private readonly IContactService _contactBiz;
