@@ -1,4 +1,5 @@
-﻿using Asoode.Shared.Abstraction.Helpers;
+﻿using Asoode.Shared.Abstraction.Contracts;
+using Asoode.Shared.Abstraction.Helpers;
 
 namespace Asoode.Admin.Server;
 
@@ -16,6 +17,9 @@ public static class Program
         builder.Services.RegisterApp();
         var app = builder.Build();
         app.UseAppServices();
+
+        var translateService = app.Services.GetService<ITranslateService>()!;
+        await translateService.LoadFromDirectory();
 
         if (EnvironmentHelper.IsTest()) await app.RunAsync();
         else await app.RunAsync();
