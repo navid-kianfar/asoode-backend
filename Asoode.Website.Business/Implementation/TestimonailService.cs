@@ -1,13 +1,19 @@
+using Asoode.Shared.Abstraction.Dtos.Testimonial;
 using Asoode.Shared.Abstraction.Types;
+using Asoode.Shared.Database.Contracts;
 using Asoode.Website.Abstraction.Contracts;
-using Asoode.Website.Abstraction.Dtos.General;
 
 namespace Asoode.Website.Business.Implementation;
 
 internal class TestimonailService : ITestimonailService
 {
-    public Task<OperationResult<TestimonialDto[]>> Top5(string culture)
+    private readonly ITestimonialRepository _repository;
+
+    public TestimonailService(ITestimonialRepository repository)
     {
-        throw new NotImplementedException();
+        _repository = repository;
     }
+
+    public Task<OperationResult<TestimonialDto[]>> Top5(string culture)
+        => _repository.Top5(culture);
 }

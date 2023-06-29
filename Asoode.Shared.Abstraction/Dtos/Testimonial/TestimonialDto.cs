@@ -1,6 +1,4 @@
-using Asoode.Shared.Abstraction.Dtos;
-
-namespace Asoode.Website.Abstraction.Dtos.General;
+namespace Asoode.Shared.Abstraction.Dtos.Testimonial;
 
 public record TestimonialDto : BaseDto
 {

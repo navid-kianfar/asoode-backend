@@ -34,11 +34,20 @@ public static class Startup
                 builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
             });
         });
+        services.AddDbContext<WebsiteContext>(options =>
+        {
+            options.UseNpgsql(connectionString, builder =>
+            {
+                builder.CommandTimeout(120);
+                builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+            });
+        });
     }
 
     private static void RegisterServices(this IServiceCollection services)
     {
         services.AddScoped<IAccountRepository, AccountRepository>();
+        services.AddScoped<ITestimonialRepository, TestimonialRepository>();
 
         // MongoDB
         // services.AddSingleton<IDocumentRepository, DocumentRepository>();
