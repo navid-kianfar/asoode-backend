@@ -1,7 +1,5 @@
 ﻿<!DOCTYPE html>
-@using Asoode.Main.Core.Contracts.General
-@inject IServerInfo serverInfo
-@inject ITranslateBiz translate
+@inject ITranslateService translate
 @{
     Layout = "";
     ViewData["PAGE_TITLE"] = ViewData["PAGE_TITLE"] ?? @translate.Get("EVERY_THING_YOU_NEED", ViewBag.Lang);
@@ -49,10 +47,10 @@
                 </a>
             </div>
             <div class="box">
-                <a class="link login" href="https://panel.@(serverInfo.Domain)/login?lang=@(ViewBag.Lang)">
+                <a class="link login" href="@(EnvironmentHelper.Get("APP_ENDPOINT")!)/login?lang=@(ViewBag.Lang)">
                     @translate.Get("LOGIN", ViewBag.Lang)
                 </a>
-                <a class="link bordered" href="https://panel.@(serverInfo.Domain)/register?lang=@(ViewBag.Lang)">
+                <a class="link bordered" href="@(EnvironmentHelper.Get("APP_ENDPOINT")!)/register?lang=@(ViewBag.Lang)">
                     @translate.Get("REGISTER", ViewBag.Lang)
                 </a>
             </div>
@@ -72,7 +70,9 @@
         <a href="/@ViewBag.Lang/about"> @translate.Get("ABOUT_US", ViewBag.Lang) </a>
         <a href="/@ViewBag.Lang/blog">@translate.Get("BLOG", ViewBag.Lang)</a>
         <a href="/@ViewBag.Lang/faq"> @translate.Get("FAQ", ViewBag.Lang) </a>
-        <a href="https://api.@(serverInfo.Domain)/">@translate.Get("API_FOR_DEVELOPERS", ViewBag.Lang)</a>
+        <a href="@(EnvironmentHelper.Get("APP_API_ENDPOINT")!)/">
+            @translate.Get("API_FOR_DEVELOPERS", ViewBag.Lang)
+        </a>
     </div>
     <div class="box middle">
         <div>

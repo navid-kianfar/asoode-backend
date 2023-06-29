@@ -10,7 +10,11 @@
         "APP_ENV": "Development",
         "APP_IP": "localhost",
         "APP_PORT": "5520",
+        
+        "APP_ENDPOINT": "https://asoode.work",
+        "APP_API_ENDPOINT": "https://api.asoode.work",
         "APP_DOMAIN": "http://localhost:5520",
+        
         "APP_API_DOMAIN": "http://localhost:5520/api/v3/asoode",
         "APP_BUILD": "3.0.0",
         "APP_AUTH_ISSUER": "ASOODE",

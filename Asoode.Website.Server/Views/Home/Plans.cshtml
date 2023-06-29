@@ -1,7 +1,5 @@
-﻿@using Asoode.Main.Core.Contracts.General
-@using Asoode.Main.Core.Primitives.Enums
-@inject ITranslateBiz translate
-@model Asoode.Main.Core.ViewModel.Membership.PlanViewModel[]
+﻿@inject ITranslateService translate
+@model Asoode.Website.Abstraction.Dtos.Membership.PlanDto[]
 @{
     ViewData.Add("PAGE_TITLE", translate.Get("PAGE_PLANS_TITLE", ViewBag.Lang));
     ViewData.Add("PAGE_DESCRIPTION", translate.Get("PAGE_PLANS_DESCRIPTION", ViewBag.Lang));

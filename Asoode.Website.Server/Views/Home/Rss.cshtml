@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-@using Asoode.Main.Core.Contracts.General
-@using Asoode.Main.Core.Helpers
-@using Microsoft.AspNetCore.Http.Extensions
-@inject ISeoBiz seoBiz
+@inject ISeoService seoBiz
 @{
     Layout = null;
     var rss = await seoBiz.Rss();

@@ -1,7 +1,5 @@
-﻿@using Asoode.Main.Core.Contracts.General
-@inject IServerInfo serverInfo
-@inject ITranslateBiz translate
-@model Asoode.Main.Core.ViewModel.Blog.BlogResultViewModel
+﻿@inject ITranslateService translate
+@model Asoode.Website.Abstraction.Dtos.Blog.BlogResultDto
 @{
     ViewData.Add("PAGE_TITLE", Model.Blog.Title);
     ViewData.Add("PAGE_DESCRIPTION", Model.Blog.Description);

@@ -1,9 +1,6 @@
 ﻿<!DOCTYPE html>
-@using Asoode.Main.Core.Contracts.General
-@using Asoode.Main.Core.Primitives.Enums
-@inject IServerInfo serverInfo
-@inject ITranslateBiz translate
-@inject ITestimonailBiz testimonailBiz
+@inject ITranslateService translate
+@inject ITestimonailService testimonailBiz
 @{
     Layout = "";
     ViewData["PAGE_TITLE"] = @translate.Get("SUMMARY", ViewBag.Lang);
@@ -45,10 +42,10 @@
             </a>
         </div>
         <div class="box">
-            <a class="link login" href="https://panel.@(serverInfo.Domain)/login?lang=@(ViewBag.Lang)">
+            <a class="link login" href="@(EnvironmentHelper.Get("APP_ENDPOINT")!)/login?lang=@(ViewBag.Lang)">
                 @translate.Get("LOGIN", ViewBag.Lang)
             </a>
-            <a class="link bordered" href="https://panel.@(serverInfo.Domain)/register?lang=@(ViewBag.Lang)">
+            <a class="link bordered" href="@(EnvironmentHelper.Get("APP_ENDPOINT")!)/register?lang=@(ViewBag.Lang)">
                 @translate.Get("REGISTER", ViewBag.Lang)
             </a>
         </div>
@@ -60,7 +57,7 @@
     </div>
 
     <div class="join">
-        <a href="https://panel.@(serverInfo.Domain)/register">
+        <a href="@(EnvironmentHelper.Get("APP_ENDPOINT")!)/register">
             @translate.Get("JOIN_NOW", ViewBag.Lang)
         </a>
     </div>
@@ -239,7 +236,7 @@
 <div class="from-today">
     <h4>@translate.Get("FROM_TODAY_JOIN", ViewBag.Lang)</h4>
     <div class="join">
-        <a href="https://panel.@(serverInfo.Domain)/register">
+        <a href="@(EnvironmentHelper.Get("APP_ENDPOINT")!)/register">
             @translate.Get("JOIN_NOW", ViewBag.Lang)
         </a>
     </div>
@@ -311,7 +308,7 @@
         <a href="/@ViewBag.Lang/about"> @translate.Get("ABOUT_US", ViewBag.Lang) </a>
         <a href="/@ViewBag.Lang/blog">@translate.Get("BLOG", ViewBag.Lang)</a>
         <a href="/@ViewBag.Lang/faq"> @translate.Get("FAQ", ViewBag.Lang) </a>
-        <a href="https://api.@(serverInfo.Domain)/">@translate.Get("API_FOR_DEVELOPERS", ViewBag.Lang)</a>
+        <a href="@(EnvironmentHelper.Get("APP_API_ENDPOINT")!)/">@translate.Get("API_FOR_DEVELOPERS", ViewBag.Lang)</a>
     </div>
     <div class="box middle">
         <div>
@@ -343,13 +340,6 @@
 <script src="/scripts/jquery.visible.min.js"></script>
 <script src="/scripts/owl.carousel.min.js"></script>
 <script src="/scripts/site.js"></script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-K4SKBN8BK9"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-K4SKBN8BK9');
-</script>
+<partial name="_GA"/>
 </body>
 </html>

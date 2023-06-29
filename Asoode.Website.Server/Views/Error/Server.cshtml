@@ -1,5 +1,5 @@
-@using Asoode.Main.Core.Contracts.General
-@inject ITranslateBiz translate
+@using Asoode.Shared.Abstraction.Contracts
+@inject ITranslateService translate
 @{
     ViewData.Add("PAGE_TITLE", translate.Get("ERR_500_TITLE", ViewBag.Lang));
     ViewData.Add("PAGE_DESCRIPTION", translate.Get("ERR_500_DESCRIPTION", ViewBag.Lang));

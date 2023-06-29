@@ -1,5 +1,4 @@
-﻿@using Asoode.Main.Core.Contracts.General
-@inject ITranslateBiz translate
+﻿@inject ITranslateService translate
 @{
     ViewData.Add("PAGE_TITLE", translate.Get("PAGE_CONTACT_TITLE", ViewBag.Lang));
     ViewData.Add("PAGE_DESCRIPTION", translate.Get("PAGE_CONTACT_DESCRIPTION", ViewBag.Lang));
