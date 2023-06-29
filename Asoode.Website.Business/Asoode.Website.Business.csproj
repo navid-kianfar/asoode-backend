@@ -10,8 +10,6 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Asoode.Shared.Database\Asoode.Shared.Database.csproj" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Implementation\" />
+        <ProjectReference Include="..\Asoode.Website.Abstraction\Asoode.Website.Abstraction.csproj" />
     </ItemGroup>
 </Project>
