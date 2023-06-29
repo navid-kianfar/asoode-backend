@@ -13,6 +13,7 @@ public static class Startup
         services.AddScoped<IBlogService, BlogService>();
         services.AddScoped<ISeoService, SeoService>();
         services.AddScoped<ITestimonailService, TestimonailService>();
+        services.AddScoped<IPlanService, PlanService>();
         return services;
     }
 }

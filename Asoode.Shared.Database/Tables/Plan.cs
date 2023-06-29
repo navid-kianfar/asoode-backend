@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Asoode.Shared.Abstraction.Dtos.Plan;
 using Asoode.Shared.Abstraction.Enums;
 using Asoode.Shared.Database.Tables.Base;
 
@@ -71,4 +72,67 @@ internal class Plan : BaseEntity
     public bool FeatureGroupTimeSpent { get; set; }
 
     #endregion
+
+    public PlanDto ToDto()
+    {
+        return new PlanDto
+        {
+            Days = Days,
+            Description = Description,
+            Enabled = Enabled,
+            Id = Id,
+            Order = Order,
+            Picture = Picture,
+            Title = Title,
+            Type = Type,
+            Unit = Unit,
+            Users = Users,
+            AttachmentSize = AttachmentSize,
+            CanExtend = CanExtend,
+            ComplexGroup = ComplexGroup,
+            Project = Project,
+            CreatedAt = CreatedAt,
+            DiskSpace = DiskSpace,
+            OneTime = OneTime,
+            PlanCost = PlanCost,
+            SimpleGroup = SimpleGroup,
+            WorkPackage = WorkPackage,
+            UpdatedAt = UpdatedAt,
+            AdditionalWorkPackageCost = AdditionalWorkPackageCost,
+            AdditionalSimpleGroupCost = AdditionalSimpleGroupCost,
+            AdditionalComplexGroupCost = AdditionalComplexGroupCost,
+            AdditionalProjectCost = AdditionalProjectCost,
+            AdditionalSpaceCost = AdditionalSpaceCost,
+            AdditionalUserCost = AdditionalUserCost,
+            FeatureCustomField = FeatureCustomField,
+            FeatureTimeSpent = FeatureTimeSpent,
+            FeatureTimeValue = FeatureTimeValue,
+            FeatureTimeOff = FeatureTimeOff,
+            FeatureShift = FeatureShift,
+            FeatureReports = FeatureReports,
+            FeaturePayments = FeaturePayments,
+            FeatureChat = FeatureChat,
+            FeatureFiles = FeatureFiles,
+            FeatureWbs = FeatureWbs,
+            FeatureRoadMap = FeatureRoadMap,
+            FeatureTree = FeatureTree,
+            FeatureObjectives = FeatureObjectives,
+            FeatureSeasons = FeatureSeasons,
+            FeatureVote = FeatureVote,
+            FeatureSubTask = FeatureSubTask,
+            FeatureCalendar = FeatureCalendar,
+            FeatureKartabl = FeatureKartabl,
+            FeatureBlocking = FeatureBlocking,
+            FeatureRelated = FeatureRelated,
+            FeatureComplexGroup = FeatureComplexGroup,
+            FeatureGroupTimeSpent = FeatureGroupTimeSpent,
+            // AdditionalProject = AdditionalProject,
+            // Index = Index,
+            // AdditionalSpace = AdditionalSpace,
+            // AdditionalUser = AdditionalUser,
+            // AdditionalComplexGroup = AdditionalComplexGroup,
+            // AdditionalSimpleGroup = AdditionalSimpleGroup,
+            // AdditionalWorkPackage = AdditionalWorkPackage,
+        };
+    }
 }

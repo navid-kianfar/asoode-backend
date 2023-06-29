@@ -1,37 +1,46 @@
+using System.ComponentModel.DataAnnotations;
 using Asoode.Shared.Abstraction.Enums;
 
-namespace Asoode.Shared.Abstraction.Dtos.Plan.Plan;
+namespace Asoode.Shared.Abstraction.Dtos.Plan;
 
-public record UserPlanInfoDto : BaseDto
+public record PlanDto : BaseDto
 {
-    public DateTime? ExpireAt { get; set; }
-
     #region Props
 
-    public Guid UserId { get; set; }
-    public Guid PlanId { get; set; }
-    public string Title { get; set; }
-    public string Description { get; set; }
+    [Required] public string Title { get; set; }
+    [Required] public string Description { get; set; }
     public string Picture { get; set; }
     public PlanType Type { get; set; }
     public CostUnit Unit { get; set; }
     public bool Enabled { get; set; }
     public bool OneTime { get; set; }
+    public int Order { get; set; }
     public int Days { get; set; }
     public int AttachmentSize { get; set; }
-    public double PlanCost { get; set; }
+    public int PlanCost { get; set; }
     public bool CanExtend { get; set; }
 
     #endregion
 
     #region Def
 
-    public double Space { get; set; }
+    public long DiskSpace { get; set; }
     public int Users { get; set; }
     public int WorkPackage { get; set; }
     public int Project { get; set; }
     public int SimpleGroup { get; set; }
     public int ComplexGroup { get; set; }
+
+    #endregion
+
+    #region Additional
+
+    public int AdditionalUser { get; set; }
+    public int AdditionalSpace { get; set; }
+    public int AdditionalProject { get; set; }
+    public int AdditionalSimpleGroup { get; set; }
+    public int AdditionalComplexGroup { get; set; }
+    public int AdditionalWorkPackage { get; set; }
 
     #endregion
 
@@ -43,17 +52,6 @@ public record UserPlanInfoDto : BaseDto
     public int AdditionalProjectCost { get; set; }
     public int AdditionalSimpleGroupCost { get; set; }
     public int AdditionalComplexGroupCost { get; set; }
-
-    #endregion
-
-    #region Used
-
-    public int UsedUser { get; set; }
-    public long UsedSpace { get; set; }
-    public int UsedProject { get; set; }
-    public int UsedSimpleGroup { get; set; }
-    public int UsedComplexGroup { get; set; }
-    public int UsedWorkPackage { get; set; }
 
     #endregion
 
@@ -81,6 +79,7 @@ public record UserPlanInfoDto : BaseDto
     public bool FeatureRelated { get; set; }
     public bool FeatureComplexGroup { get; set; }
     public bool FeatureGroupTimeSpent { get; set; }
+    public int Index { get; set; }
 
     #endregion
 }

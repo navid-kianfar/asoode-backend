@@ -50,11 +50,11 @@ namespace Asoode.Website.Server.Controllers
         {
             return View();
         }
-        // public async Task<IActionResult> Plans()
-        // {
-        //     var op = await _serviceProvider.GetService<IPlanBiz>().List();
-        //     return View(op.Data);
-        // }
+        public async Task<IActionResult> Plans()
+        {
+            var op = await _serviceProvider.GetService<IPlanService>()!.List();
+            return View(op.Data);
+        }
         public IActionResult About()
         {
             return View();
@@ -63,7 +63,7 @@ namespace Asoode.Website.Server.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> Faq(int page = 1)
+        public async Task<IActionResult> Faq([FromRoute]int page = 1)
         {
             var blogBiz = _serviceProvider.GetService<IBlogService>()!;
             var culture = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName.ToLower();
@@ -79,7 +79,7 @@ namespace Asoode.Website.Server.Controllers
                 Posts = posts.Data
             });
         }
-        public async Task<IActionResult> Blog(int page = 1)
+        public async Task<IActionResult> Blog([FromRoute]int page = 1)
         {
             var blogBiz = _serviceProvider.GetService<IBlogService>()!;
             var culture = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName.ToLower();
@@ -95,8 +95,7 @@ namespace Asoode.Website.Server.Controllers
                 Posts = posts.Data
             });
         }
-        
-        public async Task<IActionResult> Post(string key, string title)
+        public async Task<IActionResult> Post([FromRoute]string key, [FromRoute]string title)
         {
             var blogBiz = _serviceProvider.GetService<IBlogService>()!;
             var postOp = await blogBiz.Post(key);

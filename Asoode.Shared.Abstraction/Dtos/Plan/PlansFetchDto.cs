@@ -1,4 +1,4 @@
-namespace Asoode.Shared.Abstraction.Dtos.Plan.Plan;
+namespace Asoode.Shared.Abstraction.Dtos.Plan;
 
 public record PlansFetchDto
 {
