@@ -1,5 +1,7 @@
+using Asoode.Shared.Abstraction.Contracts;
 using Asoode.Shared.Abstraction.Dtos;
 using Asoode.Shared.Abstraction.Types;
+using Asoode.Shared.Database.Contracts;
 using Asoode.Website.Abstraction.Contracts;
 using Asoode.Website.Abstraction.Dtos.Blog;
 
@@ -7,6 +9,15 @@ namespace Asoode.Website.Business.Implementation;
 
 internal class BlogService : IBlogService
 {
+    private readonly IBlogRepository _repository;
+    private readonly ILoggerService _loggerService;
+
+    public BlogService(IBlogRepository repository, ILoggerService loggerService)
+    {
+        _repository = repository;
+        _loggerService = loggerService;
+    }
+    
     public Task<OperationResult<BlogDto>> Blog(string culture)
     {
         throw new NotImplementedException();
