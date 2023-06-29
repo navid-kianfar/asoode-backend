@@ -27,4 +27,9 @@
         <ProjectReference Include="..\Asoode.Website.Business\Asoode.Website.Business.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Home\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\_Layout.cshtml" />
+    </ItemGroup>
+
 </Project>

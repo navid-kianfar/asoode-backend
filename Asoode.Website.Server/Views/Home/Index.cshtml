@@ -1,3 +1,355 @@
-﻿@{
-
+﻿<!DOCTYPE html>
+@using Asoode.Main.Core.Contracts.General
+@using Asoode.Main.Core.Primitives.Enums
+@inject IServerInfo serverInfo
+@inject ITranslateBiz translate
+@inject ITestimonailBiz testimonailBiz
+@{
+    Layout = "";
+    ViewData["PAGE_TITLE"] = @translate.Get("SUMMARY", ViewBag.Lang);
+    ViewData["PAGE_DESCRIPTION"] = @translate.Get("APP_DESCRIPTION", ViewBag.Lang);
+    ViewData["PAGE_KEYWORDS"] = @translate.Get("APP_KEYWORDS", ViewBag.Lang);
+    var testimonials = await testimonailBiz.Top5(ViewBag.Lang);
 }
+<html dir="@ViewBag.Direction" lang="@ViewBag.Lang">
+<head>
+<partial name="_Meta"/>
+<link rel="stylesheet" href="~/stylesheets/bootstrap.@(ViewBag.Direction).min.css"/>
+<link rel="stylesheet" href="~/stylesheets/site.css"/>
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png" />
+<link rel="manifest" href="/images/favicons/app.@(ViewBag.Lang).manifest.txt" />
+<link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#5bbad5" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Almarai&display=swap">
+</head>
+<body class="home-page lang-@ViewBag.Lang dir-@ViewBag.Direction">
+@* <div class="change-password">@translate.Get("OLD_USERS_CHANGE_PASSWORD")</div> *@
+<div class="image-container">
+    <nav class="header">
+        <div class="box">
+            <div class="logo">
+                <a href="/@(ViewBag.Lang)/">
+                    <img src="/images/asoode-logo.svg" alt="logo">
+                </a>
+            </div>
+            <a class="link" href="/@ViewBag.Lang/why">
+                @translate.Get("WHY_ASOODE", ViewBag.Lang)
+            </a>
+            @* <a class="link" href="/@ViewBag.Lang/plans"> *@
+            @*     @translate.Get("PLANS", ViewBag.Lang) *@
+            @* </a> *@
+            <a class="link" href="/@ViewBag.Lang/blog">@translate.Get("BLOG", ViewBag.Lang)</a>
+            <a class="link" href="/@ViewBag.Lang/contact">
+                @translate.Get("CONTACT_US", ViewBag.Lang)
+            </a>
+        </div>
+        <div class="box">
+            <a class="link login" href="https://panel.@(serverInfo.Domain)/login?lang=@(ViewBag.Lang)">
+                @translate.Get("LOGIN", ViewBag.Lang)
+            </a>
+            <a class="link bordered" href="https://panel.@(serverInfo.Domain)/register?lang=@(ViewBag.Lang)">
+                @translate.Get("REGISTER", ViewBag.Lang)
+            </a>
+        </div>
+    </nav>
+
+    <div class="summary">
+        <h1>@translate.Get("SUMMARY", ViewBag.Lang)</h1>
+        <h2>@translate.Get("EVERY_THING_YOU_NEED", ViewBag.Lang)</h2>
+    </div>
+
+    <div class="join">
+        <a href="https://panel.@(serverInfo.Domain)/register">
+            @translate.Get("JOIN_NOW", ViewBag.Lang)
+        </a>
+    </div>
+
+    <div class="slider">
+        <div class="owl-carousel">
+            <img src="/images/slider/slide-1-@(ViewBag.Lang).png" alt="light-theme">
+            <img src="/images/slider/slide-2-@(ViewBag.Lang).png" alt="dark-theme">
+            <img src="/images/slider/slide-3-@(ViewBag.Lang).png" alt="dark-theme">
+            <img src="/images/slider/slide-4-@(ViewBag.Lang).png" alt="dark-theme">
+            <img src="/images/slider/slide-5-@(ViewBag.Lang).png" alt="dark-theme">
+            <img src="/images/slider/slide-6.png" alt="api">
+        </div>
+    </div>
+</div>
+<div class="wrapper">
+    <h3>@translate.Get("BE_ASOODE", ViewBag.Lang)</h3>
+    <h4>@translate.Get("BE_ASOODE_DESCRIPTION", ViewBag.Lang)</h4>
+
+    <div class="section-1">
+        <div class="box">
+            <div class="ico">
+                <i class="icon-target"></i>
+            </div>
+            <div class="title">@translate.Get("IN_ONE_PLACE", ViewBag.Lang)</div>
+            <div class="description">@translate.Get("IN_ONE_PLACE_DESCRIPTION", ViewBag.Lang)</div>
+        </div>
+        <div class="box">
+            <div class="ico">
+                <i class="icon-team"></i>
+            </div>
+            <div class="title">@translate.Get("MANAGE_EMPLOYEE", ViewBag.Lang)</div>
+            <div class="description">@translate.Get("MANAGE_EMPLOYEE_DESCRIPTION", ViewBag.Lang)</div>
+        </div>
+        <div class="box">
+            <div class="ico">
+                <i class="icon-timer"></i>
+            </div>
+            <div class="title">@translate.Get("TRACK_PROGRESS", ViewBag.Lang)</div>
+            <div class="description">@translate.Get("TRACK_PROGRESS_DESCRIPTION", ViewBag.Lang)</div>
+        </div>
+    </div>
+</div>
+<div class="features">
+    <section class="feature">
+        <div class="info">
+            <h4 class="title">@translate.Get("FEATURE_WBS", ViewBag.Lang)</h4>
+            <h5 class="description">@translate.Get("FEATURE_WBS_DESCRIPTION", ViewBag.Lang)</h5>
+        </div>
+        <div class="image">
+            <img src="/images/wbs-@(ViewBag.Lang).png" alt="wbs">
+        </div>
+    </section>
+    <section class="feature">
+        <div class="info">
+            <h4 class="title">@translate.Get("FEATURE_WP", ViewBag.Lang)</h4>
+            <h5 class="description">@translate.Get("FEATURE_WP_DESCRIPTION", ViewBag.Lang)</h5>
+        </div>
+        <div class="image">
+            <img src="/images/cards-@(ViewBag.Lang).png" alt="tasks">
+        </div>
+    </section>
+    <section class="feature">
+        <div class="info">
+            <h4 class="title">@translate.Get("FEATURE_BOT", ViewBag.Lang)</h4>
+            <h5 class="description">@translate.Get("FEATURE_BOT_DESCRIPTION", ViewBag.Lang)</h5>
+        </div>
+        <div class="image">
+            <img src="/images/messenger-bot-@(ViewBag.Lang).png" alt="messenger">
+        </div>
+    </section>
+    <section class="feature">
+        <div class="info">
+            <h4 class="title">@translate.Get("FEATURE_TS", ViewBag.Lang)</h4>
+            <h5 class="description">@translate.Get("FEATURE_TS_DESCRIPTION", ViewBag.Lang)</h5>
+        </div>
+        <div class="image">
+            <img src="/images/timespent-@(ViewBag.Lang).png" alt="time spent">
+        </div>
+    </section>
+    <section class="feature">
+        <div class="info">
+            <h4 class="title">@translate.Get("FEATURE_DASHBOARD", ViewBag.Lang)</h4>
+            <h5 class="description">@translate.Get("FEATURE_DASHBOARD_DESCRIPTION", ViewBag.Lang)</h5>
+        </div>
+        <div class="image">
+            <img src="/images/dashboard-@(ViewBag.Lang).png" alt="dashboard">
+        </div>
+    </section>
+    <section class="feature">
+        <div class="info">
+            <h4 class="title">@translate.Get("FEATURE_HOLDING", ViewBag.Lang)</h4>
+            <h5 class="description">@translate.Get("FEATURE_HOLDING_DESCRIPTION", ViewBag.Lang)</h5>
+        </div>
+        <div class="image">
+            <img src="/images/holding-@(ViewBag.Lang).png" alt="holding">
+        </div>
+    </section>
+</div>
+<div class="applications">
+    <h4>@translate.Get("ASOODE_APPLICATIONS", ViewBag.Lang)</h4>
+    <div class="boxes">
+        <div class="box">
+            <div class="title">
+                <i class="icon-download4"></i>
+                <span>@translate.Get("DOWNLOAD_PWA", ViewBag.Lang)</span>
+            </div>
+            <div class="image">
+                <a href="#">
+                    <i class="icon-download41"></i>
+                </a>
+            </div>
+        </div>
+        <div class="box">
+            <div class="title">
+                <i class="icon-download4"></i>
+                <span>@translate.Get("DOWNLOAD_DESKTOP", ViewBag.Lang)</span>
+            </div>
+            <div class="image">
+                <a href="#">
+                    <i class="icon-download41"></i>
+                </a>
+            </div>
+        </div>
+        <div class="box mobile">
+            <div class="title">
+                <i class="icon-download4"></i>
+                <span>@translate.Get("DOWNLOAD_NATIVE", ViewBag.Lang)</span>
+            </div>
+            <div class="image">
+                <a href="#">
+                    <i class="icon-android"></i>
+                </a>
+                <a href="#">
+                    <i class="icon-appleinc"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="your-work">
+    <h4>@translate.Get("ASOODE_FOR_YOUR_WORK", ViewBag.Lang)</h4>
+    <div class="owl-carousel boxes">
+        <div class="box">
+            <i class="ico icon-city"></i>
+            <h5>@translate.Get("ORGANIZATIONS", ViewBag.Lang)</h5>
+            <h6>@translate.Get("ORGANIZATIONS_DESCRIPTION", ViewBag.Lang)</h6>
+            <i class="bg icon-city"></i>
+        </div>
+        <div class="box">
+            <i class="ico icon-trophy4"></i>
+            <h5>@translate.Get("STARTUPS", ViewBag.Lang)</h5>
+            <h6>@translate.Get("STARTUPS_DESCRIPTION", ViewBag.Lang)</h6>
+            <i class="bg icon-trophy4"></i>
+        </div>
+        <div class="box">
+            <i class="ico icon-emoji"></i>
+            <h5>@translate.Get("DEVELOPERS", ViewBag.Lang)</h5>
+            <h6>@translate.Get("DEVELOPERS_DESCRIPTION", ViewBag.Lang)</h6>
+            <i class="bg icon-emoji"></i>
+        </div>
+        <div class="box">
+            <i class="ico icon-stethoscope"></i>
+            <h5>@translate.Get("DOCTORS", ViewBag.Lang)</h5>
+            <h6>@translate.Get("DOCTORS_DESCRIPTION", ViewBag.Lang)</h6>
+            <i class="bg icon-stethoscope"></i>
+        </div>
+        <div class="box">
+            <i class="ico icon-office"></i>
+            <h5>@translate.Get("INSTITUTES", ViewBag.Lang)</h5>
+            <h6>@translate.Get("INSTITUTES_DESCRIPTION", ViewBag.Lang)</h6>
+            <i class="bg icon-office"></i>
+        </div>
+    </div>
+</div>
+<div class="from-today">
+    <h4>@translate.Get("FROM_TODAY_JOIN", ViewBag.Lang)</h4>
+    <div class="join">
+        <a href="https://panel.@(serverInfo.Domain)/register">
+            @translate.Get("JOIN_NOW", ViewBag.Lang)
+        </a>
+    </div>
+    <h5>@translate.Get("THOSE_JOINED", ViewBag.Lang)</h5>
+
+    <div class="customers">
+        <a href="#">
+            <img src="/images/adam-o-hava.png" alt="adam-o-hava">
+        </a>
+        <a href="#">
+            <img src="/images/artwich.png" alt="artwich">
+        </a>
+        <a href="#">
+            <img src="/images/axess-logo.png" alt="axess">
+        </a>
+        <a class="mashverapp" href="#">
+            <img src="/images/mashver-app.png" alt="mashverapp">
+        </a>
+        <a href="https://maxduel.com">
+            <img src="/images/max-duel.png" alt="maxduel">
+        </a>
+    </div>
+
+</div>
+@if (testimonials.Status == OperationResultStatus.Success)
+{
+    <div class="others-say">
+        <h4>@translate.Get("WHAT_OTHERS_SAY", ViewBag.Lang)</h4>
+        <div class="boxes">
+            <div class="box bx-1">
+                <div class="owl-carousel">
+                
+                    @foreach (var testimonail in testimonials.Data)
+                    {
+                        <div class="item">
+                            <div class="image">
+                                @if (!string.IsNullOrEmpty(testimonail.Avatar))
+                                {
+                                    <img src="@(testimonail.Avatar)" alt="avatar"/>
+                                }
+                                else
+                                {
+                                    <i class="icon-user"></i>
+                                }
+                            </div>
+                            <div class="name">@testimonail.FullName</div>
+                            <div class="job-title">@testimonail.Bio</div>
+                            <div class="description">
+                                <img src="/images/quotation.png" alt="testimonail">
+                                @testimonail.Message
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="box bx-2"></div>
+            <div class="box bx-3"></div>
+            <div class="box bx-4"></div>
+        </div>
+    </div>
+}
+<div class="footer">
+    <div class="box asoode">
+        <a class="logo" href="/@(ViewBag.Lang)/">
+            <img src="/images/asoode-logo.svg" alt="asoode-logo">
+        </a>
+        <a href="/@ViewBag.Lang/contact">@translate.Get("CONTACT_US", ViewBag.Lang)</a>
+        <a href="javascript:void(0)">@translate.Get("JOB_OPPORTUNITIES", ViewBag.Lang)</a>
+        <a href="/@ViewBag.Lang/about"> @translate.Get("ABOUT_US", ViewBag.Lang) </a>
+        <a href="/@ViewBag.Lang/blog">@translate.Get("BLOG", ViewBag.Lang)</a>
+        <a href="/@ViewBag.Lang/faq"> @translate.Get("FAQ", ViewBag.Lang) </a>
+        <a href="https://api.@(serverInfo.Domain)/">@translate.Get("API_FOR_DEVELOPERS", ViewBag.Lang)</a>
+    </div>
+    <div class="box middle">
+        <div>
+            @translate.Get("COPY_RIGHT", ViewBag.Lang)&nbsp;&copy;@(DateTime.Now.Year)
+        </div>
+    </div>
+    <div class="box boozhan">
+        <div>
+            <a target="_blank" class="logo" href="https://boozhan-sharif.ir">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="29pt" height="22pt" viewBox="0 0 29 22" version="1.1">
+                    <g id="surface1">
+                        <path style=" stroke:none;fill-rule:nonzero;fill:rgb(100%,100%,100%);fill-opacity:1;" d="M 11.410156 2.640625 L 11.410156 5.28125 L 9.609375 5.292969 C 7.820312 5.300781 7.699219 5.304688 7.230469 5.363281 C 4.210938 5.742188 1.632812 7.8125 0.539062 10.730469 C 0.277344 11.425781 0.128906 12.097656 0.03125 13.007812 C 0.015625 13.132812 0.0117188 14.425781 0.00390625 17.589844 L 0 21.996094 L 10.71875 21.996094 L 10.71875 19.511719 L 14.660156 19.511719 L 14.660156 21.996094 L 23.527344 21.996094 L 23.527344 17.027344 L 21.082031 17.027344 L 21.082031 19.496094 L 17.125 19.496094 L 17.125 17.027344 L 8.257812 17.027344 L 8.257812 19.496094 L 2.480469 19.496094 L 2.480469 16.578125 C 2.480469 13.609375 2.484375 13.320312 2.542969 12.894531 C 2.808594 10.992188 3.953125 9.34375 5.617188 8.457031 C 6.214844 8.136719 6.839844 7.941406 7.558594 7.835938 C 7.796875 7.800781 7.867188 7.796875 9.664062 7.792969 L 11.523438 7.785156 L 11.53125 7.824219 C 11.535156 7.847656 11.558594 7.960938 11.582031 8.078125 C 11.746094 8.914062 12.078125 9.8125 12.5 10.554688 C 13.902344 13.03125 16.40625 14.605469 19.207031 14.773438 C 19.359375 14.785156 20.394531 14.796875 21.511719 14.800781 L 23.542969 14.8125 L 23.542969 12.277344 L 21.390625 12.269531 C 19.070312 12.261719 19.152344 12.265625 18.648438 12.175781 C 16.824219 11.839844 15.242188 10.617188 14.4375 8.914062 C 14.175781 8.359375 14.015625 7.8125 13.910156 7.121094 C 13.886719 6.949219 13.882812 6.710938 13.878906 4.714844 L 13.871094 2.5 L 17.042969 2.503906 C 20.308594 2.503906 21.128906 2.511719 21.457031 2.558594 C 22.121094 2.652344 22.726562 2.839844 23.3125 3.136719 C 23.914062 3.441406 24.386719 3.785156 24.863281 4.277344 C 25.308594 4.730469 25.652344 5.214844 25.933594 5.785156 C 26.234375 6.398438 26.410156 6.996094 26.507812 7.738281 C 26.535156 7.929688 26.539062 8.472656 26.542969 14.972656 L 26.546875 21.996094 L 28.992188 21.996094 L 28.988281 14.855469 C 28.984375 8.386719 28.980469 7.691406 28.957031 7.507812 C 28.859375 6.753906 28.761719 6.3125 28.566406 5.71875 C 28.171875 4.515625 27.535156 3.457031 26.652344 2.53125 C 25.382812 1.210938 23.734375 0.355469 21.929688 0.0820312 C 21.363281 0 21.511719 0 16.28125 0 L 11.410156 0 Z M 11.410156 2.640625 "/>
+                    </g>
+                </svg>
+            </a>
+        </div>
+        <h6>@translate.Get("ACHA_PRODUCT", ViewBag.Lang)</h6>
+        <br>
+        <a target="_blank" href="https://www.linkedin.com/company/asoode" class="linkedin">
+            <i class="icon-linkedin2"></i>
+        </a>&nbsp;
+        <a target="_blank" href="https://t.me/AsoodeCom" class="telegram">
+            <i class="icon-telegram"></i>
+        </a>&nbsp;
+    </div>
+</div>
+
+<script src="/scripts/jquery-3.4.1.min.js"></script>
+<script src="/scripts/jquery.visible.min.js"></script>
+<script src="/scripts/owl.carousel.min.js"></script>
+<script src="/scripts/site.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-K4SKBN8BK9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-K4SKBN8BK9');
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+﻿@using Asoode.Main.Core.Contracts.General
+@using Asoode.Main.Core.Helpers
+@inject IServerInfo serverInfo
+@inject ITranslateBiz translate
+@model Asoode.Main.Core.ViewModel.Blog.BlogResultViewModel
+@{
+    ViewData.Add("PAGE_TITLE", Model.Blog.Title);
+    ViewData.Add("PAGE_DESCRIPTION", Model.Blog.Description);
+    ViewData.Add("PAGE_KEYWORDS", Model.Blog.Keywords);
+    ViewData.Add("PAGE_CREATE_TIME", Model.Blog.CreatedAt);
+    ViewData.Add("PAGE_UPDATE_TIME", Model.Blog.UpdatedAt ?? Model.Blog.CreatedAt);
+}
+<div class="page-blog pg">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="summary">@Model.Blog.Description</h2>
+            </div>
+        </div>
+        @for (var counter = 0; counter < Model.Posts.Items.Length; counter++)
+        {
+            var post = Model.Posts.Items[counter];
+            <section class="row post @(counter == 0 ? "large" : "")">
+                <div class="col-md-@(counter == 0 ? "6" : "4")">
+                    <a title="@post.Title" href="@post.Permalink(serverInfo.Domain)">
+                        <img src="@post.MediumImage" alt="@post.Title">
+                    </a>
+                </div>
+                <div class="col-md-@(counter == 0 ? "6" : "8")">
+                    <a title="@post.Title" href="@post.Permalink(serverInfo.Domain)">
+                        <h2>@post.Title</h2>
+                    </a>
+                    <h3>@(string.IsNullOrEmpty(post.Summary) ? post.Description : post.Summary)</h3>
+                    <div class="info">
+                        <span class="name">نوید کیانفر</span>&nbsp;
+                        <span class="date">@DateHelper.Format(post.CreatedAt, null, ViewBag.Lang)</span>
+                    </div>
+                </div>
+            </section>
+        }
+        
+        @if (Model.Posts.TotalPages > 1)
+        {
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="/@ViewBag.Lang/blog">
+                    @translate.Get("FIRST_PAGE", ViewBag.Lang)
+                </a></li>
+                @for (int p = 1; p <= Model.Posts.TotalPages; p++)
+                {
+                    <li class="page-item"><a class="page-link" href="/@ViewBag.Lang/blog/?page=@p">@p</a></li>
+                }
+                <li class="page-item"><a class="page-link" 
+                                         href="/@ViewBag.Lang/blog/?page=@Model.Posts.TotalPages">
+                    @translate.Get("LAST_PAGE", ViewBag.Lang)
+                </a></li>
+            </ul>
+        }
+    </div>
+</div>

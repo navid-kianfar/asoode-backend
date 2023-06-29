@@ -1,0 +1,9 @@
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+<script async src="https://www.googletagmanager.com/gtag/js?id=@Configuration["Setting:Ga"]"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '@Configuration["Setting:Ga"]');
+</script>

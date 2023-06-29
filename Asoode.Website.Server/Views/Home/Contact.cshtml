@@ -1,0 +1,42 @@
+﻿@using Asoode.Main.Core.Contracts.General
+@inject ITranslateBiz translate
+@{
+    ViewData.Add("PAGE_TITLE", translate.Get("PAGE_CONTACT_TITLE", ViewBag.Lang));
+    ViewData.Add("PAGE_DESCRIPTION", translate.Get("PAGE_CONTACT_DESCRIPTION", ViewBag.Lang));
+}
+<div class="page-contact pg">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="/images/message.png" alt="message">
+            </div>
+            <div class="col-md-6">
+                @translate.Get("CONTACT_TEXT")
+
+                <form id="frmContact">
+                    <div class="form-group">
+                        @* <label for="txtFirstName">@translate.Get("FIRST_NAME")</label> *@
+                        <input type="text" class="form-control" id="txtFirstName" placeholder="@translate.Get("ENTER_FIRST_NAME")">
+                    </div>
+                    <div class="form-group">
+                        @* <label for="txtLastName">@translate.Get("LAST_NAME")</label> *@
+                        <input type="text" class="form-control" id="txtLastName" placeholder="@translate.Get("ENTER_LAST_NAME")">
+                    </div>
+                    <div class="form-group">
+                        @* <label for="txtEmail">@translate.Get("EMAIL")</label> *@
+                        <input type="email" class="form-control" id="txtEmail" placeholder="@translate.Get("ENTER_EMAIL")">
+                        <small id="txtEmailHelp" class="form-text text-muted">*&nbsp;@translate.Get("WE_DONT_SHARE_EMAIL")</small>
+                    </div>
+                    <div class="form-group">
+                        @* <label for="txtMessage">@translate.Get("MESSAGE")</label> *@
+                        <textarea class="form-control" id="txtMessage" rows="3" placeholder="@translate.Get("WHAT_IS_ON_YOUR_MIND")"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        @translate.Get("SEND")
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

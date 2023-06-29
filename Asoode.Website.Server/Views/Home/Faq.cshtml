@@ -1,0 +1,49 @@
+﻿@using Asoode.Main.Core.Contracts.General
+@inject IServerInfo serverInfo
+@inject ITranslateBiz translate
+@model Asoode.Main.Core.ViewModel.Blog.BlogResultViewModel
+@{
+    ViewData.Add("PAGE_TITLE", Model.Blog.Title);
+    ViewData.Add("PAGE_DESCRIPTION", Model.Blog.Description);
+    ViewData.Add("PAGE_KEYWORDS", Model.Blog.Keywords);
+    ViewData.Add("PAGE_CREATE_TIME", Model.Blog.CreatedAt);
+    ViewData.Add("PAGE_UPDATE_TIME", Model.Blog.UpdatedAt ?? Model.Blog.CreatedAt);
+}
+<div class="page-faq pg">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="faq-holder">
+                    <ul>
+                        @foreach (var faq in Model.Posts.Items)
+                        {
+                            <li>
+                                <a title="@(faq.Title)" href="@faq.Permalink(serverInfo.Domain)">
+                                    @(faq.Title)
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                
+                
+                @if (Model.Posts.TotalPages > 1)
+                {
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-link" href="/@ViewBag.Lang/faq">
+                            @translate.Get("FIRST_PAGE", ViewBag.Lang)
+                        </a></li>
+                        @for (int p = 1; p <= Model.Posts.TotalPages; p++)
+                        {
+                            <li class="page-item"><a class="page-link" href="/@ViewBag.Lang/faq/?page=@p">@p</a></li>
+                        }
+                        <li class="page-item"><a class="page-link" 
+                                                 href="/@ViewBag.Lang/faq/?page=@Model.Posts.TotalPages">
+                            @translate.Get("LAST_PAGE", ViewBag.Lang)
+                        </a></li>
+                    </ul>
+                }
+            </div>
+        </div>
+    </div>
+</div>

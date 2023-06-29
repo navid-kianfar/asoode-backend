@@ -1,0 +1,15 @@
+@using Asoode.Main.Core.Contracts.General
+@inject ITranslateBiz translate
+@{
+    ViewData.Add("PAGE_TITLE", translate.Get("ERR_500_TITLE", ViewBag.Lang));
+    ViewData.Add("PAGE_DESCRIPTION", translate.Get("ERR_500_DESCRIPTION", ViewBag.Lang));
+}
+<div class="page-error pg">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>@translate.Get("ERR_500_DESCRIPTION")</h1>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+﻿@using Asoode.Main.Core.Contracts.General
+@inject ITranslateBiz translate
+@{
+    ViewData.Add("PAGE_TITLE", translate.Get("PAGE_ABOUT_TITLE", ViewBag.Lang));
+    ViewData.Add("PAGE_DESCRIPTION", translate.Get("PAGE_ABOUT_DESCRIPTION", ViewBag.Lang));
+}
+<div class="page-about pg">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="about">@translate.Get("ABOUT_TEXT", ViewBag.Lang)</div>
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+    </div>
+</div>

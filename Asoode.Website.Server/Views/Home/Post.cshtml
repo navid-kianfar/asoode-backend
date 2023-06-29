@@ -1,0 +1,40 @@
+﻿@using Asoode.Main.Core.Contracts.General
+@inject ITranslateBiz translate
+@model Asoode.Main.Core.ViewModel.Blog.PostViewModel
+@{
+    ViewData.Add("PAGE_TITLE", Model.Title);
+    ViewData.Add("PAGE_DESCRIPTION", Model.Description);
+    ViewData.Add("PAGE_KEYWORDS", Model.Keywords);
+    ViewData.Add("PAGE_CREATE_TIME", Model.CreatedAt);
+    ViewData.Add("PAGE_UPDATE_TIME", Model.UpdatedAt ?? Model.CreatedAt);
+}
+<div class="page-post pg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="summary">@(string.IsNullOrEmpty(Model.Summary) ? Model.Description : Model.Summary)</h2>
+            </div>
+        </div>
+    </div>
+    @if (!string.IsNullOrEmpty(Model.LargeImage))
+    {
+        <img src="@Model.LargeImage" class="full" alt="@Model.Title">
+    }
+    @if (!string.IsNullOrEmpty(Model.EmbedCode))
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="embed-code-container">@Html.Raw(Model.EmbedCode)</div>
+                </div>
+            </div>
+        </div>
+    }
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="content">@Html.Raw(Model.Text)</div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,446 @@
+﻿@using Asoode.Main.Core.Contracts.General
+@inject ITranslateBiz translate
+@{
+    ViewData.Add("PAGE_TITLE", translate.Get("PAGE_WHY_TITLE", ViewBag.Lang));
+    ViewData.Add("PAGE_DESCRIPTION", translate.Get("PAGE_WHY_DESCRIPTION", ViewBag.Lang));
+}
+<div class="page-why pg">
+<div class="container-fluid">
+<div class="row">
+<div class="col-md-12">
+<table>
+<thead>
+<tr>
+    <th></th>
+    <th>
+        <img src="/images/brands/as-ico.png" alt="asoode">
+        <div class="name">@translate.Get("ASOODE", ViewBag.Lang)</div>
+    </th>
+    <th>
+        <img src="/images/brands/tr-ico.png" alt="trello">
+        <div class="name">@translate.Get("TRELLO", ViewBag.Lang)</div>
+    </th>
+    <th>
+        <img src="/images/brands/tk-ico.png" alt="taskulu">
+        <div class="name">@translate.Get("TASKULU", ViewBag.Lang)</div>
+    </th>
+    <th>
+        <img src="/images/brands/tc-ico.png" alt="team camp">
+        <div class="name">@translate.Get("TEAM_CAMP", ViewBag.Lang)</div>
+    </th>
+    <th>
+        <img src="/images/brands/bn-ico.png" alt="balonet">
+        <div class="name">@translate.Get("BALONET", ViewBag.Lang)</div>
+    </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td>@translate.Get("FEATURE_CHAT", ViewBag.Lang)</td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+</tr>
+<tr>
+    <td>@translate.Get("FEATURE_FILES", ViewBag.Lang)</td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico half">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico half">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+</tr>
+<tr>
+    <td>@translate.Get("FEATURE_CALENDAR", ViewBag.Lang)</td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico half">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+</tr>
+<tr>
+    <td>@translate.Get("FEATURE_BREAK", ViewBag.Lang)</td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+</tr>
+<tr>
+    <td>@translate.Get("FEATURE_ROAD_MAP", ViewBag.Lang)</td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+</tr>
+<tr>
+    <td>@translate.Get("FEATURE_TREE", ViewBag.Lang)</td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+</tr>
+<tr>
+    <td>@translate.Get("FEATURE_OBJECTIVES", ViewBag.Lang)</td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+</tr>
+<tr>
+    <td>@translate.Get("FEATURE_SEASON", ViewBag.Lang)</td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+</tr>
+<tr>
+    <td>@translate.Get("FEATURE_CUSTOM_FIELD", ViewBag.Lang)</td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico half">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+</tr>
+<tr>
+    <td>@translate.Get("FEATURE_VOTE", ViewBag.Lang)</td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico half">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+</tr>
+<tr>
+    <td>@translate.Get("FEATURE_SUB_TASK", ViewBag.Lang)</td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico half">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico half">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico half">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+</tr>
+<tr>
+    <td>@translate.Get("FEATURE_BLOCKING", ViewBag.Lang)</td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico half">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+</tr>
+<tr>
+    <td>@translate.Get("FEATURE_RELATED", ViewBag.Lang)</td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico half">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+</tr>
+<tr>
+    <td>@translate.Get("FEATURE_TIME_SPENT", ViewBag.Lang)</td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico half">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+</tr>
+<tr>
+    <td>@translate.Get("FEATURE_COMPLEX_GROUP", ViewBag.Lang)</td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+</tr>
+<tr>
+    <td>@translate.Get("FEATURE_GROUP_TIME_SPENT", ViewBag.Lang)</td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+</tr>
+<tr>
+    <td>@translate.Get("FEATURE_REPORTS", ViewBag.Lang)</td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico half">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+</tr>
+<tr>
+    <td>@translate.Get("FEATURE_TIME_OFF", ViewBag.Lang)</td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+</tr>
+<tr>
+    <td>@translate.Get("FEATURE_SHIFT", ViewBag.Lang)</td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+</tr>
+@* <tr> *@
+@*     <td>@translate.Get("FEATURE_PAYMENTS", ViewBag.Lang)</td> *@
+@*     <td class="ico"><i class="icon-checkmark3"></i></td> *@
+@*     <td></td> *@
+@*     <td></td> *@
+@*     <td></td> *@
+@*     <td></td> *@
+@* </tr> *@
+<tr>
+    <td>@translate.Get("FEATURE_TIME_VALUE", ViewBag.Lang)</td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+</tr>
+<tr>
+    <td>@translate.Get("FEATURE_KARTABL", ViewBag.Lang)</td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-checkmark3"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+    <td class="ico">
+        <i class="icon-blocked"></i>
+    </td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h1>@translate.Get("HOW_ASOODE_WORKS", ViewBag.Lang)</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="video-container">
+            <video controls="" width="100%" poster="https://object.tiknama.com/tiknama/thumbnail/a8a4a646-4e42-40a7-98e2-ed092c7d5608_cover.jpg">
+                <source type="video/mp4" src="https://object.tiknama.com/tiknama/ads/88363460-bce9-4ac9-9e12-d69df5ae457b_35a9e187-ebae-48e3-b05f-f903bf023279.mp4">
+                <source type="video/ogg" src="https://object.tiknama.com/tiknama/ads/6ab64d28-0da4-4433-a22c-160e59f5f729_9a6165ad-2dc5-490e-8a9a-670bcd1d822b.ogg">
+                <source type="video/webm" src="https://object.tiknama.com/tiknama/ads/8ffd70de-e3ab-4380-8cc3-26f0922e9c3a_2a1fa499-0656-484c-9b31-9668a68cd4be.webm">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+</div>
+</div>
+</div>

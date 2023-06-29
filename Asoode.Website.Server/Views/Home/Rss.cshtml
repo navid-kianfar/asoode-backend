@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+@using Asoode.Main.Core.Contracts.General
+@using Asoode.Main.Core.Helpers
+@using Microsoft.AspNetCore.Http.Extensions
+@inject ISeoBiz seoBiz
+@{
+    Layout = null;
+    var rss = await seoBiz.Rss();
+}
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    
+    <channel>
+        <atom:link href="@rss.Location" rel="self" type="application/rss+xml" />
+        <title> @rss.Title </title>
+        @Html.Raw("<link>") @rss.Link @Html.Raw("</link>")
+        <description>@rss.Description</description>
+        @foreach (var post in rss.Items)
+        {
+            <item>
+                <guid isPermaLink="false">@post.Id</guid>
+                <title> @post.Title </title>
+                @Html.Raw("<link>") @post.Link @Html.Raw("</link>")
+                <description>@post.Description</description>
+                <pubDate>@Html.Raw(DateHelper.PubDate(post.CreatedAt))</pubDate>
+            </item>
+        }
+    </channel>
+    
+</rss>

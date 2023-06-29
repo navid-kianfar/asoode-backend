@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+@using Asoode.Main.Core.Contracts.General
+@inject ISeoBiz seoBiz
+@{
+    Layout = null;
+    var siteMap = await seoBiz.SiteMap();
+}
+<urlset
+    @Html.Raw("xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"")
+    @Html.Raw("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"")
+    @Html.Raw("xsi:schemaLocation=\"http://www.sitemaps.org/schemas/sitemap/0.9\r\nhttp://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd\"")
+>
+@foreach (var post in siteMap)
+{
+    <url>
+        <loc>@post.Location</loc>
+        <lastmod>@Html.Raw(post.LastModified.ToString("yyyy-MM-dd"))</lastmod>
+        <priority>@post.Priority</priority>
+    </url>
+}
+
+</urlset>
