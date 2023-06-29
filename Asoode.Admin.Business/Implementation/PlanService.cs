@@ -10,40 +10,27 @@ namespace Asoode.Admin.Business.Implementation;
 internal class PlanService : IPlanService
 {
     private readonly IPlanRepository _planRepository;
-    private readonly ILoggerService _loggerService;
 
-    public PlanService(IPlanRepository planRepository, ILoggerService loggerService)
+    public PlanService(IPlanRepository planRepository)
     {
         _planRepository = planRepository;
-        _loggerService = loggerService;
     }
+
     public Task<OperationResult<GridResult<PlanDto>>> List(Guid userId, GridFilter model)
-    {
-        throw new NotImplementedException();
-    }
+        => _planRepository.List(userId, model);
 
     public Task<OperationResult<bool>> Create(Guid userId, PlanDto model)
-    {
-        throw new NotImplementedException();
-    }
+        => _planRepository.Create(userId, model);
 
     public Task<OperationResult<bool>> Toggle(Guid userId, Guid id)
-    {
-        throw new NotImplementedException();
-    }
+        => _planRepository.Toggle(userId, id);
 
     public Task<OperationResult<bool>> Edit(Guid userId, Guid id, PlanDto model)
-    {
-        throw new NotImplementedException();
-    }
+        => _planRepository.Edit(userId, id, model);
 
     public Task<OperationResult<bool>> EditUserPlan(Guid userId, Guid id, UserPlanInfoDto model)
-    {
-        throw new NotImplementedException();
-    }
+        => _planRepository.EditUserPlan(userId, id, model);
 
     public Task<OperationResult<SelectableItem<Guid>[]>> All(Guid userId)
-    {
-        throw new NotImplementedException();
-    }
+        => _planRepository.All(userId);
 }

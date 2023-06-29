@@ -1,13 +1,13 @@
-using Asoode.Shared.Abstraction.Dtos;
+using System.ComponentModel.DataAnnotations;
 using Asoode.Shared.Abstraction.Enums;
 
-namespace Asoode.Admin.Abstraction.Dtos;
+namespace Asoode.Shared.Abstraction.Dtos.Discount;
 
-public record DiscountDto : BaseDto
+public record DiscountEditableDto
 {
-    public string Title { get; set; }
-    public string Code { get; set; }
-    public string Description { get; set; }
+    [MaxLength(500)] public string Title { get; set; }
+    [MaxLength(100)] public string Code { get; set; }
+    [MaxLength(1500)] public string Description { get; set; }
     public DateTime? StartAt { get; set; }
     public DateTime? EndAt { get; set; }
     public int MaxUsage { get; set; }
@@ -16,5 +16,4 @@ public record DiscountDto : BaseDto
     public Guid? ForUser { get; set; }
     public Guid? PlanId { get; set; }
     public CostUnit Unit { get; set; }
-    public int Index { get; set; }
 }

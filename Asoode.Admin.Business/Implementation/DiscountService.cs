@@ -2,7 +2,9 @@ using Asoode.Admin.Abstraction.Contracts;
 using Asoode.Admin.Abstraction.Dtos;
 using Asoode.Shared.Abstraction.Contracts;
 using Asoode.Shared.Abstraction.Dtos;
+using Asoode.Shared.Abstraction.Dtos.Discount;
 using Asoode.Shared.Abstraction.Types;
+using Asoode.Shared.Database.Contracts;
 
 namespace Asoode.Admin.Business.Implementation;
 
@@ -16,23 +18,16 @@ internal class DiscountService : IDiscountService
         _discountRepository = discountRepository;
         _loggerService = loggerService;
     }
+
     public Task<OperationResult<GridResult<DiscountDto>>> List(Guid userId, GridFilter model)
-    {
-        throw new NotImplementedException();
-    }
+        => _discountRepository.List(userId, model);
 
     public Task<OperationResult<bool>> Delete(Guid userId, Guid id)
-    {
-        throw new NotImplementedException();
-    }
+        => _discountRepository.Delete(userId, id);
 
     public Task<OperationResult<bool>> Create(Guid userId, DiscountEditableDto model)
-    {
-        throw new NotImplementedException();
-    }
+        => _discountRepository.Create(userId, model);
 
     public Task<OperationResult<bool>> Edit(Guid userId, Guid id, DiscountEditableDto model)
-    {
-        throw new NotImplementedException();
-    }
+        => _discountRepository.Edit(userId, id, model);
 }

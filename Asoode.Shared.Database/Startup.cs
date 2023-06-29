@@ -53,6 +53,7 @@ public static class Startup
         services.AddScoped<ITransactionRepository, TransactionRepository>();
         services.AddScoped<IMarketerRepository, MarketerRepository>();
         services.AddScoped<IContactRepository, ContactRepository>();
+        services.AddScoped<IDiscountRepository, DiscountRepository>();
 
         // MongoDB
         // services.AddSingleton<IDocumentRepository, DocumentRepository>();
