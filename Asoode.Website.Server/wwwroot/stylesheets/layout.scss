@@ -1,0 +1,554 @@
+@import "shared";
+
+body {
+  background: #FFFFFF;
+}
+
+.header {
+  .image {
+    background: url("/images/header.png") left top no-repeat;
+    height: 174px;
+    background-size: cover;
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 30px;
+    cursor: pointer;
+
+    .box {
+      display: flex;
+      align-items: center;
+
+      .logo {
+        display: flex;
+        width: 100px;
+
+        a {
+          width: 100px;
+
+          img {
+            max-width: 100%;
+          }
+        }
+      }
+
+      a.link {
+        display: flex;
+        padding: 3px 15px;
+        color: #ffffff;
+        justify-content: center;
+        font-size: 0.9rem;
+        text-decoration: none;
+
+        &.bordered {
+          border: 1px solid #ffffff;
+          border-radius: 10px;
+        }
+      }
+    }
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    position: relative;
+    top: -30px;
+  }
+}
+
+.footer {
+  background: #3c2359;
+  padding: 30px;
+  min-height: 230px;
+  display: flex;
+  justify-content: space-around;
+
+  .box {
+    &.asoode {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.8rem;
+      line-height: 1.5rem;
+
+      .logo {
+        img {
+          width: 100px;
+        }
+      }
+
+      a {
+        text-decoration: none;
+        color: #FFFFFF;
+      }
+    }
+
+    &.middle {
+      display: flex;
+      flex-grow: 1;
+      justify-content: center;
+      color: #FFFFFF;
+      align-items: flex-end;
+      font-size: 0.7rem;
+    }
+
+    &.boozhan {
+      color: #fff;
+      font-size: 0.7rem;
+
+      h6 {
+        font-size: 0.7rem;
+        font-weight: 300;
+      }
+
+      > a {
+        color: #a45ed8;
+        margin-top: 10px;
+        margin-inline-end: 10px;
+        font-size: 1.3rem;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+.pg {
+  min-height: 300px;
+}
+
+.page-about {
+  background: url("/images/bicycle-rtl.png") left top no-repeat;
+  min-height: 450px;
+
+  .about {
+    font-size: 0.9rem;
+    text-align: justify;
+    line-height: 2.2rem;
+  }
+}
+
+body.dir-ltr {
+  .page-about {
+    background: url("/images/bicycle-ltr.png") right top no-repeat !important;
+  }
+}
+
+.page-why {
+  table {
+    width: 100%;
+    max-width: 1000px;
+    margin: 50px auto;
+  }
+
+  th {
+    border-bottom: 1px dashed #ddd;
+    padding: 5px;
+    text-align: center;
+    font-size: 0.7rem;
+    vertical-align: bottom;
+    border-inline-end: 2px solid #ddd;
+  }
+
+  td {
+    border-inline-end: 2px solid #ddd;
+    border-bottom: 1px dashed #ddd;
+    padding: 15px;
+    text-align: center;
+    font-size: 0.7rem;
+    vertical-align: bottom;
+
+    &:first-child {
+      text-align: inherit;
+    }
+
+    &.ico {
+      font-size: 30px;
+      padding: 5px;
+      font-weight: 300;
+
+      i {
+        font-size: 15px;
+        color: #FF5584 !important;
+
+        &.icon-checkmark3 {
+          color: #40a220 !important;
+        }
+      }
+    }
+    &.half {
+      i.icon-checkmark3 {
+        color: #d6d5d5 !important;
+      }
+    }
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 400;
+  }
+
+  .video-container {
+    margin: 50px auto;
+    box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
+    width: 600px;
+    max-width: 90vw;
+    height: 300px;
+  }
+}
+
+.page-plans {
+  h2 {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 400;
+  }
+
+  .header i {
+    color: #D4AF37;
+    margin: 20px 0;
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+  }
+
+
+  table {
+    width: 100%;
+    max-width: 1000px;
+    margin: 50px auto;
+  }
+
+  th {
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    padding: 5px;
+    text-align: center;
+    font-size: 0.7rem;
+    vertical-align: top;
+    border-inline-end: 2px solid #ddd;
+
+    &:first-child {
+      border-inline-start: none;
+    }
+
+    .title {
+      color: #333333;
+      font-weight: 500;
+      font-size: 1rem;
+    }
+
+    .price {
+      color: #FF5584;
+      font-weight: 400;
+      font-size: 1.2rem;
+    }
+
+    .price-unit {
+      color: #626061;
+      font-size: 0.7rem;
+    }
+
+    button {
+      color: #333333;
+      margin: 10px 0;
+      background: #D4AF37;
+      border: none;
+      border-radius: 20px;
+      padding: 5px 10px;
+      outline: none;
+      cursor: pointer;
+    }
+  }
+
+  td {
+    border-inline-end: 2px solid #ddd;
+    border-bottom: 1px dashed #ddd;
+    padding: 15px;
+    text-align: center;
+    font-size: 0.9rem;
+    vertical-align: bottom;
+    font-weight: 500;
+
+    &:first-child {
+      text-align: inherit;
+    }
+
+    &.ico {
+      font-size: 30px;
+      padding: 5px;
+      font-weight: 300;
+
+      i {
+        font-size: 15px;
+        color: #FF5584;
+
+        &.icon-checkmark3 {
+          color: #40a220;
+        }
+      }
+    }
+  }
+
+  .more {
+    padding: 50px;
+
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+
+    h4 {
+      font-size: 0.9rem;
+      font-weight: 400;
+      line-height: 1.8rem;
+      text-align: justify;
+    }
+  }
+}
+
+.page-faq {
+  .faq-holder {
+    padding: 30px 0;
+    max-width: 1000px;
+    margin: 0 auto;
+
+    ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      padding: 0;
+
+      li {
+        display: flex;
+        padding: 10px 0;
+
+        a {
+          color: #3c2359;
+        }
+      }
+    }
+  }
+}
+
+.page-blog {
+  h2.summary {
+    font-size: 1.2rem;
+    font-weight: 400;
+    text-align: center;
+  }
+
+  .post {
+    margin-bottom: 50px;
+
+    &.large {
+      margin-top: 50px;
+    }
+
+    img {
+      width: 100%;
+      max-width: 100%;
+      margin-bottom: 10px;
+    }
+
+    a {
+      color: #2b2a2a;
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 400;
+    }
+
+    h3 {
+      font-size: 0.9rem;
+      color: #858282;
+      text-align: justify;
+    }
+
+    .info {
+      .name {
+        color: #454343;
+        font-size: 0.7rem;
+        font-weight: 400;
+      }
+
+      .date {
+        color: #454343;
+        font-size: 0.7rem;
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+.page-post {
+  h2 {
+    color: #adabab;
+    font-size: 0.9rem;
+    text-align: justify;
+    line-height: 1.5rem;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto !important;
+
+    .full {
+      width: 100%;
+    }
+  }
+
+  .content {
+    color: #5f5c5c;
+    padding: 30px;
+    text-align: justify;
+    font-size: 0.9rem;
+    line-height: 2rem;
+  }
+}
+
+.page-error {
+  h1 {
+    font-size: 1.2rem !important;
+    font-weight: 500;
+    text-align: center;
+    margin: 20vh 0 30vh;
+  }
+}
+
+.page-contact {
+  img {
+    max-width: 100%;
+  }
+
+  form {
+    padding: 30px 0;
+
+    .form-group {
+      small {
+        font-size: 0.7rem;
+        font-weight: 500;
+        color: #bd2130 !important;
+      }
+
+      input {
+        border: 2px solid #ddd;
+        padding: 15px;
+        font-size: 0.8rem;
+        width: 350px;
+        max-width: 100%;
+
+        &:focus {
+          outline: none;
+          border-color: #80bdff;
+        }
+      }
+
+      textarea {
+        border: 2px solid #ddd;
+        padding: 15px;
+        font-size: 0.8rem;
+        width: 350px;
+        max-width: 100%;
+        resize: none;
+
+        &:focus {
+          outline: none;
+          border-color: #80bdff;
+        }
+      }
+
+      &.error {
+        input, textarea {
+          border-color: #bd2130 !important;
+          color: #bd2130 !important;
+
+          &:focus {
+            outline: none;
+            border-color: #bd2130;
+          }
+        }
+      }
+    }
+
+    button {
+      background: #6f42c1 !important;
+      border: none;
+      cursor: pointer;
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 10px 20px;
+    }
+  }
+}
+
+.pagination {
+  margin: 0 auto 20px;
+  max-width: 500px;
+
+  .page-link {
+    color: #3c2359;
+    border-color: transparent;
+  }
+}
+
+@media (max-width: 780px) {
+  .page-about {
+    padding: 350px 50px 50px;
+  }
+}
+
+@media (max-width: 750px) {
+  .header nav {
+    padding: 10px;
+
+    .box {
+      a {
+        font-size: 0.7rem !important;
+        padding: 3px 10px !important;
+      }
+    }
+  }
+}
+
+@media (max-width: 460px) {
+  .footer {
+    flex-direction: column;
+
+    .middle {
+      margin: 50px 0;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .header {
+    .box {
+      a {
+        font-size: 0.7rem !important;
+        padding: 3px 10px !important;
+
+        &.bordered {
+          display: none !important;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 350px) {
+  .header {
+    .box {
+      a {
+        &.login {
+          display: none !important;
+        }
+      }
+    }
+  }
+}
