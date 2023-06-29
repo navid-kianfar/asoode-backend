@@ -1,6 +1,4 @@
-using Asoode.Shared.Abstraction.Dtos;
-
-namespace Asoode.Website.Abstraction.Dtos.Blog;
+namespace Asoode.Shared.Abstraction.Dtos.Blog;
 
 public record BlogResultDto
 {

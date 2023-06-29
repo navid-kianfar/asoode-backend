@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Asoode.Shared.Abstraction.Enums;
 
-namespace Asoode.Website.Abstraction.Dtos.Blog;
+namespace Asoode.Shared.Abstraction.Dtos.Blog;
 
 public record BlogEditDto
 {

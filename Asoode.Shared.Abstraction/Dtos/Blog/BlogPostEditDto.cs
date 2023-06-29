@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Asoode.Website.Abstraction.Dtos.Blog;
+namespace Asoode.Shared.Abstraction.Dtos.Blog;
 
 public record BlogPostEditDto
 {
