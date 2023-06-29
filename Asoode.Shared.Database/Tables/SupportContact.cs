@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
+using Asoode.Shared.Abstraction.Dtos.Contact;
 using Asoode.Shared.Abstraction.Enums;
+using Asoode.Shared.Abstraction.Extensions;
 using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
@@ -14,4 +16,20 @@ internal class SupportContact : BaseEntity
     [Required] [MaxLength(500)] public string Subject { get; set; }
     [Required] [MaxLength(1000)] public string Message { get; set; }
     public bool Seen { get; set; }
+
+    public ContactListDto ToDto(int index)
+    {
+        var (firstName, lastName) = FullName.SplitFullName();
+        return new ContactListDto
+        {
+            Email = Email,
+            Message = Message,
+            FirstName = firstName,
+            LastName = lastName,
+            Index = index,
+            Seen = Seen,
+            CreatedAt = CreatedAt,
+            Id = Id
+        };
+    }
 }

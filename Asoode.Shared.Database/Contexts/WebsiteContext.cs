@@ -11,6 +11,8 @@ internal class WebsiteContext : DbContext
     
     public DbSet<SupportContact> SupportContacts { get; set; }
     public DbSet<SupportReply> SupportReplies { get; set; }
+    public DbSet<Contact> Contacts { get; set; }
+    public DbSet<ContactReply> ContactReplies { get; set; }
     public DbSet<Blog> Blogs { get; set; }
     public DbSet<BlogCategory> BlogCategories { get; set; }
     public DbSet<BlogPost> BlogPosts { get; set; }
@@ -18,7 +20,7 @@ internal class WebsiteContext : DbContext
     
     public DbSet<User> Users { get; set; }
     public DbSet<Testimonial> Testimonials { get; set; }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
