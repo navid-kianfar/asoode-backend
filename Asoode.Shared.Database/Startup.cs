@@ -50,6 +50,9 @@ public static class Startup
         services.AddScoped<ITestimonialRepository, TestimonialRepository>();
         services.AddScoped<IBlogRepository, BlogRepository>();
         services.AddScoped<IPlanRepository, PlanRepository>();
+        services.AddScoped<ITransactionRepository, TransactionRepository>();
+        services.AddScoped<IMarketerRepository, MarketerRepository>();
+        services.AddScoped<IContactRepository, ContactRepository>();
 
         // MongoDB
         // services.AddSingleton<IDocumentRepository, DocumentRepository>();

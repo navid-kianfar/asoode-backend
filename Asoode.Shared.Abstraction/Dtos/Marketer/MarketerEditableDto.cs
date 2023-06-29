@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Asoode.Admin.Abstraction.Dtos;
+namespace Asoode.Shared.Abstraction.Dtos.Marketer;
 
 public record MarketerEditableDto
 {

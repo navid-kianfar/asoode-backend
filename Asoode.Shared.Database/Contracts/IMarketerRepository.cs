@@ -1,11 +1,10 @@
-using Asoode.Admin.Abstraction.Dtos;
 using Asoode.Shared.Abstraction.Dtos;
 using Asoode.Shared.Abstraction.Dtos.Marketer;
 using Asoode.Shared.Abstraction.Types;
 
-namespace Asoode.Admin.Abstraction.Contracts;
+namespace Asoode.Shared.Database.Contracts;
 
-public interface IMarketerService
+public interface IMarketerRepository
 {
     Task<OperationResult<GridResult<MarketerDto>>> List(Guid userId, GridFilter model);
     Task<OperationResult<bool>> Create(Guid userId, MarketerEditableDto model);

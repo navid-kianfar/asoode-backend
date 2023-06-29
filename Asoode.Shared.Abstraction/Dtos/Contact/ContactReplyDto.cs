@@ -1,6 +1,4 @@
-using Asoode.Shared.Abstraction.Dtos;
-
-namespace Asoode.Admin.Abstraction.Dtos;
+namespace Asoode.Shared.Abstraction.Dtos.Contact;
 
 public record ContactReplyDto : BaseDto
 {

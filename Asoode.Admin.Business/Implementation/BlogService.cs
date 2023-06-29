@@ -1,12 +1,22 @@
 using Asoode.Admin.Abstraction.Contracts;
 using Asoode.Admin.Abstraction.Dtos;
+using Asoode.Shared.Abstraction.Contracts;
 using Asoode.Shared.Abstraction.Dtos;
 using Asoode.Shared.Abstraction.Types;
+using Asoode.Shared.Database.Contracts;
 
 namespace Asoode.Admin.Business.Implementation;
 
 internal class BlogService : IBlogService
 {
+    private readonly IBlogRepository _blogRepository;
+    private readonly ILoggerService _loggerService;
+
+    public BlogService(IBlogRepository blogRepository, ILoggerService loggerService)
+    {
+        _blogRepository = blogRepository;
+        _loggerService = loggerService;
+    }
     public Task<OperationResult<GridResult<BlogDto>>> BlogsList(Guid userId, GridFilterWithParams<GridQuery> model)
     {
         throw new NotImplementedException();
