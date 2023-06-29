@@ -42,6 +42,14 @@ public static class Startup
                 builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
             });
         });
+        services.AddDbContext<PremiumDbContext>(options =>
+        {
+            options.UseNpgsql(connectionString, builder =>
+            {
+                builder.CommandTimeout(120);
+                builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+            });
+        });
     }
 
     private static void RegisterServices(this IServiceCollection services)
