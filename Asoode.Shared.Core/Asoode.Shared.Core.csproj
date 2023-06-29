@@ -7,19 +7,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Asoode.Shared.Abstraction\Asoode.Shared.Abstraction.csproj"/>
+        <ProjectReference Include="..\Asoode.Shared.Abstraction\Asoode.Shared.Abstraction.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Haukcode.WkHtmlToPdfDotNet" Version="1.5.86"/>
-        <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="7.0.8"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0"/>
-        <PackageReference Include="MimeTypesMap" Version="1.0.8"/>
-        <PackageReference Include="Minio" Version="5.0.0"/>
-        <PackageReference Include="RabbitMQ.Client" Version="6.5.0"/>
-        <PackageReference Include="SkiaSharp" Version="2.88.3"/>
-        <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.3"/>
-        <PackageReference Include="StackExchange.Redis" Version="2.6.116"/>
+        <PackageReference Include="Haukcode.WkHtmlToPdfDotNet" Version="1.5.86" />
+        <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="7.0.8" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+        <PackageReference Include="MimeTypesMap" Version="1.0.8" />
+        <PackageReference Include="Minio" Version="5.0.0" />
+        <PackageReference Include="RabbitMQ.Client" Version="6.5.0" />
+        <PackageReference Include="SkiaSharp" Version="2.88.3" />
+        <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.3" />
+        <PackageReference Include="StackExchange.Redis" Version="2.6.116" />
     </ItemGroup>
 
 </Project>

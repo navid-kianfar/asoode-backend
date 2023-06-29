@@ -20,6 +20,9 @@ public static class EnvironmentHelper
         return Get("APP_ENV") ?? "";
     }
 
+    public static string Culture => Get("APP_I18N") ?? "";
+    public static string CurrentDirectory => Environment.CurrentDirectory;
+
     public static bool IsDevelopment()
     {
         return Get("APP_ENV") == "Development";
@@ -57,10 +60,10 @@ public static class EnvironmentHelper
 
     private static string GetAppSettingPath(string fileName)
     {
-        var path = Path.Combine(Environment.CurrentDirectory, "appSettings.json");
+        var path = Path.Combine(CurrentDirectory, "appSettings.json");
         if (File.Exists(path)) return path;
 
-        path = Environment.CurrentDirectory.Replace("\\", "/").Split("/bin/")[0];
+        path = CurrentDirectory.Replace("\\", "/").Split("/bin/")[0];
         path = $"{path}/Properties/{fileName}";
         if (File.Exists(path)) return path;
         return string.Empty;
