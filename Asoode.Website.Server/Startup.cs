@@ -1,9 +1,12 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using Asoode.Shared.Abstraction.Contracts;
 using Asoode.Shared.Abstraction.Helpers;
 using Asoode.Shared.Core;
 using Asoode.Shared.Endpoint.Extensions.Services;
 using Asoode.Website.Business;
+using Asoode.Website.Server.Filters;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -26,7 +29,9 @@ public static class Startup
     private static void AddAppServices(this IServiceCollection services)
     {
         services.AddScoped<IUserIdentityService, UserIdentityService>();
-
+        services.AddSingleton<HtmlEncoder>(
+            HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.All }));
+        
         JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
         services.Configure<CookiePolicyOptions>(options =>
         {
@@ -79,9 +84,58 @@ public static class Startup
             Secure = CookieSecurePolicy.SameAsRequest,
             CheckConsentNeeded = context => true
         });
-        app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();
-        app.MapControllers();
+        MapRoutes(app);
+    }
+
+    private static void MapRoutes(WebApplication app)
+    {
+        app.Use(async (context, next) =>
+        {
+            await next();
+
+            switch (context.Response.StatusCode)
+            {
+                case 404:
+                    context.Request.Path = "/error/400";
+                    await next();
+                    break;
+                case 500:
+                    context.Request.Path = "/error/500";
+                    await next();
+                    break;
+            }
+        });
+        app.UseStaticFiles();
+        app.UseRouting();
+        app.MapControllerRoute(
+            "sitemap", 
+            "sitemap.xml", 
+            new { controller = "Home", action = "SiteMap" }
+        );
+        app.MapControllerRoute(
+            "rss", 
+            "rss.xml", 
+            new { controller = "Home", action = "Rss" }
+        );
+        app.MapControllerRoute(
+            "root", 
+            "{culture?}", 
+            new { controller = "Home", action = "Index" }, 
+            new { culture = new I18NRouteConstraint() }
+        );
+        app.MapControllerRoute(
+            "main", 
+            "{culture}/{action=Index}/{id?}", 
+            new { controller = "Home" }, 
+            new { culture = new I18NRouteConstraint() }
+        );
+        app.MapControllerRoute(
+            "posts", 
+            "{culture}/post/{key}/{title}", 
+            new { controller = "Home", action = "Post" }, 
+            new { culture = new I18NRouteConstraint() }
+        );
     }
 }

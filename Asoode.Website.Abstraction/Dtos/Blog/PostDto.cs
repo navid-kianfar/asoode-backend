@@ -23,6 +23,6 @@ public record PostDto : BaseDto
 
     public string Permalink(string domain)
     {
-        return $"https://{domain}/{Culture}/post/{Key}/{UrlEncoder.Default.Encode(NormalizedTitle)}";
+        return $"{domain}/{Culture}/post/{Key}/{UrlEncoder.Default.Encode(NormalizedTitle)}";
     }
 }

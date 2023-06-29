@@ -6,6 +6,7 @@
     ViewData.Add("PAGE_KEYWORDS", Model.Blog.Keywords);
     ViewData.Add("PAGE_CREATE_TIME", Model.Blog.CreatedAt);
     ViewData.Add("PAGE_UPDATE_TIME", Model.Blog.UpdatedAt ?? Model.Blog.CreatedAt);
+    var domain = EnvironmentHelper.Get("APP_DOMAIN")!;
 }
 <div class="page-faq pg">
     <div class="container-fluid">
@@ -16,7 +17,7 @@
                         @foreach (var faq in Model.Posts.Items)
                         {
                             <li>
-                                <a title="@(faq.Title)" href="@faq.Permalink(serverInfo.Domain)">
+                                <a title="@(faq.Title)" href="@faq.Permalink(domain)">
                                     @(faq.Title)
                                 </a>
                             </li>
