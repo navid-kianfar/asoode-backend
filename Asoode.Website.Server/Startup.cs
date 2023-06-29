@@ -1,9 +1,10 @@
 using System.IdentityModel.Tokens.Jwt;
+using Asoode.Shared.Abstraction.Contracts;
 using Asoode.Shared.Abstraction.Helpers;
 using Asoode.Shared.Core;
+using Asoode.Shared.Endpoint.Extensions.Services;
 using Asoode.Website.Abstraction.Fixtures;
 using Asoode.Website.Business;
-using Asoode.Website.Server.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -26,6 +27,8 @@ public static class Startup
 
     private static void AddAppServices(this IServiceCollection services)
     {
+        services.AddScoped<IUserIdentityService, UserIdentityService>();
+
         JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
         services.Configure<CookiePolicyOptions>(options =>
         {

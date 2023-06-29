@@ -1,10 +1,10 @@
 using System.IdentityModel.Tokens.Jwt;
 using Asoode.Admin.Abstraction.Fixtures;
 using Asoode.Admin.Business;
-using Asoode.Admin.Server.Services;
 using Asoode.Shared.Abstraction.Contracts;
 using Asoode.Shared.Abstraction.Helpers;
 using Asoode.Shared.Core;
+using Asoode.Shared.Endpoint.Extensions.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;

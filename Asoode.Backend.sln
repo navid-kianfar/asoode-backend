@@ -70,6 +70,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "__Docker__", "__Docker__", 
 		compose\up.sh = compose\up.sh
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asoode.Shared.Endpoint.Extensions", "Asoode.Shared.Endpoint.Extensions\Asoode.Shared.Endpoint.Extensions.csproj", "{B06088A9-A4ED-4A55-BE84-A1C1E46CF879}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -160,6 +162,10 @@ Global
 		{73635BCE-6535-4C4E-9A7E-AB5B70685743}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73635BCE-6535-4C4E-9A7E-AB5B70685743}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73635BCE-6535-4C4E-9A7E-AB5B70685743}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B06088A9-A4ED-4A55-BE84-A1C1E46CF879}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B06088A9-A4ED-4A55-BE84-A1C1E46CF879}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B06088A9-A4ED-4A55-BE84-A1C1E46CF879}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B06088A9-A4ED-4A55-BE84-A1C1E46CF879}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{52D9F029-78FE-49FA-B78F-C219EA33A62B} = {D409DE16-E3A5-408A-830D-A68CB7713542}
@@ -185,5 +191,6 @@ Global
 		{C836D3CA-0D3A-4286-B5A3-804CA203AACB} = {CB11B2C9-66BB-4DF3-BD7F-C885B8988133}
 		{CA4D8180-6761-42BE-925D-9415EFB51529} = {E7B90760-CC7D-4659-BCCD-33CB5D78A25B}
 		{73635BCE-6535-4C4E-9A7E-AB5B70685743} = {17DC8FC6-4665-4431-9190-2071A945EE7D}
+		{B06088A9-A4ED-4A55-BE84-A1C1E46CF879} = {17DC8FC6-4665-4431-9190-2071A945EE7D}
 	EndGlobalSection
 EndGlobal

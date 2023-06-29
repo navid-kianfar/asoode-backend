@@ -6,8 +6,9 @@ using Asoode.Shared.Abstraction.Enums;
 using Asoode.Shared.Abstraction.Helpers;
 using Asoode.Shared.Abstraction.Types;
 using Microsoft.IdentityModel.Tokens;
+using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
-namespace Asoode.Admin.Server.Services;
+namespace Asoode.Shared.Endpoint.Extensions.Services;
 
 public static class TokenService
 {

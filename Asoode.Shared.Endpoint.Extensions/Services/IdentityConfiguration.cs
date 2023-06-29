@@ -1,12 +1,10 @@
-using Microsoft.AspNetCore.Identity;
-
-namespace Asoode.Application.Server.Services;
+namespace Asoode.Shared.Endpoint.Extensions.Services;
 
 public static class IdentityConfiguration
 {
     private const string ValidChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
 
-    public static void ConfigureOptions(IdentityOptions options)
+    public static void ConfigureOptions(dynamic options)
     {
         // Password settings.
         options.Password.RequireDigit = false;

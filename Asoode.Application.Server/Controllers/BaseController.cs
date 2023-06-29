@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Asoode.Admin.Server.Controllers;
+namespace Asoode.Application.Server.Controllers;
 
 [Authorize]
 public class BaseController : Controller
@@ -13,7 +13,7 @@ public class BaseController : Controller
     public override void OnActionExecuting(ActionExecutingContext context)
     {
         var extracted = TokenService.ExtractIdentity(context.HttpContext.User.Claims);
-        if (extracted is not { UserType: UserType.Admin })
+        if (extracted == null)
         {
             context.Result = new UnauthorizedResult();
             return;
