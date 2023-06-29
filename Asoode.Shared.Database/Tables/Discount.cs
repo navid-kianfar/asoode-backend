@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Asoode.Shared.Abstraction.Dtos.Discount;
 using Asoode.Shared.Abstraction.Enums;
 using Asoode.Shared.Database.Tables.Base;
 
@@ -17,4 +18,26 @@ internal class Discount : BaseEntity
     public double MaxUnit { get; set; }
     public CostUnit Unit { get; set; }
     public Guid? PlanId { get; set; }
+
+    public DiscountDto ToDto()
+    {
+        return new DiscountDto
+        {
+            Code = Code,
+            Description = Description,
+            Percent = Percent,
+            EndAt = EndAt,
+            MaxUsage = MaxUsage,
+            ForUser = ForUser,
+            MaxUnit = MaxUnit,
+            PlanId = PlanId,
+            StartAt = StartAt,
+            Title = Title,
+            Unit = Unit,
+            Id = Id,
+            // Index = Index,
+            CreatedAt = CreatedAt,
+            UpdatedAt = UpdatedAt,
+        };
+    }
 }
