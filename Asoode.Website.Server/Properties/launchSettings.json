@@ -6,10 +6,11 @@
       "launchBrowser": true,
       "applicationUrl": "http://localhost:5520",
       "environmentVariables": {
+        "APP_I18N": "en",
         "APP_ENV": "Development",
         "APP_IP": "localhost",
         "APP_PORT": "5520",
-        "APP_DOMAIN": "http://localhost:4200",
+        "APP_DOMAIN": "http://localhost:5520",
         "APP_API_DOMAIN": "http://localhost:5520/api/v3/asoode",
         "APP_BUILD": "3.0.0",
         "APP_AUTH_ISSUER": "ASOODE",

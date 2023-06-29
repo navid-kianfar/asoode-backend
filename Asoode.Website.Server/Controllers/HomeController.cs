@@ -1,4 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Asoode.Shared.Abstraction.Dtos;
+using Asoode.Shared.Abstraction.Enums;
+using Asoode.Shared.Abstraction.Helpers;
+using Asoode.Website.Abstraction.Contracts;
+using Asoode.Website.Abstraction.Dtos.Blog;
+using Asoode.Website.Server.Filters;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Asoode.Website.Server.Controllers
 {
@@ -6,12 +12,10 @@ namespace Asoode.Website.Server.Controllers
     public class HomeController : Controller
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly IConfiguration _configuration;
 
-        public HomeController(IServiceProvider serviceProvider, IConfiguration configuration)
+        public HomeController(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            _configuration = configuration;
         }
         public IActionResult SiteMap()
         {
@@ -36,7 +40,7 @@ namespace Asoode.Website.Server.Controllers
                         HttpOnly = false,
                         Path = "/",
                         IsEssential = true,
-                        Domain = _configuration["Setting:Domain"]
+                        Domain = EnvironmentHelper.Get("APP_DOMAIN")
                     });
                 }
             }
@@ -61,15 +65,15 @@ namespace Asoode.Website.Server.Controllers
         }
         public async Task<IActionResult> Faq(int page = 1)
         {
-            var blogBiz = _serviceProvider.GetService<IBlogBiz>();
+            var blogBiz = _serviceProvider.GetService<IBlogService>()!;
             var culture = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName.ToLower();
             var blog = await blogBiz.Faq(culture);
-            var posts = await blogBiz.Posts(blog.Data.Id, new GridFilter
+            var posts = await blogBiz.Posts(blog.Data!.Id, new GridFilter
             {
                 Page = page,
                 PageSize = 20
             });
-            return View(new BlogResultViewModel
+            return View(new BlogResultDto
             {
                 Blog = blog.Data,
                 Posts = posts.Data
@@ -77,15 +81,15 @@ namespace Asoode.Website.Server.Controllers
         }
         public async Task<IActionResult> Blog(int page = 1)
         {
-            var blogBiz = _serviceProvider.GetService<IBlogBiz>();
+            var blogBiz = _serviceProvider.GetService<IBlogService>()!;
             var culture = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName.ToLower();
             var blog = await blogBiz.Blog(culture);
-            var posts = await blogBiz.Posts(blog.Data.Id, new GridFilter
+            var posts = await blogBiz.Posts(blog.Data!.Id, new GridFilter
             {
                 Page = page,
                 PageSize = 5
             });
-            return View(new BlogResultViewModel
+            return View(new BlogResultDto
             {
                 Blog = blog.Data,
                 Posts = posts.Data
@@ -94,10 +98,10 @@ namespace Asoode.Website.Server.Controllers
         
         public async Task<IActionResult> Post(string key, string title)
         {
-            var blogBiz = _serviceProvider.GetService<IBlogBiz>();
-            var post = await blogBiz.Post(key);
-            if (post == null) return Redirect("/");
-            return View(post.Data);
+            var blogBiz = _serviceProvider.GetService<IBlogService>()!;
+            var postOp = await blogBiz.Post(key);
+            if (postOp.Status != OperationResultStatus.Success) return Redirect("/");
+            return View(postOp.Data!);
         }
     }
 }

@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\Asoode.Shared.Abstraction\Asoode.Shared.Abstraction.csproj"/>
+    </ItemGroup>
+
 </Project>

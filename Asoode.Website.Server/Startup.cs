@@ -3,13 +3,11 @@ using Asoode.Shared.Abstraction.Contracts;
 using Asoode.Shared.Abstraction.Helpers;
 using Asoode.Shared.Core;
 using Asoode.Shared.Endpoint.Extensions.Services;
-using Asoode.Website.Abstraction.Fixtures;
 using Asoode.Website.Business;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -64,39 +62,6 @@ public static class Startup
             options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
         });
-        services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen(c =>
-        {
-            c.DocInclusionPredicate((_, api) => !string.IsNullOrWhiteSpace(api.GroupName));
-            c.TagActionsBy(api => new[] { api.GroupName });
-            c.SwaggerDoc("v3", new OpenApiInfo
-            {
-                Title = $"{ApplicationConstants.ApplicationName} Website API",
-                Version = "v3",
-                Description = $"{ApplicationConstants.ApplicationName} website api explorer"
-            });
-            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-            {
-                In = ParameterLocation.Header,
-                Description = "Please insert JWT with Bearer into field",
-                Name = "Authorization",
-                Type = SecuritySchemeType.ApiKey
-            });
-            c.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        }
-                    },
-                    new string[] { }
-                }
-            });
-        });
     }
 
     public static void UseAppServices(this WebApplication app)
@@ -118,11 +83,5 @@ public static class Startup
         app.UseAuthentication();
         app.UseAuthorization();
         app.MapControllers();
-        app.UseSwagger();
-        app.UseSwaggerUI(c =>
-        {
-            c.SwaggerEndpoint("/swagger/v3/swagger.json", "Asoode");
-            c.RoutePrefix = ""; // Set Swagger UI at apps root
-        });
     }
 }

@@ -6,6 +6,7 @@
       "launchBrowser": true,
       "applicationUrl": "http://localhost:5510",
       "environmentVariables": {
+        "APP_I18N": "en",
         "APP_ENV": "Development",
         "APP_IP": "localhost",
         "APP_PORT": "5510",
