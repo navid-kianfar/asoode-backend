@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Asoode.Shared.Abstraction.Dtos.Blog;
 using Asoode.Shared.Database.Tables.Base;
 
 namespace Asoode.Shared.Database.Tables;
@@ -22,4 +23,29 @@ internal class BlogPost : BaseEntity
     [MaxLength(500)] public string LargeImage { get; set; }
     [MaxLength(20)] public string Key { get; set; }
     [DefaultValue(0)] public int Priority { get; set; }
+
+    public PostDto ToDto()
+    {
+        return new PostDto
+        {
+            Culture = Culture,
+            Description = Description,
+            Keywords = Keywords,
+            Index = Index,
+            BlogId = BlogId,
+            CategoryId = CategoryId,
+            EmbedCode = EmbedCode,
+            LargeImage = LargeImage,
+            MediumImage = MediumImage,
+            NormalizedTitle = NormalizedTitle,
+            ThumbImage = ThumbImage,
+            Key = Key,
+            Summary = Summary,
+            Text = Text,
+            Title = Title,
+            Id = Id,
+            CreatedAt = CreatedAt,
+            UpdatedAt = UpdatedAt,
+        };
+    }
 }
