@@ -60,7 +60,7 @@ public static class Startup
                 options.SaveTokens = false;
             });
 
-        services.AddControllers().AddNewtonsoftJson(options =>
+        services.AddControllersWithViews().AddNewtonsoftJson(options =>
         {
             options.SerializerSettings.ContractResolver =
                 new CamelCasePropertyNamesContractResolver();
