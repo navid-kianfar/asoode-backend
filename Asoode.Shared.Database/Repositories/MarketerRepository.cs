@@ -1,3 +1,4 @@
+using Asoode.Shared.Abstraction.Contracts;
 using Asoode.Shared.Abstraction.Dtos;
 using Asoode.Shared.Abstraction.Dtos.Marketer;
 using Asoode.Shared.Abstraction.Types;
@@ -7,28 +8,74 @@ namespace Asoode.Shared.Database.Repositories;
 
 internal class MarketerRepository : IMarketerRepository
 {
-    public Task<OperationResult<GridResult<MarketerDto>>> List(Guid userId, GridFilter model)
+    private readonly ILoggerService _loggerService;
+
+    public MarketerRepository(ILoggerService loggerService)
     {
-        throw new NotImplementedException();
+        _loggerService = loggerService;
+    }
+    public async Task<OperationResult<GridResult<MarketerDto>>> List(Guid userId, GridFilter model)
+    {
+        try
+        {
+            throw new NotImplementedException();
+        }
+        catch (Exception e)
+        {
+            await _loggerService.Error(e.Message, "MarketerRepository.Create", e);
+            return OperationResult<GridResult<MarketerDto>>.Failed();
+        }
     }
 
-    public Task<OperationResult<bool>> Create(Guid userId, MarketerEditableDto model)
+    public async Task<OperationResult<bool>> Create(Guid userId, MarketerEditableDto model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            throw new NotImplementedException();
+        }
+        catch (Exception e)
+        {
+            await _loggerService.Error(e.Message, "MarketerRepository.Create", e);
+            return OperationResult<bool>.Failed();
+        }
     }
 
-    public Task<OperationResult<bool>> Edit(Guid userId, Guid id, MarketerEditableDto model)
+    public async Task<OperationResult<bool>> Edit(Guid userId, Guid id, MarketerEditableDto model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            throw new NotImplementedException();
+        }
+        catch (Exception e)
+        {
+            await _loggerService.Error(e.Message, "MarketerRepository.Edit", e);
+            return OperationResult<bool>.Failed();
+        }
     }
 
-    public Task<OperationResult<bool>> Delete(Guid userId, Guid id)
+    public async Task<OperationResult<bool>> Delete(Guid userId, Guid id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            throw new NotImplementedException();
+        }
+        catch (Exception e)
+        {
+            await _loggerService.Error(e.Message, "MarketerRepository.Delete", e);
+            return OperationResult<bool>.Failed();
+        }
     }
 
-    public Task<OperationResult<bool>> Toggle(Guid userId, Guid id)
+    public async Task<OperationResult<bool>> Toggle(Guid userId, Guid id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            throw new NotImplementedException();
+        }
+        catch (Exception e)
+        {
+            await _loggerService.Error(e.Message, "MarketerRepository.Toggle", e);
+            return OperationResult<bool>.Failed();
+        }
     }
 }
