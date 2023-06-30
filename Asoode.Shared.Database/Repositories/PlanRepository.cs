@@ -292,4 +292,39 @@ internal class PlanRepository : IPlanRepository
             return OperationResult<GridResult<PlanDto>>.Failed();
         }
     }
+
+    public async Task<OperationResult<PlansFetchDto>> Fetch(Guid userId)
+    {
+        try
+        {
+            var query = await (
+                from user in _context.Users
+                join planInfo in _context.UserPlanInfo on user.Id equals planInfo.UserId
+                orderby planInfo.CreatedAt descending
+                where user.Id == userId
+                select new { User = user, PlanInfo = planInfo }
+            ).AsNoTracking().FirstOrDefaultAsync();
+
+            if (query == null) return OperationResult<PlansFetchDto>.NotFound();
+            if (query.User.IsLocked || query.User.Blocked)
+                return OperationResult<PlansFetchDto>.Rejected();
+
+            var plans = await _context.Plans
+                .Where(i => i.Enabled)
+                .OrderBy(i => i.Order).AsNoTracking()
+                .ToArrayAsync();
+
+            return OperationResult<PlansFetchDto>.Success(new PlansFetchDto
+            {
+                Mine = query.PlanInfo.ToDto(),
+                Plans = plans.Select(p => p.ToDto()).ToArray(),
+                ValueAdded = 9
+            });
+        }
+        catch (Exception e)
+        {
+            await _loggerService.Error(e.Message, "PlanRepository.Fetch", e);
+            return OperationResult<PlansFetchDto>.Failed();
+        }
+    }
 }

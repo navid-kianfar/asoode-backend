@@ -14,4 +14,5 @@ public interface IPlanRepository
     Task<OperationResult<bool>> Toggle(Guid userId, Guid id);
     Task<OperationResult<bool>> Create(Guid userId, PlanDto model);
     Task<OperationResult<GridResult<PlanDto>>> List(Guid userId, GridFilter model);
+    Task<OperationResult<PlansFetchDto>> Fetch(Guid userId);
 }
