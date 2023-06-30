@@ -12,14 +12,15 @@ namespace Asoode.Shared.Database.Repositories;
 
 internal class MarketerRepository : IMarketerRepository
 {
-    private readonly ILoggerService _loggerService;
     private readonly PremiumDbContext _context;
+    private readonly ILoggerService _loggerService;
 
     public MarketerRepository(ILoggerService loggerService, PremiumDbContext context)
     {
         _loggerService = loggerService;
         _context = context;
     }
+
     public async Task<OperationResult<GridResult<MarketerDto>>> List(Guid userId, GridFilter model)
     {
         try

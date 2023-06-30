@@ -31,7 +31,7 @@ internal class Transaction : BaseEntity
             Status = Status,
             Id = Id,
             CreatedAt = CreatedAt,
-            UpdatedAt = UpdatedAt,
+            UpdatedAt = UpdatedAt
             // Index = Index,
             // FullName = FullName,
             // PlanName = PlanName,

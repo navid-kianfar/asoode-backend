@@ -9,7 +9,7 @@ internal class PremiumDbContext : DbContext
     public PremiumDbContext(DbContextOptions<AccountDbContext> options) : base(options)
     {
     }
-    
+
     public DbSet<PlanMember> PlanMembers { get; set; }
     public DbSet<Plan> Plans { get; set; }
     public DbSet<UserPlanInfo> UserPlanInfo { get; set; }

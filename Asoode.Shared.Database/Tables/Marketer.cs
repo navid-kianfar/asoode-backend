@@ -26,7 +26,7 @@ internal class Marketer : BaseEntity
             Id = Id,
             // Index = Index,
             CreatedAt = CreatedAt,
-            UpdatedAt = UpdatedAt,
+            UpdatedAt = UpdatedAt
         };
     }
 }

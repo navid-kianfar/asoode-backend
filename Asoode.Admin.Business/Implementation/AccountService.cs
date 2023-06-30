@@ -2,6 +2,7 @@ using Asoode.Admin.Abstraction.Contracts;
 using Asoode.Shared.Abstraction.Contracts;
 using Asoode.Shared.Abstraction.Dtos;
 using Asoode.Shared.Abstraction.Dtos.User;
+using Asoode.Shared.Abstraction.Enums;
 using Asoode.Shared.Abstraction.Types;
 using Asoode.Shared.Database.Contracts;
 
@@ -17,25 +18,20 @@ internal class AccountService : IAccountService
         _accountRepository = accountRepository;
         _loggerService = loggerService;
     }
-    
-    public async Task<OperationResult<GridResult<UserDto>>> List(Guid userId, GridFilterWithParams<GridQuery> model)
-    {
-        try
-        {
-            throw new NotImplementedException();
-        }
-        catch (Exception e)
-        {
-            await _loggerService.Error(e.Message, "AccountService.List", e);
-            return OperationResult<GridResult<UserDto>>.Failed();
-        }
-    }
+
+    public Task<OperationResult<GridResult<ExtendedUserDto>>> List(Guid userId, GridFilterWithParams<GridQuery> model)
+        => _accountRepository.List(userId, model);
 
     public async Task<OperationResult<bool>> ResetUserPassword(Guid userId, Guid id, UserResetPasswordDto model)
     {
         try
         {
-            throw new NotImplementedException();
+            var op = await _accountRepository.ResetUserPassword(userId, id, model);
+            if (op.Status != OperationResultStatus.Success) return op;
+            
+            // TODO: raise event
+            
+            return OperationResult<bool>.Success();
         }
         catch (Exception e)
         {
@@ -48,7 +44,12 @@ internal class AccountService : IAccountService
     {
         try
         {
-            throw new NotImplementedException();
+            var op = await _accountRepository.EditUser(userId, id, model);
+            if (op.Status != OperationResultStatus.Success) return op;
+            
+            // TODO: raise event
+            
+            return OperationResult<bool>.Success();
         }
         catch (Exception e)
         {
@@ -61,7 +62,12 @@ internal class AccountService : IAccountService
     {
         try
         {
-            throw new NotImplementedException();
+            var op = await _accountRepository.ConfirmUser(userId, id);
+            if (op.Status != OperationResultStatus.Success) return op;
+            
+            // TODO: raise event
+            
+            return OperationResult<bool>.Success();
         }
         catch (Exception e)
         {
@@ -74,7 +80,12 @@ internal class AccountService : IAccountService
     {
         try
         {
-            throw new NotImplementedException();
+            var op = await _accountRepository.BlockUser(userId, id);
+            if (op.Status != OperationResultStatus.Success) return op;
+            
+            // TODO: raise event
+            
+            return OperationResult<bool>.Success();
         }
         catch (Exception e)
         {

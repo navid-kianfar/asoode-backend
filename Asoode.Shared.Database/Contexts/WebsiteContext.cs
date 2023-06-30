@@ -8,7 +8,7 @@ internal class WebsiteContext : DbContext
     public WebsiteContext(DbContextOptions<WebsiteContext> options) : base(options)
     {
     }
-    
+
     public DbSet<SupportContact> SupportContacts { get; set; }
     public DbSet<SupportReply> SupportReplies { get; set; }
     public DbSet<Contact> Contacts { get; set; }
@@ -17,7 +17,7 @@ internal class WebsiteContext : DbContext
     public DbSet<BlogCategory> BlogCategories { get; set; }
     public DbSet<BlogPost> BlogPosts { get; set; }
     public DbSet<Plan> Plans { get; set; }
-    
+
     public DbSet<User> Users { get; set; }
     public DbSet<Testimonial> Testimonials { get; set; }
 

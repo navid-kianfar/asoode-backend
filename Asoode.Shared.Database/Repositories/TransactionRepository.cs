@@ -11,14 +11,15 @@ namespace Asoode.Shared.Database.Repositories;
 
 internal class TransactionRepository : ITransactionRepository
 {
-    private readonly ILoggerService _loggerService;
     private readonly PremiumDbContext _context;
+    private readonly ILoggerService _loggerService;
 
     public TransactionRepository(ILoggerService loggerService, PremiumDbContext context)
     {
         _loggerService = loggerService;
         _context = context;
     }
+
     public async Task<OperationResult<GridResult<TransactionDto>>> List(Guid userId, GridFilter model)
     {
         try

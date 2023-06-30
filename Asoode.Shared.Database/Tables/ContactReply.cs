@@ -19,7 +19,7 @@ internal class ContactReply : BaseEntity
             Id = Id,
             CreatedAt = CreatedAt,
             UserId = UserId,
-            UpdatedAt = UpdatedAt,
+            UpdatedAt = UpdatedAt
         };
     }
 }

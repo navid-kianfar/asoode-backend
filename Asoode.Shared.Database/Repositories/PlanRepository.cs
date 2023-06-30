@@ -12,8 +12,8 @@ namespace Asoode.Shared.Database.Repositories;
 
 internal class PlanRepository : IPlanRepository
 {
-    private readonly ILoggerService _loggerService;
     private readonly PremiumDbContext _context;
+    private readonly ILoggerService _loggerService;
 
     public PlanRepository(ILoggerService loggerService, PremiumDbContext context)
     {

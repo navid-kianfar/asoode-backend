@@ -12,15 +12,15 @@ namespace Asoode.Shared.Database.Repositories;
 
 internal class DiscountRepository : IDiscountRepository
 {
-    private readonly ILoggerService _loggerService;
     private readonly PremiumDbContext _context;
+    private readonly ILoggerService _loggerService;
 
     public DiscountRepository(ILoggerService loggerService, PremiumDbContext context)
     {
         _loggerService = loggerService;
         _context = context;
     }
-    
+
     public async Task<OperationResult<bool>> Edit(Guid userId, Guid id, DiscountEditableDto model)
     {
         try

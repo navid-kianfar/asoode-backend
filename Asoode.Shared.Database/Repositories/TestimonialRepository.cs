@@ -9,15 +9,15 @@ namespace Asoode.Shared.Database.Repositories;
 
 internal class TestimonialRepository : ITestimonialRepository
 {
-    private readonly ILoggerService _loggerService;
     private readonly WebsiteContext _context;
+    private readonly ILoggerService _loggerService;
 
     public TestimonialRepository(ILoggerService loggerService, WebsiteContext context)
     {
         _loggerService = loggerService;
         _context = context;
     }
-    
+
     public async Task<OperationResult<TestimonialDto[]>> Top5(string culture)
     {
         try
@@ -26,7 +26,7 @@ internal class TestimonialRepository : ITestimonialRepository
                     from testimonial in _context.Testimonials
                     join usr in _context.Users on testimonial.UserId equals usr.Id
                     where testimonial.Approved && testimonial.Culture == culture
-                    orderby testimonial.CreatedAt descending 
+                    orderby testimonial.CreatedAt descending
                     select new TestimonialDto
                     {
                         Avatar = usr.Avatar,
@@ -45,7 +45,7 @@ internal class TestimonialRepository : ITestimonialRepository
                 .Skip(0)
                 .Take(5)
                 .ToArrayAsync();
-            
+
             return OperationResult<TestimonialDto[]>.Success(testimonials);
         }
         catch (Exception ex)

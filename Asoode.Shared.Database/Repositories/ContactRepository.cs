@@ -12,8 +12,8 @@ namespace Asoode.Shared.Database.Repositories;
 
 internal class ContactRepository : IContactRepository
 {
-    private readonly ILoggerService _loggerService;
     private readonly WebsiteContext _context;
+    private readonly ILoggerService _loggerService;
 
     public ContactRepository(ILoggerService loggerService, WebsiteContext context)
     {
@@ -84,7 +84,8 @@ internal class ContactRepository : IContactRepository
         }
     }
 
-    public async Task<OperationResult<GridResult<ContactListDto>>> List(Guid userId, GridFilterWithParams<GridQuery> model)
+    public async Task<OperationResult<GridResult<ContactListDto>>> List(Guid userId,
+        GridFilterWithParams<GridQuery> model)
     {
         try
         {
@@ -133,7 +134,7 @@ internal class ContactRepository : IContactRepository
             var contact = await _context.Contacts.Where(c => c.Id == id)
                 .AsNoTracking()
                 .FirstAsync();
-            
+
             return OperationResult<ContactDto>.Success(contact.ToDto(0));
         }
         catch (Exception e)

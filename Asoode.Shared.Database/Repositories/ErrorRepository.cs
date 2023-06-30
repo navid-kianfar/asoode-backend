@@ -14,7 +14,7 @@ internal class ErrorRepository : IErrorRepository
     {
         _loggerService = loggerService;
     }
-    
+
     public async Task<OperationResult<GridResult<ErrorDto>>> List(Guid userId, GridFilter model)
     {
         try

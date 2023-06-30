@@ -37,7 +37,7 @@ internal class Discount : BaseEntity
             Id = Id,
             // Index = Index,
             CreatedAt = CreatedAt,
-            UpdatedAt = UpdatedAt,
+            UpdatedAt = UpdatedAt
         };
     }
 }

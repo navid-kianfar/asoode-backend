@@ -25,7 +25,7 @@ internal class Blog : BaseEntity
             Title = Title,
             Id = Id,
             CreatedAt = CreatedAt,
-            UpdatedAt = UpdatedAt,
+            UpdatedAt = UpdatedAt
         };
     }
 }

@@ -14,22 +14,22 @@ namespace Asoode.Shared.Database.Repositories;
 
 internal class BlogRepository : IBlogRepository
 {
-    private readonly ILoggerService _loggerService;
     private readonly WebsiteContext _context;
+    private readonly ILoggerService _loggerService;
 
     public BlogRepository(ILoggerService loggerService, WebsiteContext context)
     {
         _loggerService = loggerService;
         _context = context;
     }
-    
+
     public async Task<OperationResult<BlogDto>> Blog(string culture)
     {
         try
         {
             var blog = await _context.Blogs.AsNoTracking()
                 .SingleOrDefaultAsync(i => i.Culture == culture && i.Type == BlogType.Post);
-                    
+
             if (blog == null) return OperationResult<BlogDto>.NotFound();
             return OperationResult<BlogDto>.Success(blog.ToDto());
         }
@@ -138,7 +138,7 @@ internal class BlogRepository : IBlogRepository
             var post = await _context.BlogPosts
                 .AsNoTracking()
                 .SingleAsync(i => i.Id == id);
-            
+
             post.NormalizedTitle = NormalizeTitle(model.Title);
             post.Priority = model.Priority;
             post.Description = model.Description;
@@ -166,7 +166,7 @@ internal class BlogRepository : IBlogRepository
         {
             var blog = await _context.Blogs.AsNoTracking()
                 .SingleAsync(i => i.Id == id);
-            
+
             await _context.BlogPosts.AddAsync(new BlogPost
             {
                 Key = DateTime.UtcNow.GetTime(),
@@ -182,7 +182,7 @@ internal class BlogRepository : IBlogRepository
                 BlogId = blog.Id,
                 LargeImage = model.LargeImage,
                 MediumImage = model.MediumImage,
-                ThumbImage = model.ThumbImage,
+                ThumbImage = model.ThumbImage
             });
             await _context.SaveChangesAsync();
             return OperationResult<bool>.Success(true);
@@ -200,7 +200,7 @@ internal class BlogRepository : IBlogRepository
         {
             var blog = await _context.Blogs.AsNoTracking()
                 .SingleOrDefaultAsync(i => i.Id == id);
-                    
+
             if (blog == null) return OperationResult<BlogDto>.NotFound();
             return OperationResult<BlogDto>.Success(blog.ToDto());
         }
@@ -280,7 +280,8 @@ internal class BlogRepository : IBlogRepository
         }
     }
 
-    public async Task<OperationResult<GridResult<PostDto>>> BlogPosts(Guid userId, Guid id, GridFilterWithParams<GridQuery> model)
+    public async Task<OperationResult<GridResult<PostDto>>> BlogPosts(Guid userId, Guid id,
+        GridFilterWithParams<GridQuery> model)
     {
         try
         {
@@ -306,7 +307,8 @@ internal class BlogRepository : IBlogRepository
         }
     }
 
-    public async Task<OperationResult<GridResult<BlogDto>>> BlogsList(Guid userId, GridFilterWithParams<GridQuery> model)
+    public async Task<OperationResult<GridResult<BlogDto>>> BlogsList(Guid userId,
+        GridFilterWithParams<GridQuery> model)
     {
         try
         {
@@ -337,7 +339,7 @@ internal class BlogRepository : IBlogRepository
                 .AsNoTracking()
                 .OrderByDescending(o => o.CreatedAt)
                 .ToArrayAsync();
-                    
+
             return OperationResult<BlogDto[]>.Success(blog.Select(b => b.ToDto()).ToArray());
         }
         catch (Exception e)
@@ -346,7 +348,7 @@ internal class BlogRepository : IBlogRepository
             return OperationResult<BlogDto[]>.Failed();
         }
     }
-    
+
     private string NormalizeTitle(string input)
     {
         return input.Trim().ToKebabCase();

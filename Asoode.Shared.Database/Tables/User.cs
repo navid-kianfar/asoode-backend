@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Asoode.Shared.Abstraction.Dtos.User;
 using Asoode.Shared.Abstraction.Enums;
 using Asoode.Shared.Database.Tables.Base;
 
@@ -25,6 +26,29 @@ internal class User : BaseEntity
     public bool DarkMode { get; set; }
     public double Wallet { get; set; }
     [MaxLength(50)] public string Username { get; set; }
+
+    public ExtendedUserDto ToDto(int index = 0)
+    {
+        return new ExtendedUserDto
+        {
+            Index = index,
+            Avatar = Avatar,
+            Id = Id,
+            Phone = Phone,
+            Type = Type,
+            Username = Username,
+            CreatedAt = CreatedAt,
+            Bio = Bio,
+            Calendar = Calendar,
+            Email = Email,
+            FirstName = FirstName,
+            LastName = LastName,
+            TimeZone = TimeZone,
+            UpdatedAt = UpdatedAt,
+            EmailConfirmed = LastEmailConfirmed.HasValue && !Email.EndsWith("@asoode.user"),
+            PhoneConfirmed = LastPhoneConfirmed.HasValue
+        };
+    }
 
     #region Membership
 

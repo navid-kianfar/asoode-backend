@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Asoode.Shared.Abstraction.Dtos.Plan;
 using Asoode.Shared.Abstraction.Enums;
 using Asoode.Shared.Database.Tables.Base;
 
@@ -7,6 +8,70 @@ namespace Asoode.Shared.Database.Tables.Junctions;
 
 internal class UserPlanInfo : BaseEntity
 {
+    public UserPlanInfoDto ToDto()
+    {
+        return new UserPlanInfoDto
+        {
+            Days = Days,
+            Description = Description,
+            Enabled = Enabled,
+            Id = Id,
+            Picture = Picture,
+            Title = Title,
+            Type = Type,
+            Unit = Unit,
+            Users = Users,
+            AttachmentSize = AttachmentSize,
+            CanExtend = CanExtend,
+            ComplexGroup = ComplexGroup,
+            Project = Project,
+            CreatedAt = CreatedAt,
+            OneTime = OneTime,
+            PlanCost = PlanCost,
+            SimpleGroup = SimpleGroup,
+            WorkPackage = WorkPackage,
+            UpdatedAt = UpdatedAt,
+            AdditionalWorkPackageCost = AdditionalWorkPackageCost,
+            AdditionalSimpleGroupCost = AdditionalSimpleGroupCost,
+            AdditionalComplexGroupCost = AdditionalComplexGroupCost,
+            AdditionalProjectCost = AdditionalProjectCost,
+            AdditionalSpaceCost = AdditionalSpaceCost,
+            AdditionalUserCost = AdditionalUserCost,
+            FeatureCustomField = FeatureCustomField,
+            FeatureTimeSpent = FeatureTimeSpent,
+            FeatureTimeValue = FeatureTimeValue,
+            FeatureTimeOff = FeatureTimeOff,
+            FeatureShift = FeatureShift,
+            FeatureReports = FeatureReports,
+            FeaturePayments = FeaturePayments,
+            FeatureChat = FeatureChat,
+            FeatureFiles = FeatureFiles,
+            FeatureWbs = FeatureWbs,
+            FeatureRoadMap = FeatureRoadMap,
+            FeatureTree = FeatureTree,
+            FeatureObjectives = FeatureObjectives,
+            FeatureSeasons = FeatureSeasons,
+            FeatureVote = FeatureVote,
+            FeatureSubTask = FeatureSubTask,
+            FeatureCalendar = FeatureCalendar,
+            FeatureKartabl = FeatureKartabl,
+            FeatureBlocking = FeatureBlocking,
+            FeatureRelated = FeatureRelated,
+            FeatureComplexGroup = FeatureComplexGroup,
+            FeatureGroupTimeSpent = FeatureGroupTimeSpent,
+            UsedProject = UsedProject,
+            UsedSpace = UsedSpace,
+            UsedComplexGroup = UsedComplexGroup,
+            ExpireAt = ExpireAt,
+            UsedWorkPackage = UsedWorkPackage,
+            Space = Space,
+            PlanId = PlanId,
+            UsedUser = UsedUser,
+            UsedSimpleGroup = UsedSimpleGroup,
+            UserId = UserId
+        };
+    }
+
     #region Props
 
     public Guid UserId { get; set; }
