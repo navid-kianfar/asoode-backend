@@ -1,6 +1,6 @@
 namespace Asoode.Shared.Abstraction.Dtos;
 
-internal class EnvRootDto
+internal record EnvRootDto
 {
     public Dictionary<string, EnvApplicationDto> profiles { get; set; }
 }

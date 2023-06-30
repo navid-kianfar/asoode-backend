@@ -1,6 +1,6 @@
 namespace Asoode.Shared.Abstraction.Dtos.Contact;
 
-public class ContactDto
+public record ContactDto
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }

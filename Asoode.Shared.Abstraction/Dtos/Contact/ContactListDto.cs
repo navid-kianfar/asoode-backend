@@ -1,6 +1,6 @@
 namespace Asoode.Shared.Abstraction.Dtos.Contact;
 
-public class ContactListDto : ContactDto
+public record ContactListDto : ContactDto
 {
     public bool Seen { get; set; }
     public int Index { get; set; }

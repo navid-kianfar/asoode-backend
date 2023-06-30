@@ -1,6 +1,6 @@
 namespace Asoode.Shared.Abstraction.Dtos;
 
-public class GridResult<T>
+public record GridResult<T>
 {
     public T[] Items { get; set; }
     public int Page { get; set; }

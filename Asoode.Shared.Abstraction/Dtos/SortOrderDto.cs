@@ -2,7 +2,7 @@ using Asoode.Shared.Abstraction.Enums;
 
 namespace Asoode.Shared.Abstraction.Dtos;
 
-public class SortOrderDto
+public record SortOrderDto
 {
     public SortType ListsSort { get; set; }
     public SortType TasksSort { get; set; }

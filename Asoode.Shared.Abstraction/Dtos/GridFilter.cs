@@ -1,6 +1,6 @@
 ﻿namespace Asoode.Shared.Abstraction.Dtos;
 
-public class GridFilter
+public record GridFilter
 {
     public GridFilter()
     {

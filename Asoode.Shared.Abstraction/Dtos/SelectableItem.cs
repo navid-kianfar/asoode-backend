@@ -1,6 +1,6 @@
 namespace Asoode.Shared.Abstraction.Dtos;
 
-public class SelectableItem<T>
+public record SelectableItem<T>
 {
     public object Payload { get; set; }
 

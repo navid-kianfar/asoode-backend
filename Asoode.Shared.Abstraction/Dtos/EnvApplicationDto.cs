@@ -1,6 +1,6 @@
 namespace Asoode.Shared.Abstraction.Dtos;
 
-internal class EnvApplicationDto
+internal record EnvApplicationDto
 {
     public string commandName { get; set; }
     public bool dotnetRunMessages { get; set; }
