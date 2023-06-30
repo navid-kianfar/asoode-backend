@@ -1,27 +1,34 @@
+using Asoode.Application.Abstraction.Contracts;
+using Asoode.Application.Abstraction.Fixtures;
+using Asoode.Shared.Abstraction.Contracts;
+using Asoode.Shared.Abstraction.Dtos.General;
+using Asoode.Shared.Abstraction.Dtos.ProjectManagement;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Asoode.Application.Server.Controllers.ProjectManagement;
 
 
-[Route("v2/projects")]
+[Route(EndpointConstants.Prefix)]
 [ApiExplorerSettings(GroupName = "Project")]
 public class ProjectController : BaseController
 {
-    private readonly IProjectBiz _projectBiz;
+    private readonly IProjectService _projectBiz;
+    private readonly IUserIdentityService _identity;
 
-    public ProjectController(IProjectBiz projectBiz)
+    public ProjectController(IProjectService projectBiz, IUserIdentityService identity)
     {
         _projectBiz = projectBiz;
+        _identity = identity;
     }
 
-    [HttpPost("list")]
+    [HttpPost("projects/list")]
     public async Task<IActionResult> List()
     {
         var op = await _projectBiz.List(_identity.User!.UserId);
         return Json(op);
     }
 
-    [HttpPost("create")]
+    [HttpPost("projects/create")]
     
     public async Task<IActionResult> Create([FromBody] ProjectCreateDto model)
     {
@@ -29,7 +36,7 @@ public class ProjectController : BaseController
         return Json(op);
     }
 
-    [HttpPost("{id:guid}/archive")]
+    [HttpPost("projects/{id:guid}/archive")]
     
     public async Task<IActionResult> Archive(Guid id)
     {
@@ -37,21 +44,21 @@ public class ProjectController : BaseController
         return Json(op);
     }
 
-    [HttpPost("{id:guid}/remove")]
+    [HttpPost("projects/{id:guid}/remove")]
     public async Task<IActionResult> Remove(Guid id)
     {
         var op = await _projectBiz.Remove(_identity.User!.UserId, id);
         return Json(op);
     }
 
-    [HttpPost("{id:guid}/fetch")]
+    [HttpPost("projects/{id:guid}/fetch")]
     public async Task<IActionResult> Fetch(Guid id)
     {
         var op = await _projectBiz.Fetch(_identity.User!.UserId, id);
         return Json(op);
     }
 
-    [HttpPost("archived")]
+    [HttpPost("projects/archived")]
     
     public async Task<IActionResult> Archived()
     {
@@ -59,42 +66,42 @@ public class ProjectController : BaseController
         return Json(op);
     }
 
-    [HttpPost("objectives/{id:guid}")]
+    [HttpPost("projects/objectives/{id:guid}")]
     public async Task<IActionResult> Objectives(Guid id)
     {
         var op = await _projectBiz.Objectives(_identity.User!.UserId, id);
         return Json(op);
     }
 
-    [HttpPost("objectives/{id:guid}/detail")]
+    [HttpPost("projects/objectives/{id:guid}/detail")]
     public async Task<IActionResult> ObjectiveDetails(Guid id)
     {
         var op = await _projectBiz.ObjectiveDetails(_identity.User!.UserId, id);
         return Json(op);
     }
 
-    [HttpPost("tree/{id:guid}")]
+    [HttpPost("projects/tree/{id:guid}")]
     public async Task<IActionResult> Tree(Guid id)
     {
         var op = await _projectBiz.Tree(_identity.User!.UserId, id);
         return Json(op);
     }
 
-    [HttpPost("progress/{id:guid}")]
+    [HttpPost("projects/progress/{id:guid}")]
     public async Task<IActionResult> ProjectProgress(Guid id)
     {
         var op = await _projectBiz.ProjectProgress(_identity.User!.UserId, id);
         return Json(op);
     }
 
-    [HttpPost("road-map/{id:guid}")]
+    [HttpPost("projects/road-map/{id:guid}")]
     public async Task<IActionResult> RoadMap(Guid id)
     {
         var op = await _projectBiz.RoadMap(_identity.User!.UserId, id);
         return Json(op);
     }
 
-    [HttpPost("export/{id:guid}")]
+    [HttpPost("projects/export/{id:guid}")]
     
     public async Task<IActionResult> Export(Guid id)
     {
@@ -102,7 +109,7 @@ public class ProjectController : BaseController
         return Json(op);
     }
 
-    [HttpPost("{id:guid}/add-access")]
+    [HttpPost("projects/{id:guid}/add-access")]
     
     public async Task<IActionResult> AddAccess(Guid id, [FromBody] AccessDto permission)
     {
@@ -110,7 +117,7 @@ public class ProjectController : BaseController
         return Json(op);
     }
 
-    [HttpPost("remove-access/{id:guid}")]
+    [HttpPost("projects/remove-access/{id:guid}")]
     
     public async Task<IActionResult> RemoveAccess(Guid id)
     {
@@ -118,7 +125,7 @@ public class ProjectController : BaseController
         return Json(op);
     }
 
-    [HttpPost("change-access/{id:guid}")]
+    [HttpPost("projects/change-access/{id:guid}")]
     
     public async Task<IActionResult> ChangeAccess(Guid id, [FromBody] ChangeAccessDto permission)
     {
@@ -126,7 +133,7 @@ public class ProjectController : BaseController
         return Json(op);
     }
 
-    [HttpPost("remove-pending-access/{id:guid}")]
+    [HttpPost("projects/remove-pending-access/{id:guid}")]
     
     public async Task<IActionResult> RemovePendingAccess(Guid id)
     {
@@ -134,7 +141,7 @@ public class ProjectController : BaseController
         return Json(op);
     }
 
-    [HttpPost("change-pending-access/{id:guid}")]
+    [HttpPost("projects/change-pending-access/{id:guid}")]
     
     public async Task<IActionResult> ChangePendingAccess(Guid id, [FromBody] ChangeAccessDto permission)
     {
@@ -142,7 +149,7 @@ public class ProjectController : BaseController
         return Json(op);
     }
 
-    [HttpPost("{id:guid}/sub/create")]
+    [HttpPost("projects/{id:guid}/sub/create")]
     
     public async Task<IActionResult> CreateSubProject(Guid id, [FromBody] CreateSubProjectDto model)
     {
@@ -150,7 +157,7 @@ public class ProjectController : BaseController
         return Json(op);
     }
 
-    [HttpPost("sub/{id:guid}/edit")]
+    [HttpPost("projects/sub/{id:guid}/edit")]
     
     public async Task<IActionResult> EditSubProject(Guid id, [FromBody] SimpleDto model)
     {
@@ -158,7 +165,7 @@ public class ProjectController : BaseController
         return Json(op);
     }
 
-    [HttpPost("sub/{id:guid}/order")]
+    [HttpPost("projects/sub/{id:guid}/order")]
     
     public async Task<IActionResult> OrderSubProject(Guid id, [FromBody] ChangeOrderDto model)
     {
@@ -166,7 +173,7 @@ public class ProjectController : BaseController
         return Json(op);
     }
 
-    [HttpPost("{id:guid}/edit")]
+    [HttpPost("projects/{id:guid}/edit")]
     
     public async Task<IActionResult> EditProject(Guid id, [FromBody] ProjectEditDto model)
     {
@@ -174,7 +181,7 @@ public class ProjectController : BaseController
         return Json(op);
     }
 
-    [HttpPost("sub/{id:guid}/remove")]
+    [HttpPost("projects/sub/{id:guid}/remove")]
     
     public async Task<IActionResult> RemoveSubProject(Guid id)
     {
@@ -182,7 +189,7 @@ public class ProjectController : BaseController
         return Json(op);
     }
 
-    [HttpPost("{id:guid}/season/create")]
+    [HttpPost("projects/{id:guid}/season/create")]
     
     public async Task<IActionResult> CreateSeason(Guid id, [FromBody] SimpleDto model)
     {
@@ -190,7 +197,7 @@ public class ProjectController : BaseController
         return Json(op);
     }
 
-    [HttpPost("season/{id:guid}/edit")]
+    [HttpPost("projects/season/{id:guid}/edit")]
     
     public async Task<IActionResult> EditSeason(Guid id, [FromBody] SimpleDto model)
     {
@@ -198,7 +205,7 @@ public class ProjectController : BaseController
         return Json(op);
     }
 
-    [HttpPost("season/{id:guid}/remove")]
+    [HttpPost("projects/season/{id:guid}/remove")]
     
     public async Task<IActionResult> RemoveSeason(Guid id)
     {
