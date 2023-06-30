@@ -72,6 +72,7 @@ public static class Startup
         services.AddScoped<IDiscountRepository, DiscountRepository>();
         services.AddScoped<IErrorRepository, ErrorRepository>();
         services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<ITimeSpentRepository, TimeSpentRepository>();
 
         // MongoDB
         // services.AddSingleton<IDocumentRepository, DocumentRepository>();
