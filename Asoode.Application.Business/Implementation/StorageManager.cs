@@ -1,11 +1,12 @@
 using Asoode.Shared.Abstraction.Contracts;
-using Asoode.Shared.Abstraction.Dtos;
+using Asoode.Shared.Abstraction.Dtos.Storage;
 using Asoode.Shared.Abstraction.Enums;
 using Asoode.Shared.Abstraction.Fixtures;
 using Asoode.Shared.Abstraction.Helpers;
 using Asoode.Shared.Abstraction.Types;
+using StorageItemDto = Asoode.Shared.Abstraction.Dtos.StorageItemDto;
 
-namespace Asoode.Shared.Core.Implementations;
+namespace Asoode.Application.Business.Implementation;
 
 internal record StorageManager : IStorageManager
 {
@@ -25,6 +26,41 @@ internal record StorageManager : IStorageManager
         if (!CheckIfPathIsSafe(path)) return null;
         var op = await _storageService.Download(path, SharedConstants.PublicBucket);
         return op.Data;
+    }
+
+    public Task<OperationResult<ExplorerDto>> Mine(Guid userId, FileManagerDto model)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<OperationResult<ExplorerDto>> SharedByMe(Guid userId, FileManagerDto model)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<OperationResult<ExplorerDto>> SharedByOthers(Guid userId, FileManagerDto model)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<OperationResult<bool>> NewFolder(Guid userId, FileManagerNameDto model)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<OperationResult<UploadResultDto>> Upload(Guid userId, StorageItemDto file, FileManagerDto model)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<OperationResult<bool>> Rename(Guid userId, FileManagerNameDto model)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<OperationResult<bool>> Delete(Guid userId, FileManagerDeleteDto model)
+    {
+        throw new NotImplementedException();
     }
 
     public async Task<StorageItemDto?> DownloadProtected(Guid userId, string path)

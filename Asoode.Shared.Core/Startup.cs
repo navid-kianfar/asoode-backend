@@ -16,7 +16,6 @@ public static class Startup
         services.AddSingleton<IPdfService, PdfService>();
         services.AddSingleton<IQueueService, QueueService>();
         services.AddSingleton<IStorageService, StorageService>();
-        services.AddSingleton<IStorageManager, StorageManager>();
         services.AddSingleton<ITranslateService, TranslateService>();
         return services;
     }

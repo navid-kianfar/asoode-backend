@@ -1,22 +1,32 @@
+using Asoode.Application.Abstraction.Contracts;
+using Asoode.Application.Abstraction.Fixtures;
+using Asoode.Shared.Abstraction.Contracts;
+using Asoode.Shared.Abstraction.Dtos.General;
+using Asoode.Shared.Abstraction.Dtos.Logging;
+using Asoode.Shared.Abstraction.Dtos.Membership.Authentication;
+using Asoode.Shared.Abstraction.Dtos.Membership.Profile;
+using Asoode.Shared.Endpoint.Extensions.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Asoode.Application.Server.Controllers.Membership;
 
-[Route("v2/account")]
+[Route(EndpointConstants.Prefix)]
 [ApiExplorerSettings(GroupName = "Membership")]
 public class AccountController : BaseController
 {
-    private readonly IAccountBiz _accountBiz;
-    private readonly IServiceProvider _serviceProvider;
+    private readonly IAccountService _accountBiz;
+    private readonly IUserIdentityService _identity;
+    private readonly IJsonService _jsonService;
 
-    public AccountController(IAccountBiz accountBiz, IServiceProvider serviceProvider)
+    public AccountController(IAccountService accountBiz, IUserIdentityService identity, IJsonService jsonService)
     {
         _accountBiz = accountBiz;
-        _serviceProvider = serviceProvider;
+        _identity = identity;
+        _jsonService = jsonService;
     }
 
     
-    [HttpPost("invite-query")]
+    [HttpPost("account/invite-query")]
     
     public async Task<IActionResult> InviteQuery([FromBody] AutoCompleteFilter filter)
     {
@@ -26,7 +36,7 @@ public class AccountController : BaseController
 
     
     
-    [HttpPost("transactions")]
+    [HttpPost("account/transactions")]
     public async Task<IActionResult> Transactions([FromBody] GridFilter model)
     {
         var op = await _accountBiz.Transactions(_identity.User!.UserId, model);
@@ -35,7 +45,7 @@ public class AccountController : BaseController
 
     
     
-    [HttpPost("devices/add")]
+    [HttpPost("account/devices/add")]
     public async Task<IActionResult> AddDevice([FromBody] PushNotificationDto model)
     {
         var op = await _accountBiz.AddDevice(_identity.User!.UserId, model);
@@ -43,7 +53,7 @@ public class AccountController : BaseController
     }
 
     
-    [HttpPost("devices/remove/{id:guid}")]
+    [HttpPost("account/devices/remove/{id:guid}")]
     public async Task<IActionResult> RemoveDevice(Guid id)
     {
         var op = await _accountBiz.RemoveDevice(_identity.User!.UserId, id);
@@ -51,7 +61,7 @@ public class AccountController : BaseController
     }
 
     
-    [HttpPost("devices/toggle/{id:guid}")]
+    [HttpPost("account/devices/toggle/{id:guid}")]
     public async Task<IActionResult> ToggleDevice(Guid id)
     {
         var op = await _accountBiz.ToggleDevice(_identity.User!.UserId, id);
@@ -60,7 +70,7 @@ public class AccountController : BaseController
 
     
     
-    [HttpPost("devices/rename/{id:guid}")]
+    [HttpPost("account/devices/rename/{id:guid}")]
     public async Task<IActionResult> EditDevice(Guid id, [FromBody] TitleDto model)
     {
         var op = await _accountBiz.EditDevice(_identity.User!.UserId, id, model);
@@ -68,7 +78,7 @@ public class AccountController : BaseController
     }
 
     
-    [HttpPost("devices")]
+    [HttpPost("account/devices")]
     public async Task<IActionResult> ListDevices()
     {
         var op = await _accountBiz.ListDevices(_identity.User!.UserId);
@@ -77,7 +87,7 @@ public class AccountController : BaseController
 
     
     
-    [HttpPost("email/change")]
+    [HttpPost("account/email/change")]
     public async Task<IActionResult> ChangeEmail([FromBody] ChangeEmailDto model)
     {
         var op = await _accountBiz.ChangeEmail(_identity.User!.UserId, model);
@@ -86,14 +96,14 @@ public class AccountController : BaseController
 
     
     
-    [HttpPost("password/change")]
+    [HttpPost("account/password/change")]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto model)
     {
         var op = await _accountBiz.ChangePassword(_identity.User!.UserId, model);
         return Json(op);
     }
 
-    [HttpPost("resend/verification/{id:guid}")]
+    [HttpPost("account/resend/verification/{id:guid}")]
     public async Task<IActionResult> ResendVerification(Guid id)
     {
         var op = await _accountBiz.ResendVerification(_identity.User!.UserId, id);
@@ -102,7 +112,7 @@ public class AccountController : BaseController
 
     
     
-    [HttpPost("phone/change")]
+    [HttpPost("account/phone/change")]
     public async Task<IActionResult> ChangePhone([FromBody] ChangePhoneDto model)
     {
         var op = await _accountBiz.ChangePhone(_identity.User!.UserId, model);
@@ -111,7 +121,7 @@ public class AccountController : BaseController
 
     
     
-    [HttpPost("phone/change/confirm")]
+    [HttpPost("account/phone/change/confirm")]
     public async Task<IActionResult> ConfirmChangePhone([FromBody] ConfirmVerificationDto model)
     {
         var op = await _accountBiz.ConfirmChangeUserVerification(_identity.User!.UserId, model);
@@ -120,7 +130,7 @@ public class AccountController : BaseController
 
     
     
-    [HttpPost("email/change/confirm")]
+    [HttpPost("account/email/change/confirm")]
     public async Task<IActionResult> ConfirmChangeEmail([FromBody] ConfirmVerificationDto model)
     {
         var op = await _accountBiz.ConfirmChangeUserVerification(_identity.User!.UserId, model);
@@ -128,7 +138,7 @@ public class AccountController : BaseController
     }
 
     // 
-    // [HttpPost("avatar/change")]
+    // [HttpPost("account/avatar/change")]
     // public async Task<IActionResult> ChangePicture()
     // {
     //     var files = ValidateFiles(IOHelper.ImageExtensions);
@@ -138,7 +148,7 @@ public class AccountController : BaseController
 
     
     
-    [HttpPost("username/change")]
+    [HttpPost("account/username/change")]
     public async Task<IActionResult> ChangeUsername([FromBody] UsernameDto model)
     {
         var op = await _accountBiz.ChangeUsername(_identity.User!.UserId, model);
@@ -146,7 +156,7 @@ public class AccountController : BaseController
     }
 
     
-    [HttpPost("confirm")]
+    [HttpPost("account/confirm")]
     public async Task<IActionResult> ConfirmAccount([FromBody] ConfirmVerificationDto model)
     {
         var op = await _accountBiz.ConfirmAccount(model);
@@ -154,7 +164,7 @@ public class AccountController : BaseController
     }
 
     
-    [HttpPost("password/forget")]
+    [HttpPost("account/password/forget")]
     public async Task<IActionResult> ForgetPassword([FromBody] ForgetPasswordDto model)
     {
         var op = await _accountBiz.ForgetPassword(model);
@@ -162,7 +172,7 @@ public class AccountController : BaseController
     }
 
     
-    [HttpPost("login")]
+    [HttpPost("account/login")]
     public async Task<IActionResult> Login([FromBody] LoginRequestDto model)
     {
         var op = await _accountBiz.Login(model);
@@ -170,7 +180,7 @@ public class AccountController : BaseController
     }
 
     
-    [HttpPost("profile")]
+    [HttpPost("account/profile")]
     public async Task<IActionResult> Profile()
     {
         var op = await _accountBiz.GetProfile(_identity.User!.UserId);
@@ -178,7 +188,7 @@ public class AccountController : BaseController
     }
 
     
-    [HttpPost("profile/{id:guid}")]
+    [HttpPost("account/profile/{id:guid}")]
     public async Task<IActionResult> OtherUserProfile(Guid id)
     {
         var op = await _accountBiz.OtherUserProfile(_identity.User!.UserId, id);
@@ -186,7 +196,7 @@ public class AccountController : BaseController
     }
 
     
-    [HttpPost("password/recover")]
+    [HttpPost("account/password/recover")]
     public async Task<IActionResult> RecoverPassword([FromBody] RecoverPasswordDto model)
     {
         var op = await _accountBiz.RecoverPassword(model);
@@ -194,7 +204,7 @@ public class AccountController : BaseController
     }
 
     
-    [HttpPost("register")]
+    [HttpPost("account/register")]
     public async Task<IActionResult> Register([FromBody] RegisterRequestDto model)
     {
         var op = await _accountBiz.Register(model);
@@ -202,7 +212,7 @@ public class AccountController : BaseController
     }
 
     // 
-    // [HttpPost("avatar/remove")]
+    // [HttpPost("account/avatar/remove")]
     // public async Task<IActionResult> RemovePicture()
     // {
     //     var op = await _accountBiz.RemovePicture(_identity.User!.UserId);
@@ -210,18 +220,17 @@ public class AccountController : BaseController
     // }
 
     
-    [HttpPost("profile/update")]
+    [HttpPost("account/profile/update")]
     public async Task<IActionResult> UpdateProfile()
     {
-        var jsonBiz = _serviceProvider.GetService<IJsonBiz>();
         var file = await Request.Form.Files.First().ToStorageItem();
-        var model = jsonBiz.Deserialize<UserProfileUpdateDto>(Request.Form["data"]);
+        var model = _jsonService.Deserialize<UserProfileUpdateDto>(Request.Form["data"]);
         var op = await _accountBiz.UpdateProfile(_identity.User!.UserId, model, file);
         return Json(op);
     }
 
     
-    [HttpPost("username/taken")]
+    [HttpPost("account/username/taken")]
     public async Task<IActionResult> UsernameTaken([FromBody] UsernameDto model)
     {
         var op = await _accountBiz.UsernameTaken(model);
