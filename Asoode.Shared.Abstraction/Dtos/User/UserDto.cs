@@ -7,7 +7,9 @@ public record UserDto
     public Guid Id { get; set; }
     public UserType Type { get; set; }
     public string Username { get; set; } = string.Empty;
-    
+    public bool IsLocked { get; set; }
+    public bool Blocked { get; set; }
+
     // public DateTime CreatedAt { get; set; }
     // public DateTime? DeletedAt { get; set; }
     // public DateTime? BlockedAt { get; set; }

@@ -82,6 +82,7 @@ public record UserPlanInfoDto : BaseDto
     public bool FeatureRelated { get; set; }
     public bool FeatureComplexGroup { get; set; }
     public bool FeatureGroupTimeSpent { get; set; }
+    public OrderDuration Duration { get; set; }
 
     #endregion
 }

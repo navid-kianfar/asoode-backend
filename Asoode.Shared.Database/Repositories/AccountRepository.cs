@@ -37,7 +37,7 @@ internal class AccountRepository : IAccountRepository
             var result = await DbHelper.GetPaginatedData(query, tuple =>
             {
                 var (items, startIndex) = tuple;
-                return items.Select((i, index) => i.ToDto(startIndex + index + 1)).ToArray();
+                return items.Select((i, index) => i.ToExtendedDto(startIndex + index + 1)).ToArray();
             }, model.Page, model.PageSize);
 
             var userIds = result.Data!.Items.Select(i => i.Id).ToArray();

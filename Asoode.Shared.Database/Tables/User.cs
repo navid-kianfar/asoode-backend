@@ -27,7 +27,7 @@ internal class User : BaseEntity
     public double Wallet { get; set; }
     [MaxLength(50)] public string Username { get; set; }
 
-    public ExtendedUserDto ToDto(int index = 0)
+    public ExtendedUserDto ToExtendedDto(int index = 0)
     {
         return new ExtendedUserDto
         {
@@ -47,6 +47,19 @@ internal class User : BaseEntity
             UpdatedAt = UpdatedAt,
             EmailConfirmed = LastEmailConfirmed.HasValue && !Email.EndsWith("@asoode.user"),
             PhoneConfirmed = LastPhoneConfirmed.HasValue
+        };
+    }
+
+    public UserDto ToDto(int index = 0)
+    {
+        return new UserDto
+        {
+            Id = Id,
+            Type = Type,
+            Username = Username,
+            
+            Blocked = Blocked,
+            IsLocked = IsLocked
         };
     }
 
