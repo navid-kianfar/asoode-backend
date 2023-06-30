@@ -1,6 +1,6 @@
 using Asoode.Shared.Abstraction.Enums;
 
-namespace Asoode.Shared.Abstraction.Dtos;
+namespace Asoode.Shared.Abstraction.Dtos.User;
 
 public record AuthenticatedUserDto
 {

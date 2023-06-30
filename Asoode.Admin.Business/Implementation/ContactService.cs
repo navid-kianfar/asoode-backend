@@ -2,9 +2,12 @@ using Asoode.Admin.Abstraction.Contracts;
 using Asoode.Shared.Abstraction.Contracts;
 using Asoode.Shared.Abstraction.Dtos;
 using Asoode.Shared.Abstraction.Dtos.Contact;
+using Asoode.Shared.Abstraction.Dtos.General;
 using Asoode.Shared.Abstraction.Enums;
 using Asoode.Shared.Abstraction.Types;
 using Asoode.Shared.Database.Contracts;
+using ContactDto = Asoode.Shared.Abstraction.Dtos.Contact.ContactDto;
+using ContactListDto = Asoode.Shared.Abstraction.Dtos.Contact.ContactListDto;
 
 namespace Asoode.Admin.Business.Implementation;
 
@@ -27,7 +30,7 @@ internal class ContactService : IContactService
     public Task<OperationResult<bool>> Contact(ContactDto model)
         => _contactRepository.Contact(model);
 
-    public Task<OperationResult<GridResult<ContactListDto>>> List(Guid userId, GridFilterWithParams<GridQuery> model)
+    public Task<OperationResult<Shared.Abstraction.Dtos.General.GridResult<ContactListDto>>> List(Guid userId, GridFilterWithParams<GridQuery> model)
         => _contactRepository.List(userId, model);
 
     public Task<OperationResult<bool>> Delete(Guid userId, Guid id)

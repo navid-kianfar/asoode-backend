@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Asoode.Shared.Abstraction.Dtos;
+using Asoode.Shared.Abstraction.Dtos.General;
 
 namespace Asoode.Shared.Abstraction.Helpers;
 

@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Asoode.Shared.Abstraction.Contracts;
 using Asoode.Shared.Abstraction.Dtos;
+using Asoode.Shared.Abstraction.Dtos.User;
 
 namespace Asoode.Shared.Endpoint.Extensions.Services;
 

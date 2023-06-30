@@ -1,3 +1,5 @@
+using Asoode.Shared.Abstraction.Dtos.General;
+
 namespace Asoode.Shared.Abstraction.Dtos.Contact;
 
 public record ContactReplyDto : BaseDto

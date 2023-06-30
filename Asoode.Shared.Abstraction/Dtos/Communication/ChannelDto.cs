@@ -1,3 +1,4 @@
+using Asoode.Shared.Abstraction.Dtos.General;
 using Asoode.Shared.Abstraction.Enums;
 
 namespace Asoode.Shared.Abstraction.Dtos.Communication;

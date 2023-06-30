@@ -1,3 +1,5 @@
+using Asoode.Shared.Abstraction.Dtos.General;
+
 namespace Asoode.Shared.Abstraction.Dtos.Collaboration;
 
 public record EntryLogDto : BaseDto

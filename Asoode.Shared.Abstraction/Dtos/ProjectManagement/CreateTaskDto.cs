@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Asoode.Shared.Abstraction.Dtos.General;
 
 namespace Asoode.Shared.Abstraction.Dtos.ProjectManagement;
 

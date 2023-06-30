@@ -1,4 +1,4 @@
-namespace Asoode.Shared.Abstraction.Dtos;
+namespace Asoode.Shared.Abstraction.Dtos.General;
 
 public record SelectableItem<T>
 {

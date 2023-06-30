@@ -2,6 +2,7 @@ using Asoode.Admin.Abstraction.Contracts;
 using Asoode.Admin.Abstraction.Fixtures;
 using Asoode.Shared.Abstraction.Contracts;
 using Asoode.Shared.Abstraction.Dtos;
+using Asoode.Shared.Abstraction.Dtos.General;
 using Asoode.Shared.Abstraction.Dtos.User;
 using Microsoft.AspNetCore.Mvc;
 

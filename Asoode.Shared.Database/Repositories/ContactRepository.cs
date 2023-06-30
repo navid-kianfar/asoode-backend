@@ -1,12 +1,15 @@
 using Asoode.Shared.Abstraction.Contracts;
 using Asoode.Shared.Abstraction.Dtos;
 using Asoode.Shared.Abstraction.Dtos.Contact;
+using Asoode.Shared.Abstraction.Dtos.General;
 using Asoode.Shared.Abstraction.Types;
 using Asoode.Shared.Database.Contexts;
 using Asoode.Shared.Database.Contracts;
 using Asoode.Shared.Database.Extensions;
 using Asoode.Shared.Database.Tables;
 using Microsoft.EntityFrameworkCore;
+using ContactDto = Asoode.Shared.Abstraction.Dtos.Contact.ContactDto;
+using ContactListDto = Asoode.Shared.Abstraction.Dtos.Contact.ContactListDto;
 
 namespace Asoode.Shared.Database.Repositories;
 
@@ -84,7 +87,7 @@ internal class ContactRepository : IContactRepository
         }
     }
 
-    public async Task<OperationResult<GridResult<ContactListDto>>> List(Guid userId,
+    public async Task<OperationResult<Abstraction.Dtos.General.GridResult<ContactListDto>>> List(Guid userId,
         GridFilterWithParams<GridQuery> model)
     {
         try

@@ -1,5 +1,6 @@
 using Asoode.Shared.Abstraction.Dtos;
 using Asoode.Shared.Abstraction.Dtos.Blog;
+using Asoode.Shared.Abstraction.Dtos.General;
 using Asoode.Shared.Abstraction.Types;
 
 namespace Asoode.Website.Abstraction.Contracts;

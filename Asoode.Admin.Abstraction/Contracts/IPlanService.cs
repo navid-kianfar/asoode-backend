@@ -1,4 +1,5 @@
 using Asoode.Shared.Abstraction.Dtos;
+using Asoode.Shared.Abstraction.Dtos.General;
 using Asoode.Shared.Abstraction.Dtos.Plan;
 using Asoode.Shared.Abstraction.Types;
 

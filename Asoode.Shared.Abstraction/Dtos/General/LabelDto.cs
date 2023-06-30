@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Asoode.Shared.Abstraction.Dtos;
+namespace Asoode.Shared.Abstraction.Dtos.General;
 
 public record LabelDto
 {
