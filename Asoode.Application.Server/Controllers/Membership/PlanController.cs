@@ -1,21 +1,26 @@
+using Asoode.Application.Abstraction.Contracts;
+using Asoode.Application.Abstraction.Fixtures;
+using Asoode.Shared.Abstraction.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Asoode.Application.Server.Controllers.Membership;
 
 
-[Route("v2/plans")]
+[Route(EndpointConstants.Prefix)]
 [ApiExplorerSettings(GroupName = "Plans")]
 public class PlanController : BaseController
 {
-    private readonly IPlanBiz _planBiz;
+    private readonly IPlanService _planBiz;
+    private readonly IUserIdentityService _identity;
 
-    public PlanController(IPlanBiz planBiz)
+    public PlanController(IPlanService planBiz, IUserIdentityService identity)
     {
         _planBiz = planBiz;
+        _identity = identity;
     }
 
     
-    [HttpPost("fetch")]
+    [HttpPost("plans/fetch")]
     
     public async Task<IActionResult> Fetch()
     {
