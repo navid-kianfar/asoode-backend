@@ -9,6 +9,7 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     </ItemGroup>
     <ItemGroup>
+        <ProjectReference Include="..\Asoode.Application.Abstraction\Asoode.Application.Abstraction.csproj" />
         <ProjectReference Include="..\Asoode.Shared.Database\Asoode.Shared.Database.csproj" />
     </ItemGroup>
 </Project>
