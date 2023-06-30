@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Asoode.Shared.Abstraction.Dtos.General;
 using Asoode.Shared.Abstraction.Dtos.User;
 using Asoode.Shared.Abstraction.Enums;
 using Asoode.Shared.Database.Tables.Base;
@@ -127,4 +128,24 @@ internal class User : BaseEntity
     [MaxLength(50)] public string TrelloId { get; set; }
 
     #endregion 3rd Party Identifications
+
+    public MemberInfoDto ToMemberInfoDto()
+    {
+        return new MemberInfoDto
+        {
+            Id = Id,
+            Avatar = Avatar,
+            Bio = Bio,
+            Calendar = Calendar,
+            Email = Email,
+            Initials = Initials,
+            Phone = Phone,
+            Username = Username,
+            FirstName = FirstName,
+            DarkMode = DarkMode,
+            LastName = LastName,
+            TimeZone = TimeZone,
+            FullName = FullName,
+        };
+    }
 }

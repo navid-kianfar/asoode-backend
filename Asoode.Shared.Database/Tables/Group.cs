@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Asoode.Shared.Abstraction.Dtos.Collaboration;
 using Asoode.Shared.Abstraction.Enums;
 using Asoode.Shared.Database.Tables.Base;
 
@@ -44,4 +45,48 @@ internal class Group : BaseEntity
     public int? Employees { get; set; }
 
     #endregion
+
+    public GroupDto ToDto()
+    {
+        return new GroupDto
+        {
+            Type = Type,
+            Address = Address,
+            Avatar = Avatar,
+            Complex = Complex,
+            Description = Description,
+            Employees = Employees,
+            Email = Email,
+            Fax = Fax,
+            Level = Level,
+            ArchivedAt = ArchivedAt,
+            Offices = Offices,
+            BrandTitle = BrandTitle,
+            Title = Title,
+            Website = Website,
+            GeoLocation = GeoLocation,
+            NationalId = NationalId,
+            Premium = Premium, 
+            ExpireAt = ExpireAt,
+            PostalCode = PostalCode,
+            RegisteredAt = RegisteredAt,
+            RegistrationId = RegistrationId,
+            ResponsibleName = ResponsibleName,
+            ParentId = ParentId,
+            ResponsibleNumber = ResponsibleNumber,
+            SupervisorName = SupervisorName,
+            SupervisorNumber = SupervisorNumber,
+            Tel = Tel,
+            SubTitle = SubTitle,
+            RootId = RootId,
+            UserId = UserId,
+            Id = Id,
+            CreatedAt = CreatedAt,
+            UpdatedAt = UpdatedAt,
+            // PlanType = PlanType,
+            // Members = Members,
+            // Pending = Pending,
+            // AttachmentSize = AttachmentSize,
+        };
+    }
 }

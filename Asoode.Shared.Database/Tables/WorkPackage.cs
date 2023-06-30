@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Asoode.Shared.Abstraction.Dtos.ProjectManagement;
 using Asoode.Shared.Abstraction.Enums;
 using Asoode.Shared.Database.Tables.Base;
 
@@ -84,4 +85,68 @@ internal class WorkPackage : BaseEntity
     [DefaultValue(true)] public bool AllowTimeSpent { get; set; }
 
     #endregion
+
+    public WorkPackageDto ToDto()
+    {
+        return new WorkPackageDto
+        {
+            Color = Color,
+            DarkColor = DarkColor,
+            ArchivedAt = ArchivedAt,
+            Description = Description,
+            Order = Order,
+            Title = Title,
+            AllowAttachment = AllowAttachment,
+            AllowComments = AllowComments,
+            AllowLabels = AllowLabels,
+            AllowMembers = AllowMembers,
+            AllowPoll = AllowPoll,
+            AllowSegments = AllowSegments,
+            AllowState = AllowState,
+            AttachmentsSort = AttachmentsSort,
+            BeginAt = BeginAt,
+            ProjectId = ProjectId,
+            CommentPermission = CommentPermission,
+            PermissionComment = PermissionComment,
+            EndAt = EndAt,
+            ListsSort = ListsSort,
+            TasksSort = TasksSort,
+            TaskVisibility = TaskVisibility,
+            Id = Id,
+            UserId = UserId,
+            ActualBeginAt = ActualBeginAt,
+            ActualEndAt = ActualEndAt,
+            AllowCustomField = AllowCustomField,
+            AllowEndAt = AllowEndAt,
+            AllowEstimatedTime = AllowEstimatedTime,
+            AllowGeoLocation = AllowGeoLocation,
+            AllowTimeSpent = AllowTimeSpent,
+            PermissionArchiveList = PermissionArchiveList,
+            PermissionArchiveTask = PermissionArchiveTask,
+            PermissionAssignLabels = PermissionAssignLabels,
+            PermissionAssignMembers = PermissionAssignMembers,
+            PermissionCreateAttachment = PermissionCreateAttachment,
+            PermissionCreateList = PermissionCreateList,
+            PermissionCreateTask = PermissionCreateTask,
+            PermissionEditAttachment = PermissionEditAttachment,
+            PermissionEditList = PermissionEditList,
+            PermissionEditTask = PermissionEditTask,
+            SubProjectId = SubProjectId,
+            SubTasksSort = SubTasksSort,
+            AllowBlockingBoardTasks = AllowBlockingBoardTasks,
+            PermissionChangeTaskState = PermissionChangeTaskState,
+            CreatedAt = CreatedAt,
+            UpdatedAt = UpdatedAt,
+            // Objectives = Objectives,
+            // Pending = Pending,
+            // Progress = Progress,
+            // Tasks = Tasks,
+            // CustomFields = CustomFields,
+            // Labels = Labels,
+            // Lists = Lists,
+            // Members = Members,
+            // UserSetting = UserSetting,
+            // CustomFieldsItems = CustomFieldsItems,
+        };
+    }
 }

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Asoode.Shared.Abstraction.Dtos.Storage;
 using Asoode.Shared.Abstraction.Enums;
 using Asoode.Shared.Database.Tables.Base;
 
@@ -17,4 +18,24 @@ internal class Upload : BaseEntity
     public long Size { get; set; }
     public FileType Type { get; set; }
     public Guid UserId { get; set; }
+
+    public UploadDto ToDto()
+    {
+        return new UploadDto
+        {
+            CreatedAt = CreatedAt,
+            Directory = Directory,
+            Extension = Extension,
+            RecordId = RecordId,
+            ThumbnailPath = ThumbnailPath,
+            Name = Name,
+            UserId = UserId,
+            Type = Type,
+            Path = Path,
+            Public = Public,
+            Section = Section,
+            Size = Size,
+            Id = Id,
+        };
+    }
 }

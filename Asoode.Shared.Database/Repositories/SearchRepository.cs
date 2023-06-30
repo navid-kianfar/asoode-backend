@@ -3,6 +3,7 @@ using Asoode.Shared.Abstraction.Dtos.Collaboration;
 using Asoode.Shared.Abstraction.Dtos.General;
 using Asoode.Shared.Abstraction.Dtos.ProjectManagement;
 using Asoode.Shared.Abstraction.Dtos.Storage;
+using Asoode.Shared.Abstraction.Enums;
 using Asoode.Shared.Database.Contexts;
 using Asoode.Shared.Database.Contracts;
 using Microsoft.EntityFrameworkCore;
@@ -155,13 +156,15 @@ internal class SearchRepository : ISearchRepository
     {
         try
         {
-            // var allFiles = await unit.Uploads.Where(i =>
-            //     i.UserId == userId && i.Section == UploadSection.Storage && (
-            //         i.Directory.Contains(search) ||
-            //         i.Name.Contains(search) ||
-            //         i.Path.Contains(search)
-            //     )
-            // ).AsNoTracking().ToArrayAsync();
+            var allFiles = await _context.Uploads.Where(i =>
+                i.UserId == userId && i.Section == UploadSection.Storage && (
+                    i.Directory.Contains(search) ||
+                    i.Name.Contains(search) ||
+                    i.Path.Contains(search)
+                )
+            ).AsNoTracking().ToArrayAsync();
+
+            return allFiles.Select(i => i.ToDto()).ToArray();
         }
         catch (Exception e)
         {
@@ -174,12 +177,18 @@ internal class SearchRepository : ISearchRepository
     {
         try
         {
-            // var allMembers = await (
-            //     from user in unit.Users
-            //     join member in unit.WorkPackageTaskMember on user.Id equals member.RecordId
-            //     where !member.IsGroup && allTaskIds.Contains(member.TaskId)
-            //     select new { User = user, TaskMember = member }
-            // ).AsNoTracking().ToArrayAsync();
+            var allMembers = await (
+                from user in _context.Users
+                join member in _context.WorkPackageTaskMember on user.Id equals member.RecordId
+                where !member.IsGroup && allTaskIds.Contains(member.TaskId)
+                select new { User = user, TaskMember = member }
+            ).AsNoTracking().ToArrayAsync();
+
+            return allMembers.Select(i => new CombinedTaskMemberUserDto
+            {
+                Member = i.TaskMember.ToDto(),
+                User = i.User.ToMemberInfoDto(),
+            }).ToArray();
         }
         catch (Exception e)
         {
@@ -192,12 +201,18 @@ internal class SearchRepository : ISearchRepository
     {
         try
         {
-            // var allLabels = await (
-            //     from label in unit.WorkPackageLabels
-            //     join taskLabel in unit.WorkPackageTaskLabels on label.Id equals taskLabel.LabelId
-            //     where allTaskIds.Contains(taskLabel.TaskId)
-            //     select new { Label = label, TaskLabel = taskLabel }
-            // ).AsNoTracking().ToArrayAsync();
+            var allLabels = await (
+                from label in _context.WorkPackageLabels
+                join taskLabel in _context.WorkPackageTaskLabels on label.Id equals taskLabel.LabelId
+                where allTaskIds.Contains(taskLabel.TaskId)
+                select new { Label = label, TaskLabel = taskLabel }
+            ).AsNoTracking().ToArrayAsync();
+
+            return allLabels.Select(i => new CombinedLabelTaskLabelDto
+            {
+                Label = i.Label.ToDto(),
+                TaskLabel = i.TaskLabel.ToDto(),
+            }).ToArray();
         }
         catch (Exception e)
         {

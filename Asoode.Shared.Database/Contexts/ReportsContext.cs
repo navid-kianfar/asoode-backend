@@ -17,9 +17,13 @@ internal class ReportsContext : DbContext
     public DbSet<ProjectMember> ProjectMembers { get; set; }
     public DbSet<WorkPackage> WorkPackages { get; set; }
     public DbSet<WorkPackageMember> WorkPackageMembers { get; set; }
+    public DbSet<WorkPackageTaskMember> WorkPackageTaskMember { get; set; }
     public DbSet<WorkPackageTaskTime> WorkPackageTaskTimes { get; set; }
     public DbSet<WorkPackageList> WorkPackageLists { get; set; }
     public DbSet<WorkPackageTask> WorkPackageTasks { get; set; }
+    public DbSet<Upload> Uploads { get; set; }
+    public DbSet<WorkPackageLabel> WorkPackageLabels { get; set; }
+    public DbSet<WorkPackageTaskLabel> WorkPackageTaskLabels { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

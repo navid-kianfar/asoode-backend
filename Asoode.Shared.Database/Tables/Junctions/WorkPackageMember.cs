@@ -1,3 +1,4 @@
+using Asoode.Shared.Abstraction.Dtos.ProjectManagement;
 using Asoode.Shared.Abstraction.Enums;
 using Asoode.Shared.Database.Tables.Base;
 
@@ -10,4 +11,20 @@ internal class WorkPackageMember : BaseEntity
     public Guid PackageId { get; set; }
     public AccessType Access { get; set; }
     public Guid ProjectId { get; set; }
+
+    public WorkPackageMemberDto ToDto()
+    {
+        return new WorkPackageMemberDto
+        {
+            Access = Access,
+            PackageId = PackageId,
+            RecordId = RecordId,
+            IsGroup = IsGroup,
+            Id = Id,
+            CreatedAt = CreatedAt,
+            UpdatedAt = UpdatedAt,
+            // BlockNotification = BlockNotification,
+            // ShowStats = ShowStats,
+        };
+    }
 }
