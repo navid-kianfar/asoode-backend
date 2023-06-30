@@ -4,6 +4,7 @@ using Asoode.Shared.Abstraction.Dtos.General;
 using Asoode.Shared.Abstraction.Dtos.Logging;
 using Asoode.Shared.Abstraction.Dtos.Membership.Authentication;
 using Asoode.Shared.Abstraction.Dtos.Membership.Profile;
+using Asoode.Shared.Abstraction.Dtos.Storage;
 using Asoode.Shared.Abstraction.Enums;
 using Asoode.Shared.Abstraction.Types;
 

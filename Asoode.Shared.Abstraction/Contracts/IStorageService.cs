@@ -1,4 +1,5 @@
 using Asoode.Shared.Abstraction.Dtos;
+using Asoode.Shared.Abstraction.Dtos.Storage;
 using Asoode.Shared.Abstraction.Types;
 
 namespace Asoode.Shared.Abstraction.Contracts;

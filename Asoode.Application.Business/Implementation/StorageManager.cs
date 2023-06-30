@@ -4,7 +4,7 @@ using Asoode.Shared.Abstraction.Enums;
 using Asoode.Shared.Abstraction.Fixtures;
 using Asoode.Shared.Abstraction.Helpers;
 using Asoode.Shared.Abstraction.Types;
-using StorageItemDto = Asoode.Shared.Abstraction.Dtos.StorageItemDto;
+using StorageItemDto = Asoode.Shared.Abstraction.Dtos.Storage.StorageItemDto;
 
 namespace Asoode.Application.Business.Implementation;
 

@@ -1,6 +1,6 @@
 using Asoode.Shared.Abstraction.Dtos.Storage;
 using Asoode.Shared.Abstraction.Types;
-using StorageItemDto = Asoode.Shared.Abstraction.Dtos.StorageItemDto;
+using StorageItemDto = Asoode.Shared.Abstraction.Dtos.Storage.StorageItemDto;
 
 namespace Asoode.Shared.Abstraction.Contracts;
 

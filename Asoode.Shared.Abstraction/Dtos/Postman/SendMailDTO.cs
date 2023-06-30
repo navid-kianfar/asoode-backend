@@ -1,3 +1,5 @@
+using Asoode.Shared.Abstraction.Dtos.Storage;
+
 namespace Asoode.Shared.Abstraction.Dtos.Postman;
 
 public record SendMailDTO
