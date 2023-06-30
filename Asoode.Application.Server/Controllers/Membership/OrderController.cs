@@ -1,19 +1,26 @@
+using Asoode.Application.Abstraction.Contracts;
+using Asoode.Application.Abstraction.Fixtures;
+using Asoode.Shared.Abstraction.Contracts;
+using Asoode.Shared.Abstraction.Dtos.Membership.Order;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Asoode.Application.Server.Controllers.Membership;
 
-[Route("v2/orders")]
+[Route(EndpointConstants.Prefix)]
+[ApiExplorerSettings(GroupName = "Orders")]
 public class OrderController : BaseController
 {
-    private readonly IOrderBiz _orderBiz;
+    private readonly IOrderService _orderBiz;
+    private readonly IUserIdentityService _identity;
 
-    public OrderController(IOrderBiz orderBiz)
+    public OrderController(IOrderService orderBiz, IUserIdentityService identity)
     {
         _orderBiz = orderBiz;
+        _identity = identity;
     }
 
     
-    [HttpPost("check-discount")]
+    [HttpPost("orders/check-discount")]
     
     public async Task<IActionResult> CheckDiscount([FromBody] CheckDiscountDto model)
     {
@@ -22,7 +29,7 @@ public class OrderController : BaseController
     }
 
     
-    [HttpPost("new")]
+    [HttpPost("orders/new")]
     
     public async Task<IActionResult> Order([FromBody] RequestOrderDto model)
     {
@@ -30,34 +37,18 @@ public class OrderController : BaseController
         return Json(op);
     }
 
-    [HttpGet("pay/{id:guid}")]
+    [HttpGet("orders/pay/{id:guid}")]
     public async Task<IActionResult> Pay(Guid id)
     {
         var op = await _orderBiz.Pay(id);
         return Redirect(op.Data);
     }
 
-    [HttpGet("pdf/{id:guid}")]
+    [HttpGet("orders/pdf/{id:guid}")]
     public async Task<IActionResult> Pdf(Guid id)
     {
-        var stream = await _orderBiz.Pdf(id);
+        Stream? stream = await _orderBiz.Pdf(id);
         if (stream == null) return NotFound();
         return File(stream, "application/pdf", id + ".pdf");
-    }
-
-    [HttpGet("pay-ping-callback")]
-    public async Task<IActionResult> PayPingCallBack()
-    {
-        var transId = "";
-        var paymentId = Guid.Empty;
-        if (Microsoft.AspNetCore.Http.HttpContext.Request.QueryString.HasValue)
-        {
-            transId = Microsoft.AspNetCore.Http.HttpContext.Request.Query["refid"].ToString();
-            var clientId = Microsoft.AspNetCore.Http.HttpContext.Request.Query["clientrefid"].ToString();
-            Guid.TryParse(clientId, out paymentId);
-        }
-
-        var op = await _orderBiz.PayPingCallBack(transId, paymentId);
-        return Redirect(op.Data.Item2);
     }
 }
