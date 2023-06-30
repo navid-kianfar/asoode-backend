@@ -2,6 +2,7 @@ using Asoode.Shared.Abstraction.Contracts;
 using Asoode.Shared.Abstraction.Dtos;
 using Asoode.Shared.Abstraction.Dtos.Blog;
 using Asoode.Shared.Abstraction.Enums;
+using Asoode.Shared.Abstraction.Extensions;
 using Asoode.Shared.Abstraction.Types;
 using Asoode.Shared.Database.Contexts;
 using Asoode.Shared.Database.Contracts;
@@ -119,7 +120,9 @@ internal class BlogRepository : IBlogRepository
     {
         try
         {
-            throw new NotImplementedException();
+            await _context.BlogPosts.Where(i => i.Id == id)
+                .ExecuteDeleteAsync();
+            return OperationResult<bool>.Success();
         }
         catch (Exception e)
         {
@@ -128,11 +131,27 @@ internal class BlogRepository : IBlogRepository
         }
     }
 
-    public async Task<OperationResult<bool>> EditPost(Guid userId, Guid id, BlogPostEditDto model, StorageItemDto[] files)
+    public async Task<OperationResult<bool>> EditPost(Guid userId, Guid id, BlogPostEditDto model)
     {
         try
         {
-            throw new NotImplementedException();
+            var post = await _context.BlogPosts
+                .AsNoTracking()
+                .SingleAsync(i => i.Id == id);
+            
+            post.NormalizedTitle = NormalizeTitle(model.Title);
+            post.Priority = model.Priority;
+            post.Description = model.Description;
+            post.Keywords = model.Keywords;
+            post.Summary = model.Summary;
+            post.EmbedCode = model.EmbedCode;
+            post.Text = model.Text;
+            post.Title = model.Title;
+            post.LargeImage = model.LargeImage;
+            post.MediumImage = model.MediumImage;
+            post.ThumbImage = model.ThumbImage;
+            await _context.SaveChangesAsync();
+            return OperationResult<bool>.Success(true);
         }
         catch (Exception e)
         {
@@ -141,16 +160,71 @@ internal class BlogRepository : IBlogRepository
         }
     }
 
-    public async Task<OperationResult<bool>> CreatePost(Guid userId, Guid id, BlogPostEditDto model, StorageItemDto[] files)
+    public async Task<OperationResult<bool>> CreatePost(Guid userId, Guid id, BlogPostEditDto model)
     {
         try
         {
-            throw new NotImplementedException();
+            var blog = await _context.Blogs.AsNoTracking()
+                .SingleAsync(i => i.Id == id);
+            
+            await _context.BlogPosts.AddAsync(new BlogPost
+            {
+                Key = DateTime.UtcNow.GetTime(),
+                NormalizedTitle = NormalizeTitle(model.Title),
+                Culture = blog.Culture,
+                Description = model.Description,
+                Keywords = model.Keywords,
+                Summary = model.Summary,
+                EmbedCode = model.EmbedCode,
+                Text = model.Text,
+                Title = model.Title,
+                Priority = model.Priority,
+                BlogId = blog.Id,
+                LargeImage = model.LargeImage,
+                MediumImage = model.MediumImage,
+                ThumbImage = model.ThumbImage,
+            });
+            await _context.SaveChangesAsync();
+            return OperationResult<bool>.Success(true);
         }
         catch (Exception e)
         {
             await _loggerService.Error(e.Message, "BlogRepository.CreatePost", e);
             return OperationResult<bool>.Failed();
+        }
+    }
+
+    public async Task<OperationResult<BlogDto>> GetBlog(Guid id)
+    {
+        try
+        {
+            var blog = await _context.Blogs.AsNoTracking()
+                .SingleOrDefaultAsync(i => i.Id == id);
+                    
+            if (blog == null) return OperationResult<BlogDto>.NotFound();
+            return OperationResult<BlogDto>.Success(blog.ToDto());
+        }
+        catch (Exception e)
+        {
+            await _loggerService.Error(e.Message, "BlogRepository.GetBlog", e);
+            return OperationResult<BlogDto>.Failed();
+        }
+    }
+
+    public async Task<OperationResult<PostDto>> GetPost(Guid id)
+    {
+        try
+        {
+            var post = await _context.BlogPosts
+                .AsNoTracking()
+                .SingleOrDefaultAsync(i => i.Id == id);
+            if (post == null) return OperationResult<PostDto>.NotFound();
+            return OperationResult<PostDto>.Success(post.ToDto());
+        }
+        catch (Exception e)
+        {
+            await _loggerService.Error(e.Message, "BlogRepository.GetPost", e);
+            return OperationResult<PostDto>.Failed();
         }
     }
 
@@ -271,5 +345,10 @@ internal class BlogRepository : IBlogRepository
             await _loggerService.Error(e.Message, "BlogRepository.AllBlogs", e);
             return OperationResult<BlogDto[]>.Failed();
         }
+    }
+    
+    private string NormalizeTitle(string input)
+    {
+        return input.Trim().ToKebabCase();
     }
 }
