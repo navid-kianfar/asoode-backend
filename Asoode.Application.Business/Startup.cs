@@ -11,7 +11,7 @@ public static class Startup
     public static IServiceCollection RegisterApplicationBusiness(this IServiceCollection services)
     {
         services.RegisterSharedDatabase();
-        services.AddSingleton<IGeneralService, IGeneralService>();
+        services.AddSingleton<IGeneralService, GeneralService>();
         
         services.AddScoped<IStorageManager, StorageManager>();
         services.AddScoped<IAccountService, AccountService>();
