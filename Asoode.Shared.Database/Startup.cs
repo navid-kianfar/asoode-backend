@@ -58,6 +58,14 @@ public static class Startup
                 builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
             });
         });
+        services.AddDbContext<ReportsContext>(options =>
+        {
+            options.UseNpgsql(connectionString, builder =>
+            {
+                builder.CommandTimeout(120);
+                builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+            });
+        });
     }
 
     private static void RegisterServices(this IServiceCollection services)
@@ -73,6 +81,7 @@ public static class Startup
         services.AddScoped<IErrorRepository, ErrorRepository>();
         services.AddScoped<IOrderRepository, OrderRepository>();
         services.AddScoped<ITimeSpentRepository, TimeSpentRepository>();
+        services.AddScoped<ISearchRepository, SearchRepository>();
 
         // MongoDB
         // services.AddSingleton<IDocumentRepository, DocumentRepository>();

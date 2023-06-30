@@ -1,20 +1,26 @@
 using Asoode.Shared.Abstraction.Contracts;
+using Asoode.Shared.Abstraction.Dtos.Collaboration;
 using Asoode.Shared.Abstraction.Dtos.General;
 using Asoode.Shared.Abstraction.Dtos.ProjectManagement;
 using Asoode.Shared.Abstraction.Dtos.User;
+using Asoode.Shared.Abstraction.Enums;
+using Asoode.Shared.Database.Contexts;
 using Asoode.Shared.Database.Contracts;
+using Microsoft.EntityFrameworkCore;
 
 namespace Asoode.Shared.Database.Repositories;
 
 internal class TimeSpentRepository : ITimeSpentRepository
 {
     private readonly ILoggerService _loggerService;
+    private readonly ReportsContext _context;
 
-    public TimeSpentRepository(ILoggerService loggerService)
+    public TimeSpentRepository(ILoggerService loggerService, ReportsContext context)
     {
         _loggerService = loggerService;
+        _context = context;
     }
-    public async Task<TimeSpentDto[]> UserTimeSpents(Guid userId)
+    public async Task<TimeSpentDto[]> UserTimeSpents(Guid userId, DateTime begin, DateTime end)
     {
         try
         {
@@ -22,7 +28,7 @@ internal class TimeSpentRepository : ITimeSpentRepository
                 from time in _context.WorkPackageTaskTimes
                 join task in _context.WorkPackageTasks on time.TaskId equals task.Id
                 join list in _context.WorkPackageLists on task.ListId equals list.Id
-                where time.UserId == userId && time.Begin >= model.Begin && time.End <= model.End
+                where time.UserId == userId && time.Begin >= begin && time.End <= end
                 orderby time.Begin
                 select new { Task = task, Time = time, List = list.Title }
             ).AsNoTracking().ToArrayAsync();
@@ -61,7 +67,7 @@ internal class TimeSpentRepository : ITimeSpentRepository
         }
     }
 
-    public async Task<AccessDto?> GroupAccess(Guid userId, Guid groupId)
+    public async Task<GroupMemberDto?> GroupAccess(Guid userId, Guid groupId)
     {
         try
         {
@@ -93,7 +99,7 @@ internal class TimeSpentRepository : ITimeSpentRepository
         }
     }
 
-    public async Task<TimeSpentDto[]> GroupTimeSpent(Guid groupId, AccessDto access, Guid[] packages)
+    public async Task<TimeSpentDto[]> GroupTimeSpent(Guid userId, Guid groupId, GroupMemberDto access, Guid[] packages, DateTime begin, DateTime end)
     {
         try
         {
@@ -103,8 +109,8 @@ internal class TimeSpentRepository : ITimeSpentRepository
                 join list in _context.WorkPackageLists on task.ListId equals list.Id
                 where
                     packages.Contains(time.PackageId) &&
-                    time.Begin >= model.Begin &&
-                    time.End <= model.End &&
+                    time.Begin >= begin &&
+                    time.End <= end &&
                     (
                         access.Access == AccessType.Admin ||
                         access.Access == AccessType.Owner ||

@@ -21,7 +21,7 @@ internal class TimeSpentService : ITimeSpentService
         if (user == null || user.IsLocked || user.Blocked)
             return OperationResult<TimeSpentDto[]>.Rejected();
 
-        var result = await _repository.UserTimeSpents(userId);
+        var result = await _repository.UserTimeSpents(userId, model.Begin, model.End);
         return OperationResult<TimeSpentDto[]>.Success(result);
     }
 
@@ -36,7 +36,7 @@ internal class TimeSpentService : ITimeSpentService
 
         var packages = await _repository.UserPackages(groupId);
         
-        var result = await _repository.GroupTimeSpent(groupId, access, packages);
+        var result = await _repository.GroupTimeSpent(userId, groupId, access, packages, model.Begin, model.End);
         return OperationResult<TimeSpentDto[]>.Success(result);
     }
 }

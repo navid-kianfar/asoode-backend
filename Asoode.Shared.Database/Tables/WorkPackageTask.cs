@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Asoode.Shared.Abstraction.Dtos.ProjectManagement;
 using Asoode.Shared.Abstraction.Enums;
 using Asoode.Shared.Database.Tables.Base;
 
@@ -52,4 +53,63 @@ internal class WorkPackageTask : BaseEntity
     public DateTime? DoneAt { get; set; }
     public DateTime? LastDuePassedNotified { get; set; }
     public DateTime? LastEndPassedNotified { get; set; }
+
+    public WorkPackageTaskDto ToDto()
+    {
+        return new WorkPackageTaskDto
+        {
+            Description = Description,
+            Order = Order,
+            Restricted = Restricted,
+            State = State,
+            Title = Title,
+            ArchivedAt = ArchivedAt,
+            AttachmentsSort = AttachmentsSort,
+            BeginAt = BeginAt,
+            BeginReminder = BeginReminder,
+            CoverId = CoverId,
+            DoneAt = DoneAt,
+            DueAt = DueAt,
+            EndAt = EndAt,
+            ListId = ListId,
+            EndReminder = EndReminder,
+            GeoLocation = GeoLocation,
+            ObjectiveValue = ObjectiveValue,
+            PackageId = PackageId,
+            ParentId = ParentId,
+            ProjectId = ProjectId,
+            SeasonId = SeasonId,
+            Id = Id,
+            UserId = UserId,
+            VoteNecessity = VoteNecessity,
+            VotePaused = VotePaused,
+            VotePrivate = VotePrivate,
+            DoneUserId = DoneUserId,
+            SubProjectId = SubProjectId,
+            CreatedAt = CreatedAt,
+            SubTasksSort = SubTasksSort,
+            EstimatedTime = EstimatedTime?.Ticks,
+            
+            // TODO: fix this
+            // Attachments = Attachments,
+            // Comments = Comments,
+            // Labels = Labels,
+            // Members = Members,
+            // Votes = Votes,
+            // Watching = Watching,
+            // AttachmentCount = AttachmentCount,
+            // CommentCount = CommentCount,
+            // DownVotes = DownVotes,
+            // HasDescription = HasDescription,
+            // ListName = ListName,
+            // SubTasks = SubTasks,
+            // TargetCount = TargetCount,
+            // TimeSpents = TimeSpents,
+            // UpdatedAt = UpdatedAt,
+            // UpVotes = UpVotes,
+            // SubTasksCount = SubTasksCount,
+            // SubTasksDone = SubTasksDone,
+            // TimeSpent = TimeSpent,
+        };
+    }
 }
