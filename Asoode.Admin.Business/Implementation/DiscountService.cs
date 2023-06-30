@@ -10,12 +10,10 @@ namespace Asoode.Admin.Business.Implementation;
 internal class DiscountService : IDiscountService
 {
     private readonly IDiscountRepository _discountRepository;
-    private readonly ILoggerService _loggerService;
 
-    public DiscountService(IDiscountRepository discountRepository, ILoggerService loggerService)
+    public DiscountService(IDiscountRepository discountRepository)
     {
         _discountRepository = discountRepository;
-        _loggerService = loggerService;
     }
 
     public Task<OperationResult<GridResult<DiscountDto>>> List(Guid userId, GridFilter model)

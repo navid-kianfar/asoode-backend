@@ -4,7 +4,6 @@ using Asoode.Shared.Abstraction.Dtos;
 using Asoode.Shared.Abstraction.Dtos.User;
 using Asoode.Shared.Abstraction.Types;
 using Asoode.Shared.Database.Contracts;
-using UserDto = Asoode.Shared.Abstraction.Dtos.User.UserDto;
 
 namespace Asoode.Admin.Business.Implementation;
 
@@ -19,28 +18,68 @@ internal class AccountService : IAccountService
         _loggerService = loggerService;
     }
     
-    public Task<OperationResult<GridResult<UserDto>>> List(Guid userId, GridFilterWithParams<GridQuery> model)
+    public async Task<OperationResult<GridResult<UserDto>>> List(Guid userId, GridFilterWithParams<GridQuery> model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            throw new NotImplementedException();
+        }
+        catch (Exception e)
+        {
+            await _loggerService.Error(e.Message, "AccountService.List", e);
+            return OperationResult<GridResult<UserDto>>.Failed();
+        }
     }
 
-    public Task<OperationResult<bool>> ResetUserPassword(Guid userId, Guid id, UserResetPasswordDto model)
+    public async Task<OperationResult<bool>> ResetUserPassword(Guid userId, Guid id, UserResetPasswordDto model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            throw new NotImplementedException();
+        }
+        catch (Exception e)
+        {
+            await _loggerService.Error(e.Message, "AccountService.ResetUserPassword", e);
+            return OperationResult<bool>.Failed();
+        }
     }
 
-    public Task<OperationResult<bool>> EditUser(Guid userId, Guid id, UserEditDto model)
+    public async Task<OperationResult<bool>> EditUser(Guid userId, Guid id, UserEditDto model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            throw new NotImplementedException();
+        }
+        catch (Exception e)
+        {
+            await _loggerService.Error(e.Message, "AccountService.EditUser", e);
+            return OperationResult<bool>.Failed();
+        }
     }
 
-    public Task<OperationResult<bool>> ConfirmUser(Guid userId, Guid id)
+    public async Task<OperationResult<bool>> ConfirmUser(Guid userId, Guid id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            throw new NotImplementedException();
+        }
+        catch (Exception e)
+        {
+            await _loggerService.Error(e.Message, "AccountService.ConfirmUser", e);
+            return OperationResult<bool>.Failed();
+        }
     }
 
-    public Task<OperationResult<bool>> BlockUser(Guid userId, Guid id)
+    public async Task<OperationResult<bool>> BlockUser(Guid userId, Guid id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            throw new NotImplementedException();
+        }
+        catch (Exception e)
+        {
+            await _loggerService.Error(e.Message, "AccountService.BlockUser", e);
+            return OperationResult<bool>.Failed();
+        }
     }
 }
