@@ -1,7 +1,6 @@
 using Asoode.Application.Abstraction.Contracts;
 using Asoode.Application.Abstraction.Fixtures;
 using Asoode.Shared.Abstraction.Contracts;
-using Asoode.Shared.Abstraction.Dtos;
 using Asoode.Shared.Abstraction.Dtos.Collaboration;
 using Asoode.Shared.Abstraction.Dtos.General;
 using Asoode.Shared.Abstraction.Dtos.Reports;

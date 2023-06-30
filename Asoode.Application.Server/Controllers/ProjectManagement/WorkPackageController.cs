@@ -1,20 +1,27 @@
+using Asoode.Application.Abstraction.Contracts;
+using Asoode.Application.Abstraction.Fixtures;
+using Asoode.Shared.Abstraction.Contracts;
+using Asoode.Shared.Abstraction.Dtos.General;
+using Asoode.Shared.Abstraction.Dtos.ProjectManagement;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Asoode.Application.Server.Controllers.ProjectManagement;
 
 
-[Route("v2/work-packages")]
+[Route(EndpointConstants.Prefix)]
 [ApiExplorerSettings(GroupName = "Work Package")]
 public class WorkPackageController : BaseController
 {
-    private readonly IWorkPackageBiz _workPackageBiz;
+    private readonly IWorkPackageService _workPackageBiz;
+    private readonly IUserIdentityService _identity;
 
-    public WorkPackageController(IWorkPackageBiz workPackageBiz)
+    public WorkPackageController(IWorkPackageService workPackageBiz, IUserIdentityService identity)
     {
         _workPackageBiz = workPackageBiz;
+        _identity = identity;
     }
 
-    [HttpPost("labels/{id:guid}/rename")]
+    [HttpPost("work-packages/labels/{id:guid}/rename")]
     
     public async Task<IActionResult> RenameLabel(Guid id, [FromBody] LabelDto model)
     {
@@ -22,7 +29,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("labels/{id:guid}/remove")]
+    [HttpPost("work-packages/labels/{id:guid}/remove")]
     
     public async Task<IActionResult> RemoveLabel(Guid id)
     {
@@ -30,7 +37,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("labels/{id:guid}/create")]
+    [HttpPost("work-packages/labels/{id:guid}/create")]
     
     public async Task<IActionResult> CreateLabel(Guid id, [FromBody] LabelDto model)
     {
@@ -38,7 +45,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("create/{id:guid}")]
+    [HttpPost("work-packages/create/{id:guid}")]
     
     public async Task<IActionResult> CreateWorkPackage(Guid id, [FromBody] CreateWorkPackageDto model)
     {
@@ -46,7 +53,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("fetch/{id:guid}")]
+    [HttpPost("work-packages/fetch/{id:guid}")]
     public async Task<IActionResult> Fetch(Guid id, [FromBody] WorkPackageFilterDto filter)
     {
         var op = await _workPackageBiz
@@ -54,7 +61,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("fetch/{id:guid}/archived")]
+    [HttpPost("work-packages/fetch/{id:guid}/archived")]
     public async Task<IActionResult> FetchArchived(Guid id, [FromBody] WorkPackageFilterDto filter)
     {
         var op = await _workPackageBiz
@@ -62,14 +69,14 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("{id:guid}/remove")]
+    [HttpPost("work-packages/{id:guid}/remove")]
     public async Task<IActionResult> Remove(Guid id)
     {
         var op = await _workPackageBiz.Remove(_identity.User!.UserId, id);
         return Json(op);
     }
 
-    [HttpPost("{id:guid}/add-access")]
+    [HttpPost("work-packages/{id:guid}/add-access")]
     
     public async Task<IActionResult> AddAccess(Guid id, [FromBody] AccessDto permission)
     {
@@ -77,7 +84,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("{id:guid}/permissions")]
+    [HttpPost("work-packages/{id:guid}/permissions")]
     
     public async Task<IActionResult> Permissions(Guid id, [FromBody] WorkPackagePermissionDto permission)
     {
@@ -85,7 +92,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("{id:guid}/order")]
+    [HttpPost("work-packages/{id:guid}/order")]
     
     public async Task<IActionResult> Order(Guid id, [FromBody] ChangeOrderDto model)
     {
@@ -93,7 +100,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("{id:guid}/sort-orders")]
+    [HttpPost("work-packages/{id:guid}/sort-orders")]
     
     public async Task<IActionResult> SortOrder(Guid id, [FromBody] SortOrderDto model)
     {
@@ -101,7 +108,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("{id:guid}/edit")]
+    [HttpPost("work-packages/{id:guid}/edit")]
     
     public async Task<IActionResult> Edit(Guid id, [FromBody] SimpleDto model)
     {
@@ -109,7 +116,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("{id:guid}/setting")]
+    [HttpPost("work-packages/{id:guid}/setting")]
     
     public async Task<IActionResult> Setting(Guid id, [FromBody] WorkPackageSettingDto model)
     {
@@ -117,7 +124,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("{id:guid}/upgrade")]
+    [HttpPost("work-packages/{id:guid}/upgrade")]
     
     public async Task<IActionResult> Upgrade(Guid id)
     {
@@ -125,7 +132,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("{id:guid}/connect/{projectId:guid}")]
+    [HttpPost("work-packages/{id:guid}/connect/{projectId:guid}")]
     
     public async Task<IActionResult> Connect(Guid id, Guid projectId)
     {
@@ -133,7 +140,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("{id:guid}/merge/{destinationId:guid}")]
+    [HttpPost("work-packages/{id:guid}/merge/{destinationId:guid}")]
     
     public async Task<IActionResult> Merge(Guid id, Guid destinationId)
     {
@@ -141,7 +148,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("{id:guid}/setting/user")]
+    [HttpPost("work-packages/{id:guid}/setting/user")]
     
     public async Task<IActionResult> UserSetting(Guid id, [FromBody] WorkPackageUserSettingDto model)
     {
@@ -149,7 +156,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("{id:guid}/leave")]
+    [HttpPost("work-packages/{id:guid}/leave")]
     
     public async Task<IActionResult> Leave(Guid id)
     {
@@ -157,7 +164,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("{id:guid}/archive")]
+    [HttpPost("work-packages/{id:guid}/archive")]
     
     public async Task<IActionResult> Archive(Guid id)
     {
@@ -165,7 +172,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("remove-access/{id:guid}")]
+    [HttpPost("work-packages/remove-access/{id:guid}")]
     
     public async Task<IActionResult> RemoveAccess(Guid id)
     {
@@ -173,7 +180,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("change-access/{id:guid}")]
+    [HttpPost("work-packages/change-access/{id:guid}")]
     
     public async Task<IActionResult> ChangeAccess(Guid id, [FromBody] ChangeAccessDto permission)
     {
@@ -181,7 +188,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("remove-pending-access/{id:guid}")]
+    [HttpPost("work-packages/remove-pending-access/{id:guid}")]
     
     public async Task<IActionResult> RemovePendingAccess(Guid id)
     {
@@ -189,7 +196,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("change-pending-access/{id:guid}")]
+    [HttpPost("work-packages/change-pending-access/{id:guid}")]
     
     public async Task<IActionResult> ChangePendingAccess(Guid id, [FromBody] ChangeAccessDto permission)
     {
@@ -197,7 +204,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("{id:guid}/lists/create")]
+    [HttpPost("work-packages/{id:guid}/lists/create")]
     
     public async Task<IActionResult> CreateList(Guid id, [FromBody] TitleDto model)
     {
@@ -205,7 +212,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("{id:guid}/objectives/create")]
+    [HttpPost("work-packages/{id:guid}/objectives/create")]
     
     public async Task<IActionResult> CreateObjective(Guid id, [FromBody] CreateObjectiveDto model)
     {
@@ -213,7 +220,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("objectives/{id:guid}/edit")]
+    [HttpPost("work-packages/objectives/{id:guid}/edit")]
     
     public async Task<IActionResult> EditObjective(Guid id, [FromBody] CreateObjectiveDto model)
     {
@@ -221,7 +228,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("objectives/{id:guid}/delete")]
+    [HttpPost("work-packages/objectives/{id:guid}/delete")]
     
     public async Task<IActionResult> DeleteObjective(Guid id)
     {
@@ -229,7 +236,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("lists/{id:guid}/clone")]
+    [HttpPost("work-packages/lists/{id:guid}/clone")]
     
     public async Task<IActionResult> CloneList(Guid id, [FromBody] TitleDto model)
     {
@@ -237,7 +244,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("lists/{id:guid}/archive")]
+    [HttpPost("work-packages/lists/{id:guid}/archive")]
     
     public async Task<IActionResult> ArchiveList(Guid id)
     {
@@ -245,21 +252,21 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("lists/{id:guid}/archive-tasks")]
+    [HttpPost("work-packages/lists/{id:guid}/archive-tasks")]
     public async Task<IActionResult> ArchiveListTasks(Guid id)
     {
         var op = await _workPackageBiz.ArchiveListTasks(_identity.User!.UserId, id);
         return Json(op);
     }
 
-    [HttpPost("lists/{id:guid}/clear-tasks")]
+    [HttpPost("work-packages/lists/{id:guid}/clear-tasks")]
     public async Task<IActionResult> DeleteListTasks(Guid id)
     {
         var op = await _workPackageBiz.DeleteListTasks(_identity.User!.UserId, id);
         return Json(op);
     }
 
-    [HttpPost("lists/{id:guid}/reposition")]
+    [HttpPost("work-packages/lists/{id:guid}/reposition")]
     
     public async Task<IActionResult> RepositionList(Guid id, [FromBody] RepositionDto model)
     {
@@ -267,7 +274,7 @@ public class WorkPackageController : BaseController
         return Json(op);
     }
 
-    [HttpPost("lists/{id:guid}/rename")]
+    [HttpPost("work-packages/lists/{id:guid}/rename")]
     
     public async Task<IActionResult> RenameList(Guid id, [FromBody] TitleDto model)
     {

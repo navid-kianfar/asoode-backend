@@ -1,20 +1,26 @@
+using Asoode.Application.Abstraction.Contracts;
+using Asoode.Application.Abstraction.Fixtures;
+using Asoode.Shared.Abstraction.Contracts;
+using Asoode.Shared.Abstraction.Dtos.Reports;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Asoode.Application.Server.Controllers.TimeSpent;
 
 
-[Route("v2/times")]
+[Route(EndpointConstants.Prefix)]
 [ApiExplorerSettings(GroupName = "Time Spent")]
 public class TimeSpentController : BaseController
 {
-    private readonly ITimeSpentBiz _timeSpentBiz;
+    private readonly ITimeSpentService _timeSpentBiz;
+    private readonly IUserIdentityService _identity;
 
-    public TimeSpentController(ITimeSpentBiz timeSpentBiz)
+    public TimeSpentController(ITimeSpentService timeSpentBiz, IUserIdentityService identity)
     {
         _timeSpentBiz = timeSpentBiz;
+        _identity = identity;
     }
 
-    [HttpPost("mine")]
+    [HttpPost("times/mine")]
     
     public async Task<IActionResult> TimeSpents([FromBody] DurationDto model)
     {
@@ -22,7 +28,7 @@ public class TimeSpentController : BaseController
         return Json(op);
     }
 
-    [HttpPost("group/{id:guid}")]
+    [HttpPost("times/group/{id:guid}")]
     
     public async Task<IActionResult> TimeSpent(Guid id, [FromBody] DurationDto model)
     {

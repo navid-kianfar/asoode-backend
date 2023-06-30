@@ -1,21 +1,27 @@
+using Asoode.Application.Abstraction.Contracts;
+using Asoode.Application.Abstraction.Fixtures;
+using Asoode.Shared.Abstraction.Contracts;
+using Asoode.Shared.Abstraction.Dtos.Reports;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Asoode.Application.Server.Controllers.Reports;
 
 
-[Route("v2/reports")]
+[Route(EndpointConstants.Prefix)]
 [ApiExplorerSettings(GroupName = "Reports")]
 public class ReportController : BaseController
 {
-    private readonly IReportBiz _reportBiz;
+    private readonly IReportService _reportBiz;
+    private readonly IUserIdentityService _identity;
 
-    public ReportController(IReportBiz reportBiz)
+    public ReportController(IReportService reportBiz, IUserIdentityService identity)
     {
         _reportBiz = reportBiz;
+        _identity = identity;
     }
 
     [HttpPost]
-    [Route("dashboard")]
+    [Route("reports/dashboard")]
     public async Task<IActionResult> Dashboard([FromBody] DashboardDurationDto model)
     {
         var op = await _reportBiz.Dashboard(_identity.User!.UserId, model);
@@ -23,7 +29,7 @@ public class ReportController : BaseController
     }
 
     [HttpPost]
-    [Route("activities/{id:guid?}")]
+    [Route("reports/activities/{id:guid?}")]
     public async Task<IActionResult> Activities(Guid? id)
     {
         var op = await _reportBiz.Activities(_identity.User!.UserId, id);

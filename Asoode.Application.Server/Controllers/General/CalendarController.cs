@@ -1,15 +1,17 @@
+using Asoode.Application.Abstraction.Contracts;
+using Asoode.Application.Abstraction.Fixtures;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Asoode.Application.Server.Controllers.General;
 
 
-[Route("v2/calendar")]
+[Route(EndpointConstants.Prefix)]
 [ApiExplorerSettings(GroupName = "Calendar")]
 public class CalendarController : BaseController
 {
-    private readonly ICalendarBiz _calendarBiz;
+    private readonly ICalendarService _calendarBiz;
 
-    public CalendarController(ICalendarBiz calendarBiz)
+    public CalendarController(ICalendarService calendarBiz)
     {
         _calendarBiz = calendarBiz;
     }
