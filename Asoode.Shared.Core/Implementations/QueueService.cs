@@ -18,6 +18,7 @@ internal record QueueService : IQueueService
     private readonly string _password;
     private readonly string _prefix;
     private readonly string _username;
+    private readonly int _port;
     private IModel? _channel;
     private IConnection? _connection;
     private ConnectionFactory _factory;
@@ -32,6 +33,7 @@ internal record QueueService : IQueueService
         _host = EnvironmentHelper.Get("APP_QUEUE_SERVER")!;
         _username = EnvironmentHelper.Get("APP_QUEUE_USER")!;
         _password = EnvironmentHelper.Get("APP_QUEUE_PASS")!;
+        _port = int.Parse(EnvironmentHelper.Get("APP_QUEUE_PORT")!);
         _exchange = string.Empty;
         _initialized = false;
     }
@@ -120,7 +122,13 @@ internal record QueueService : IQueueService
     private void InitializeRabbitMq()
     {
         if (_initialized) return;
-        _factory = new ConnectionFactory { HostName = _host, UserName = _username, Password = _password };
+        _factory = new ConnectionFactory
+        {
+            HostName = _host, 
+            UserName = _username, 
+            Password = _password,
+            Port = _port
+        };
         _connection = _factory.CreateConnection();
         _channel = _connection.CreateModel();
         _properties = _channel.CreateBasicProperties();

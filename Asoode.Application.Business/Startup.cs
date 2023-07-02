@@ -1,6 +1,8 @@
 using Asoode.Application.Abstraction.Contracts;
+using Asoode.Application.Abstraction.Fixtures;
 using Asoode.Application.Business.Implementation;
 using Asoode.Shared.Abstraction.Contracts;
+using Asoode.Shared.Core;
 using Asoode.Shared.Database;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,8 +10,10 @@ namespace Asoode.Application.Business;
 
 public static class Startup
 {
+
     public static IServiceCollection RegisterApplicationBusiness(this IServiceCollection services)
     {
+        services.AddTransport();
         services.RegisterSharedDatabase();
         services.AddSingleton<IGeneralService, GeneralService>();
         
@@ -25,6 +29,7 @@ public static class Startup
         services.AddScoped<ITaskService, TaskService>();
         services.AddScoped<ITimeSpentService, TimeSpentService>();
         services.AddScoped<IWorkPackageService, WorkPackageService>();
+
         return services;
     }
 }

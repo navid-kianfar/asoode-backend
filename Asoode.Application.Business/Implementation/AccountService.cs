@@ -1,17 +1,35 @@
 using System.Security.Claims;
 using Asoode.Application.Abstraction.Contracts;
+using Asoode.Shared.Abstraction.Contracts;
 using Asoode.Shared.Abstraction.Dtos.General;
 using Asoode.Shared.Abstraction.Dtos.Logging;
 using Asoode.Shared.Abstraction.Dtos.Membership.Authentication;
 using Asoode.Shared.Abstraction.Dtos.Membership.Profile;
 using Asoode.Shared.Abstraction.Dtos.Storage;
 using Asoode.Shared.Abstraction.Enums;
+using Asoode.Shared.Abstraction.Events.Membership;
 using Asoode.Shared.Abstraction.Types;
+using Asoode.Shared.Database.Contracts;
+using MassTransit;
 
 namespace Asoode.Application.Business.Implementation;
 
 internal class AccountService : IAccountService
 {
+    private readonly IPublishEndpoint _publisher;
+    private readonly ILoggerService _loggerService;
+    private readonly IAccountRepository _repository;
+
+    public AccountService(
+        IPublishEndpoint publisher,
+        ILoggerService loggerService, 
+        IAccountRepository repository)
+    {
+        _publisher = publisher;
+        _loggerService = loggerService;
+        _repository = repository;
+    }
+    
     public Task<OperationResult<SelectableItem<string>[]>> InviteQuery(Guid userId, AutoCompleteFilter filter)
     {
         throw new NotImplementedException();
@@ -77,9 +95,33 @@ internal class AccountService : IAccountService
         throw new NotImplementedException();
     }
 
-    public Task<OperationResult<RegisterResultDto>> Register(RegisterRequestDto model)
+    public async Task<OperationResult<RegisterResultDto>> Register(RegisterRequestDto model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            
+            // TODO: do the register logic here...
+            var id = IncrementalGuid.NewId();
+            var createdAt = DateTime.UtcNow;
+
+            await _publisher.Publish<UserCreated>(new UserCreated(
+                id,
+                model.Username,
+                model.Username,
+                model.FirstName,
+                model.LastName,
+                createdAt,
+                model.Marketer
+            ));
+
+
+            throw new NotImplementedException();
+        }
+        catch (Exception e)
+        {
+            await _loggerService.Error(e.Message, "AccountService.Register", e);
+            return OperationResult<RegisterResultDto>.Failed();
+        }
     }
 
     public Task<OperationResult<bool>> RemovePicture(Guid userId)
