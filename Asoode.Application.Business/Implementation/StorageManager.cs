@@ -96,6 +96,8 @@ internal record StorageManager : IStorageManager
             var user = await _repository.FindUser(userId);
             var exception = new Exception("No Access Exception");
 
+            if (user == null) throw exception;
+            
             if (model.Path == "/")
             {
                 result.Folders = new[]
@@ -144,7 +146,7 @@ internal record StorageManager : IStorageManager
                 var isGuid = Guid.TryParse(guidStr, out Guid id);
                 if (!isGuid) throw exception;
 
-                var tasks = await _repository.FindProjectTasks(userId, id);
+                var tasks = await _repository.FindPackageTasks(userId, id);
                 result.Folders = tasks.Select(p =>
                     p.ToExplorerDto($"/package/{p.PackageId}")
                 ).ToArray();
@@ -155,7 +157,7 @@ internal record StorageManager : IStorageManager
                 var isGuid = Guid.TryParse(guidStr, out Guid id);
                 if (!isGuid) throw exception;
 
-                var attachments = await _repository.GetTaskAttachments(id, sharedBy);
+                var attachments = await _repository.GetTaskAttachments(id, userId, sharedBy);
                 result.Files = attachments.Select(p => p.ToExplorerDto()).ToArray();
             }
             else if (model.Path.StartsWith("/channels/"))
@@ -174,7 +176,7 @@ internal record StorageManager : IStorageManager
                 var guidStr = model.Path.Replace("/channel/", "");
                 var isGuid = Guid.TryParse(guidStr, out Guid id);
                 if (!isGuid) throw exception;
-                var uploads = await _repository.GetChannelAttachments(id, sharedBy);
+                var uploads = await _repository.GetChannelAttachments(id, userId, sharedBy);
                 result.Files = uploads.Select(p => p.ToExplorerDto()).ToArray();
             }
             else
@@ -221,7 +223,49 @@ internal record StorageManager : IStorageManager
     {
         try
         {
-            throw new NotImplementedException();
+            var plan = await _repository.GetUserPlan(userId);
+            if (plan.AttachmentSize < file.FileSize)
+            {
+                return OperationResult<UploadResultDto>.Success(new UploadResultDto
+                {
+                    AttachmentSize = true
+                });
+            }
+
+            if ((plan.UsedSpace + file.FileSize) > plan.Space)
+            {
+                return OperationResult<UploadResultDto>.Success(new UploadResultDto
+                {
+                    StorageSize = true
+                });
+            }
+
+            var path = GetUserStoragePath(userId, model.Path);
+            var op = await _storageService.Upload(file, SharedConstants.ProtectedBucket, path);
+            if (op.Status != OperationResultStatus.Success)
+                return OperationResult<UploadResultDto>.Failed();
+
+            var id = IncrementalGuid.NewId();
+            var dto = new UploadDto
+            {
+                // TODO: fix this
+                Path = op.Data!.Url,
+                Directory = model.Path,
+                ThumbnailPath = string.Empty,
+                
+                Id = id,
+                RecordId = id,
+                CreatedAt = DateTime.UtcNow,
+                Extension = file.Extension,
+                Name = file.FileName,
+                Public = false,
+                Section = UploadSection.Storage,
+                Size = file.FileSize,
+                Type = IOHelper.GetFileType(file.Extension),
+                UserId = userId,
+            };
+            await _repository.Store(dto);
+            return OperationResult<UploadResultDto>.Success(new UploadResultDto { Success = true });
         }
         catch (Exception e)
         {

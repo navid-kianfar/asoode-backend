@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Asoode.Shared.Abstraction.Dtos.ProjectManagement;
 using Asoode.Shared.Abstraction.Enums;
 using Asoode.Shared.Database.Tables.Base;
 
@@ -19,4 +20,26 @@ internal class WorkPackageTaskAttachment : BaseEntity
     [MaxLength(500)] public string Description { get; set; }
     [Required] public Guid UserId { get; set; }
     [Required] public WorkPackageTaskAttachmentType Type { get; set; }
+
+    public WorkPackageTaskAttachmentDto ToDto()
+    {
+        return new WorkPackageTaskAttachmentDto
+        {
+            UserId = UserId,
+            Description = Description,
+            CreatedAt = CreatedAt,
+            Path = Path,
+            IsCover = IsCover,
+            ThumbnailPath = ThumbnailPath,
+            PackageId = PackageId,
+            UploadId = UploadId,
+            ProjectId = ProjectId,
+            SubProjectId = SubProjectId,
+            Id = Id,
+            Title = Title,
+            Type = Type,
+            TaskId = TaskId,
+            UpdatedAt = UpdatedAt,
+        };
+    }
 }

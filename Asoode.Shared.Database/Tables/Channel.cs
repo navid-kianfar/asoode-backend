@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Asoode.Shared.Abstraction.Dtos.Communication;
 using Asoode.Shared.Abstraction.Enums;
 using Asoode.Shared.Database.Tables.Base;
 
@@ -11,4 +12,19 @@ internal class Channel : BaseEntity
     public ChannelType Type { get; set; }
     [Required] public Guid UserId { get; set; }
     public Guid RootId { get; set; }
+
+    public ChannelDto ToDto()
+    {
+        return new ChannelDto
+        {
+            CreatedAt = CreatedAt,
+            Id = Id,
+            Title = Title,
+            Type = Type,
+            ArchivedAt = ArchivedAt,
+            RootId = RootId,
+            UserId = UserId,
+            UpdatedAt = UpdatedAt,
+        };
+    }
 }
