@@ -1,22 +1,37 @@
+using System.Text.RegularExpressions;
 using Asoode.Shared.Abstraction.Contracts;
 using Asoode.Shared.Abstraction.Dtos.Storage;
 using Asoode.Shared.Abstraction.Enums;
 using Asoode.Shared.Abstraction.Fixtures;
 using Asoode.Shared.Abstraction.Helpers;
 using Asoode.Shared.Abstraction.Types;
+using Asoode.Shared.Database.Contracts;
 using StorageItemDto = Asoode.Shared.Abstraction.Dtos.Storage.StorageItemDto;
 
 namespace Asoode.Application.Business.Implementation;
 
 internal record StorageManager : IStorageManager
 {
+    private const string IGNORE_FILE = "ignore.me.txt";
+    private readonly Regex _cleanRegex = new Regex("[/]{2,}", RegexOptions.None);
     private readonly IStorageService _storageService;
+    private readonly ILoggerService _loggerService;
+    private readonly IStorageRepository _repository;
+    private readonly ITranslateService _translateService;
     private readonly string protectedEndpoint;
     private readonly string publicEndpoint;
 
-    public StorageManager(IStorageService storageService)
+    public StorageManager(
+        ILoggerService loggerService,
+        IStorageService storageService,
+        IStorageRepository repository,
+        ITranslateService translateService
+    )
     {
         _storageService = storageService;
+        _loggerService = loggerService;
+        _repository = repository;
+        _translateService = translateService;
         publicEndpoint = EnvironmentHelper.Get("APP_API_DOMAIN")!;
         protectedEndpoint = EnvironmentHelper.Get("APP_API_DOMAIN")!;
     }
@@ -28,73 +43,217 @@ internal record StorageManager : IStorageManager
         return op.Data;
     }
 
-    public Task<OperationResult<ExplorerDto>> Mine(Guid userId, FileManagerDto model)
+    public async Task<OperationResult<ExplorerDto>> Mine(Guid userId, FileManagerDto model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            if (!CheckIfPathIsSafe(model.Path)) return OperationResult<ExplorerDto>.Rejected();
+            var result = new ExplorerDto();
+            var key = GetUserStoragePath(userId, model.Path);
+
+            var directory = $"/{key}";
+            var directories = await _repository.GetDirectories(key, directory);
+
+            var requiredSlashes = directory.Split('/').Length + 1;
+            result.Folders = directories
+                .GroupBy(i => i.Directory)
+                .Where(i => i.Key.Split('/').Length == requiredSlashes)
+                .Select(p =>
+                {
+                    var parent = Path.GetDirectoryName(p.Key)!;
+                    return new ExplorerFolderDto
+                    {
+                        Name = p.Key.Replace(parent, "").Trim('/'),
+                        Path = p.Key,
+                        Parent = parent,
+                        CreatedAt = p.OrderBy(i => i.CreatedAt).First().CreatedAt
+                    };
+                }).ToArray();
+
+            var files = await _repository.GetFiles(directory);
+            result.Files = files.Select(p => p.ToExplorerDto()).ToArray();
+
+            return OperationResult<ExplorerDto>.Success(result);
+        }
+        catch (Exception ex)
+        {
+            await _loggerService.Error(ex.Message, "StorageManager.Mine", ex);
+            return OperationResult<ExplorerDto>.Failed();
+        }
     }
 
     public Task<OperationResult<ExplorerDto>> SharedByMe(Guid userId, FileManagerDto model)
-    {
-        throw new NotImplementedException();
-    }
+        => SharedByShared(userId, model, true);
 
     public Task<OperationResult<ExplorerDto>> SharedByOthers(Guid userId, FileManagerDto model)
+        => SharedByShared(userId, model, false);
+
+    private async Task<OperationResult<ExplorerDto>> SharedByShared(Guid userId, FileManagerDto model, bool sharedBy)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var result = new ExplorerDto();
+            var user = await _repository.FindUser(userId);
+            var exception = new Exception("No Access Exception");
+
+            if (model.Path == "/")
+            {
+                result.Folders = new[]
+                {
+                    new ExplorerFolderDto
+                    {
+                        Name = _translateService.Get("PROJECTS"),
+                        Path = "/projects/",
+                        CreatedAt = user.CreatedAt
+                    },
+                    new ExplorerFolderDto
+                    {
+                        Name = _translateService.Get("CHANNELS"),
+                        Path = "/channels/",
+                        CreatedAt = user.CreatedAt
+                    }
+                };
+            }
+            else if (model.Path.StartsWith("/projects/"))
+            {
+                var projects = await _repository.FindProjects(userId);
+                result.Folders = projects.Select(p => p.ToExplorerDto()).ToArray();
+            }
+            else if (model.Path.StartsWith("/project/c/"))
+            {
+                var guidStr = model.Path.Replace("/project/c/", "");
+                var isGuid = Guid.TryParse(guidStr, out Guid id);
+                if (!isGuid) throw exception;
+                var packages = await _repository.FindWorkPackages(userId, id);
+                result.Folders = packages.Select(p => p.ToExplorerDto("c")).ToArray();
+            }
+            else if (model.Path.StartsWith("/project/s/"))
+            {
+                var guidStr = model.Path.Replace("/project/s/", "");
+                var isGuid = Guid.TryParse(guidStr, out Guid id);
+                if (!isGuid) throw exception;
+
+                var tasks = await _repository.FindProjectTasks(userId, id);
+                result.Folders = tasks.Select(p =>
+                    p.ToExplorerDto($"/project/s/{p.ProjectId}")
+                ).ToArray();
+            }
+            else if (model.Path.StartsWith("/package/"))
+            {
+                var guidStr = model.Path.Replace("/package/", "");
+                var isGuid = Guid.TryParse(guidStr, out Guid id);
+                if (!isGuid) throw exception;
+
+                var tasks = await _repository.FindProjectTasks(userId, id);
+                result.Folders = tasks.Select(p =>
+                    p.ToExplorerDto($"/package/{p.PackageId}")
+                ).ToArray();
+            }
+            else if (model.Path.StartsWith("/task/"))
+            {
+                var guidStr = model.Path.Replace("/task/", "");
+                var isGuid = Guid.TryParse(guidStr, out Guid id);
+                if (!isGuid) throw exception;
+
+                var attachments = await _repository.GetTaskAttachments(id, sharedBy);
+                result.Files = attachments.Select(p => p.ToExplorerDto()).ToArray();
+            }
+            else if (model.Path.StartsWith("/channels/"))
+            {
+                var channels = await _repository.FindChannels(userId);
+                result.Folders = channels.Select(p => new ExplorerFolderDto
+                {
+                    Name = p.Title,
+                    Path = "/channel/" + p.Id,
+                    Parent = "/",
+                    CreatedAt = p.CreatedAt
+                }).ToArray();
+            }
+            else if (model.Path.StartsWith("/channel/"))
+            {
+                var guidStr = model.Path.Replace("/channel/", "");
+                var isGuid = Guid.TryParse(guidStr, out Guid id);
+                if (!isGuid) throw exception;
+                var uploads = await _repository.GetChannelAttachments(id, sharedBy);
+                result.Files = uploads.Select(p => p.ToExplorerDto()).ToArray();
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+
+            return OperationResult<ExplorerDto>.Success(result);
+        }
+        catch (Exception ex)
+        {
+            await _loggerService.Error(ex.Message, "StorageManager.SharedBy", ex);
+            return OperationResult<ExplorerDto>.Failed();
+        }
     }
 
-    public Task<OperationResult<bool>> NewFolder(Guid userId, FileManagerNameDto model)
+    public async Task<OperationResult<bool>> NewFolder(Guid userId, FileManagerNameDto model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            if (!CheckIfPathIsSafe(model.Path)) return OperationResult<bool>.Rejected();
+            var key = $"{GetUserStoragePath(userId, model.Path)}/{model.Name}/{IGNORE_FILE}";
+            var op = await _storageService.Upload(
+                new MemoryStream(),
+                IGNORE_FILE,
+                SharedConstants.ProtectedBucket,
+                key
+            );
+            if (op.Status != OperationResultStatus.Success)
+                return OperationResult<bool>.Failed();
+
+            var directory = $"/{GetUserStoragePath(userId, model.Path)}/{model.Name}";
+            await _repository.NewFolder(userId, directory, op.Data!.Url);
+            return OperationResult<bool>.Success(true);
+        }
+        catch (Exception e)
+        {
+            await _loggerService.Error(e.Message, "StorageManager.NewFolder", e);
+            return OperationResult<bool>.Failed();
+        }
     }
 
-    public Task<OperationResult<UploadResultDto>> Upload(Guid userId, StorageItemDto file, FileManagerDto model)
+    public async Task<OperationResult<UploadResultDto>> Upload(Guid userId, StorageItemDto file, FileManagerDto model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            throw new NotImplementedException();
+        }
+        catch (Exception e)
+        {
+            await _loggerService.Error(e.Message, "StorageManager.Upload", e);
+            return OperationResult<UploadResultDto>.Failed();
+        }
     }
 
-    public Task<OperationResult<bool>> Rename(Guid userId, FileManagerNameDto model)
+    public async Task<OperationResult<bool>> Rename(Guid userId, FileManagerNameDto model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            return OperationResult<bool>.Success();
+        }
+        catch (Exception e)
+        {
+            await _loggerService.Error(e.Message, "StorageManager.Rename", e);
+            return OperationResult<bool>.Failed();
+        }
     }
 
-    public Task<OperationResult<bool>> Delete(Guid userId, FileManagerDeleteDto model)
+    public async Task<OperationResult<bool>> Delete(Guid userId, FileManagerDeleteDto model)
     {
-        throw new NotImplementedException();
-    }
-
-    public async Task<StorageItemDto?> DownloadProtected(Guid userId, string path)
-    {
-        if (!CheckIfPathIsSafe(path, userId)) return null;
-        var op = await _storageService.Download(path, SharedConstants.ProtectedBucket);
-        return op.Data;
-    }
-
-    public async Task<OperationResult<StorageItemDto>> UploadProtected(Guid userId, StorageItemDto item)
-    {
-        if (string.IsNullOrWhiteSpace(item.Path))
-            item.Path = $"{userId}/{GetPath(item.FileName)}";
-        var op = await _storageService.Upload(item, SharedConstants.ProtectedBucket, item.Path);
-        if (op.Status == OperationResultStatus.Success)
-            op.Data!.Url = $"{publicEndpoint}/{SharedConstants.DownloadProtected.Replace("{*path}", op.Data.Url)}";
-
-        return op;
-    }
-
-    public async Task<OperationResult<StorageItemDto>> UploadPublic(StorageItemDto item)
-    {
-        if (string.IsNullOrWhiteSpace(item.Path))
-            item.Path = GetPath(item.FileName);
-        var op = await _storageService.Upload(item, SharedConstants.PublicBucket, item.Path);
-        if (op.Status == OperationResultStatus.Success)
-            op.Data!.Url = $"{protectedEndpoint}/{SharedConstants.DownloadPublic.Replace("{*path}", op.Data.Url)}";
-
-        return op;
-    }
-
-    private string GetPath(string fileName)
-    {
-        return $"{DateTime.UtcNow:yyyy-MM-dd}/{IncrementalGuid.NewId()}/{fileName}";
+        try
+        {
+            return OperationResult<bool>.Success();
+        }
+        catch (Exception e)
+        {
+            await _loggerService.Error(e.Message, "StorageManager.Delete", e);
+            return OperationResult<bool>.Failed();
+        }
     }
 
     private bool CheckIfPathIsSafe(string path, Guid? userId = null)
@@ -103,4 +262,13 @@ internal record StorageManager : IStorageManager
             return !path.Contains(userId.Value.ToString());
         return !path.Contains("../");
     }
+
+    private string GetUserStoragePath(Guid userId, string path)
+    {
+        if (path == "/") return CleanPath(Path.Combine("files", userId + path)).TrimEnd('/');
+
+        return CleanPath(path).Trim('/');
+    }
+
+    private string CleanPath(string path) => _cleanRegex.Replace(path, "/");
 }

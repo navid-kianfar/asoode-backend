@@ -6,7 +6,7 @@ namespace Asoode.Shared.Database.Contexts;
 
 internal class PremiumDbContext : DbContext
 {
-    public PremiumDbContext(DbContextOptions<AccountDbContext> options) : base(options)
+    public PremiumDbContext(DbContextOptions<PremiumDbContext> options) : base(options)
     {
     }
     

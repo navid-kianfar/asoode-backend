@@ -1,4 +1,5 @@
 using Asoode.Shared.Abstraction.Dtos.General;
+using Asoode.Shared.Abstraction.Dtos.Storage;
 using Asoode.Shared.Abstraction.Enums;
 
 namespace Asoode.Shared.Abstraction.Dtos.ProjectManagement;
@@ -61,4 +62,15 @@ public record WorkPackageDto : BaseDto
     public SortType TasksSort { get; set; }
     public SortType SubTasksSort { get; set; }
     public SortType AttachmentsSort { get; set; }
+
+    public ExplorerFolderDto ToExplorerDto(string parentType)
+    {
+        return new ExplorerFolderDto
+        {
+            Name = Title,
+            Path = "/package/" + Id,
+            Parent = $"/project/{parentType}/{ProjectId}",
+            CreatedAt = CreatedAt
+        };
+    }
 }

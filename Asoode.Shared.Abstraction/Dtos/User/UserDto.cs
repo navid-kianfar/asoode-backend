@@ -10,7 +10,7 @@ public record UserDto
     public bool IsLocked { get; set; }
     public bool Blocked { get; set; }
 
-    // public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
     // public DateTime? DeletedAt { get; set; }
     // public DateTime? BlockedAt { get; set; }
     // public string Hash { get; set; } = string.Empty;

@@ -58,7 +58,7 @@ internal class User : BaseEntity
             Id = Id,
             Type = Type,
             Username = Username,
-            
+            CreatedAt = CreatedAt,
             Blocked = Blocked,
             IsLocked = IsLocked
         };

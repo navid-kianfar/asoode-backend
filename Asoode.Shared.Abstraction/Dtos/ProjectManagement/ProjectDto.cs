@@ -1,4 +1,5 @@
 using Asoode.Shared.Abstraction.Dtos.General;
+using Asoode.Shared.Abstraction.Dtos.Storage;
 using Asoode.Shared.Abstraction.Enums;
 
 namespace Asoode.Shared.Abstraction.Dtos.ProjectManagement;
@@ -20,4 +21,15 @@ public record ProjectDto : BaseDto
     public SubProjectDto[] SubProjects { get; set; }
     public WorkPackageDto[] WorkPackages { get; set; }
     public PendingInvitationDto[] Pending { get; set; }
+
+    public ExplorerFolderDto ToExplorerDto()
+    {
+        return new ExplorerFolderDto
+        {
+            Name = Title,
+            Parent = "/",
+            Path = $"/project/{(Complex ? "c" : "s")}/{Id}",
+            CreatedAt = CreatedAt
+        };
+    }
 }
