@@ -30,7 +30,10 @@ internal class StorageBiz : IStorageBiz
     private readonly string _remote;
     private readonly string _bucket;
 
-    public StorageBiz(IServerInfo serverInfo, IConfiguration configuration, IServiceProvider serviceProvider)
+    public StorageBiz(
+        IServerInfo serverInfo,
+        IConfiguration configuration,
+        IServiceProvider serviceProvider)
     {
         _serverInfo = serverInfo;
         _configuration = configuration;
@@ -611,13 +614,17 @@ internal class StorageBiz : IStorageBiz
             {
                 if (!IsValidPath(model.Path)) return OperationResult<bool>.Rejected();
                 var key = $"{GetUserStoragePath(userId, model.Path)}/{model.Name}/{IGNORE_FILE}";
-                await client.PutObjectAsync(new PutObjectRequest
-                {
-                    FilePath = Path.Combine(_serverInfo.ContentRootPath, IGNORE_FILE),
-                    Key = key,
-                    BucketName = _bucket,
-                    CannedACL = S3CannedACL.PublicRead,
-                });
+
+                var storageService = _serviceProvider.GetService<IStorageService>()!;
+                var op = await storageService.Upload(
+                    new StorageItemDto { LocalFile = Path.Combine(_serverInfo.ContentRootPath, IGNORE_FILE) },
+                    _bucket,
+                    key
+                );
+
+                if (op.Status != OperationResultStatus.Success)
+                    return OperationResult<bool>.Failed();
+
                 await unit.Uploads.AddAsync(new Upload
                 {
                     Directory = $"/{GetUserStoragePath(userId, model.Path)}/{model.Name}",
@@ -644,10 +651,111 @@ internal class StorageBiz : IStorageBiz
         }
     }
 
-    public Task<OperationResult<UploadResultViewModel>> Upload(Guid userId, StorageItemDto file,
+    public async Task<OperationResult<UploadResultViewModel>> Upload(Guid userId, StorageItemDto file,
         FileManagerViewModel model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            using (var unit = _serviceProvider.GetService<GeneralDbContext>())
+            {
+                var plan = await unit.UserPlanInfo.OrderByDescending(i => i.CreatedAt).FirstAsync();
+                if (plan.AttachmentSize < file.FileSize)
+                {
+                    return OperationResult<UploadResultViewModel>.Success(new UploadResultViewModel
+                    {
+                        AttachmentSize = true
+                    });
+                }
+
+                if ((plan.UsedSpace + file.FileSize) > plan.Space)
+                {
+                    return OperationResult<UploadResultViewModel>.Success(new UploadResultViewModel
+                    {
+                        StorageSize = true
+                    });
+                }
+
+                plan.UsedSpace += file.FileSize;
+                var result = await Upload(new StoreViewModel
+                {
+                    FormFile = file,
+                    Section = UploadSection.Storage,
+                    PlanId = plan.Id,
+                    RecordId = userId,
+                    UserId = userId,
+                    Path = model.Path
+                });
+                if (result.Status != OperationResultStatus.Success)
+                    return OperationResult<UploadResultViewModel>.Rejected();
+                await unit.Uploads.AddAsync(new Upload
+                {
+                    Directory = result.Data.Directory,
+                    Extension = result.Data.Extension,
+                    Name = result.Data.Name,
+                    Path = result.Data.Path,
+                    Public = false,
+                    Section = UploadSection.Storage,
+                    Size = result.Data.Size,
+                    RecordId = result.Data.RecordId,
+                    ThumbnailPath = result.Data.ThumbnailPath,
+                    UserId = result.Data.UserId,
+                    Type = result.Data.Type,
+                    Id = result.Data.Id
+                });
+                await unit.SaveChangesAsync();
+                return OperationResult<UploadResultViewModel>.Success(new UploadResultViewModel
+                {
+                    Success = true
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            await _serviceProvider.GetService<IErrorBiz>().LogException(ex);
+            return OperationResult<UploadResultViewModel>.Failed();
+        }
+    }
+
+    public async Task<OperationResult<UploadViewModel>> Upload(StoreViewModel model)
+    {
+        try
+        {
+            long size = 0;
+            var source = PrepareStore(model, true);
+            var ext = Path.GetExtension(source);
+
+            var storageService = _serviceProvider.GetService<IStorageService>()!;
+            var op = await storageService.Upload(
+                model.FormFile,
+                _bucket,
+                source
+            );
+
+            var path = $"{_remote}/{_bucket}/{source}";
+            return OperationResult<UploadViewModel>.Success(new UploadViewModel
+            {
+                // TODO: check if its correct
+                Path = path,
+                Directory = Path.GetDirectoryName($"/{source}"),
+                
+                Id = Guid.NewGuid(),
+                ThumbnailPath = null, //thumbPath,
+                Type = IOHelper.GetFileType(ext),
+                Size = size,
+                Name = Path.GetFileName(source),
+                Extension = ext,
+                Public = false,
+                Section = model.Section,
+                CreatedAt = DateTime.Now,
+                RecordId = model.RecordId,
+                UserId = model.UserId
+            });
+        }
+        catch (Exception ex)
+        {
+            await _serviceProvider.GetService<IErrorBiz>().LogException(ex);
+            return null;
+        }
     }
 
     public Task<OperationResult<bool>> Rename(Guid userId, FileManagerNameViewModel model)
