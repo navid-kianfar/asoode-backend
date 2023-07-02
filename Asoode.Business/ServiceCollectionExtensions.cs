@@ -32,7 +32,6 @@ public static class ServiceCollectionExtensions
         this IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton<ILoggerService, ConsoleLogger>();
-        services.AddSingleton<IStorageBiz, StorageBiz>();
         services.AddSingleton<IStorageService, StorageService>();
         services.AddSingleton<IQueueBiz, QueueBiz>();
         services.AddSingleton<ITranslateBiz, TranslateBiz>();
@@ -66,6 +65,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IProjectBiz, ProjectBiz>();
         services.AddTransient<IGroupBiz, GroupBiz>();
         services.AddTransient<IContactBiz, ContactBiz>();
+        services.AddScoped<IStorageBiz, StorageBiz>();
         return services;
     }
 }
