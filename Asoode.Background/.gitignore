@@ -6,4 +6,3 @@ node_modules
 .vscode
 wwwroot/storage
 wwwroot/app
-appSetting*.json
